@@ -2,20 +2,20 @@
 import { useState } from "react";
 
 const projects = [
-  { tag: "CGI", title: "IPC ship reveal", hue: "20,10,10" },
-  { tag: "F&B", title: "Coffee hero", hue: "10,15,10" },
-  { tag: "FITNESS", title: "Gym launch", hue: "10,10,20" },
+  { tag: "CGI", title: "Komila Cafe", hue: "20,10,10" },
+  { tag: "F&B", title: "Coffee Cup", hue: "10,15,10" },
+  { tag: "FITNESS", title: "Jeddah Yacht Club", hue: "10,10,20" },
   { tag: "PRODUCT", title: "Product spin", hue: "15,10,10" },
   { tag: "F&B", title: "Chef Station", hue: "10,12,10" },
   { tag: "VFX", title: "Green screen", hue: "10,15,15" },
 ];
 
-export default function Work() {
+export default function SelectedWork() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section
-      id="work"
+      id="selected work"
       style={{
         padding: "100px 40px",
         maxWidth: 1100,

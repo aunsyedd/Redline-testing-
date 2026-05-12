@@ -2,7 +2,9 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Work from "./components/Work";
-import Pricing from "./components/Pricing";
+// import Pricing from "./components/Pricing";
+import Pricing from "./components/PricingSection";
+import HeroPrice from "./components/heropricing";
 import { CaseStudy, FinalCTA, Footer } from "./components/Bottom";
 
 export default function Home() {
@@ -15,8 +17,10 @@ export default function Home() {
       <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #1e1e1e, transparent)" }} />
       <Work />
       <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #1e1e1e, transparent)" }} />
+      {/* <Pricing /> */}
       <Pricing />
-      <CaseStudy />
+      {/* <CaseStudy /> */}
+      <HeroPrice />
       <FinalCTA />
       <Footer />
     </main>

@@ -3,26 +3,26 @@
 const services = [
   {
     title: "CGI & VFX",
-    desc: "Photoreal compositing & effects",
+    desc: "Hero pieces, product visualisation, brand films.",
   },
   {
-    title: "Product animation",
-    desc: "3D hero shots & launches",
+    title: "3D Visualisation",
+    desc: "Architectural fly-throughs, retail and F&B spaces.",
   },
   {
-    title: "Content production",
-    desc: "Swipe-first creative for F&B + retail",
+    title: "Performance Marketing",
+    desc: "Meta and Google paid media. Conversion-led.",
   },
   {
-    title: "Performance creative",
-    desc: "Ad creative + media buying",
+    title: "Social Content",
+    desc: "Strategy, calendar, content production, community.",
   },
 ];
 
-export default function Services() {
+export default function Capabilities() {
   return (
     <section
-      id="services"
+      id="capabilities"
       style={{
         padding: "100px 40px",
         maxWidth: 1100,
@@ -39,7 +39,7 @@ export default function Services() {
           fontWeight: 600,
         }}
       >
-        Services
+         Capabilities
       </div>
 
       <h2
@@ -50,7 +50,7 @@ export default function Services() {
           color: "#f0f0f0",
         }}
       >
-        What we make.
+        What we do
       </h2>
 
       <div

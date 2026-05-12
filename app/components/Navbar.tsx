@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import LogoImage from "@/images/redline-logo.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -10,6 +11,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  
+
   return (
     <nav
       style={{
@@ -19,7 +29,7 @@ export default function Navbar() {
         right: 0,
         zIndex: 100,
         padding: "0 40px",
-        height: "60px",
+        height: "90px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -30,63 +40,55 @@ export default function Navbar() {
       }}
     >
       {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <span
-          className="font-display"
-          style={{ fontSize: 22, color: "#e53232", letterSpacing: "0.05em" }}
-        >
-          RED
-        </span>
-        <span style={{ color: "#555", fontSize: 20, fontWeight: 300 }}>|</span>
-        <span
-          className="font-display"
-          style={{ fontSize: 21, color: "#f0f0f0", letterSpacing: "0.05em" }}
-        >
-          LINE
-        </span>
+      <div
+        onClick={scrollToTop}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        <img
+          src={LogoImage.src}
+          alt="logo"
+          style={{
+            height: 120,
+            width: "auto",
+            display: "block",
+          }}
+        />
       </div>
 
       {/* Links */}
-      <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
-        {["Services", "Work", "Pricing", "Contact"].map((link) => (
-          <a
-            key={link}
-            href={`#${link.toLowerCase()}`}
-            style={{
-              color: "#aaa",
-              textDecoration: "none",
-              fontSize: 13,
-              fontWeight: 500,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#f0f0f0")}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#aaa")}
-          >
-            {link}
-          </a>
-        ))}
-        {/* <button
-          style={{
-            background: "#e53232",
-            color: "#fff",
-            border: "none",
-            padding: "9px 20px",
-            fontSize: 13,
-            fontWeight: 600,
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            cursor: "pointer",
-            borderRadius: 2,
-            transition: "background 0.2s",
-          }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#ff3c3c")}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "#e53232")}
-        >
-          Get a quote
-        </button> */}
+<div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+        {["Capabilities", "Selected Work", "Five Ways To Work", "PKG 2 - Growth" ,"Contact"].map(
+          (link) => (
+            <a
+              key={link}
+              href={`#${link.toLowerCase()}`}
+              style={{
+                color: "#aaa",
+                textDecoration: "none",
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+  (e.currentTarget as HTMLElement).style.color = "#f0f0f0";
+}}
+onMouseLeave={(e) => {
+  (e.currentTarget as HTMLElement).style.color = "#aaa";
+}}
+            >
+              {link}
+            </a>
+          )
+        )}
       </div>
     </nav>
+    
   );
+  
 }
