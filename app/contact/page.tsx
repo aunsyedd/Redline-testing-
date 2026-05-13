@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import Select from "react-select";
-import countryList from "react-select-country-list";
+// import countryList from "react-select-country-list";
 import { getCountryCallingCode } from "libphonenumber-js";
 
 import Navbar from "@/app/components/Navbar";
