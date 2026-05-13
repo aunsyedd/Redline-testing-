@@ -2,13 +2,23 @@
 
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
-import Select from "react-select";
-// import countryList from "react-select-country-list";
-import { getCountryCallingCode } from "libphonenumber-js";
+import { useEffect, useState } from "react";
 
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
+
+const countryOptions = [
+  { label: "Pakistan", value: "+92" },
+  { label: "India", value: "+91" },
+  { label: "United States", value: "+1" },
+  { label: "United Kingdom", value: "+44" },
+  { label: "UAE", value: "+971" },
+  { label: "Saudi Arabia", value: "+966" },
+  { label: "Canada", value: "+1" },
+  { label: "Australia", value: "+61" },
+  { label: "Germany", value: "+49" },
+  { label: "France", value: "+33" },
+];
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -47,23 +57,6 @@ function ContactForm() {
     const decoded = decodeURIComponent(plan).trim();
     setForm((prev) => ({ ...prev, plan: decoded }));
   }, [searchParams]);
-
-  const countryOptions = useMemo(() => {
-    return countryList()
-      .getData()
-      .map((c) => {
-        let dialCode = "";
-        try {
-          dialCode = getCountryCallingCode(c.value as any);
-        } catch {
-          dialCode = "";
-        }
-        return {
-          label: c.label,
-          value: `+${dialCode}`,
-        };
-      });
-  }, []);
 
   return (
     <section
@@ -133,39 +126,25 @@ function ContactForm() {
             style={inputStyle}
           />
 
+          {/* HARDCORE COUNTRY CODE FIX */}
           <div style={{ display: "flex", gap: 10 }}>
-            <div style={{ width: "40%" }}>
-              <Select
-                options={countryOptions}
-                placeholder="+Code"
-                value={countryOptions.find((c) => c.value === form.countryCode)}
-                onChange={(val: any) =>
-                  setForm({ ...form, countryCode: val?.value || "" })
-                }
-                formatOptionLabel={(e: any, meta: any) =>
-                  meta.context === "value" ? e.value : e.label
-                }
-                styles={{
-                  control: (base: any) => ({
-                    ...base,
-                    backgroundColor: "#0f0f0f",
-                    borderColor: "#1f1f1f",
-                    minHeight: 48,
-                    color: "#fff",
-                  }),
-                  menu: (base: any) => ({ ...base, backgroundColor: "#0f0f0f" }),
-                  singleValue: (base: any) => ({ ...base, color: "#fff" }),
-                  input: (base: any) => ({ ...base, color: "#fff" }),
-                  placeholder: (base: any) => ({ ...base, color: "#777" }),
-                  option: (base: any, state: any) => ({
-                    ...base,
-                    backgroundColor: state.isFocused ? "#1a1a1a" : "#0f0f0f",
-                    color: "#fff",
-                    cursor: "pointer",
-                  }),
-                }}
-              />
-            </div>
+<select
+  name="countryCode"
+  value={form.countryCode}
+  onChange={handleChange}
+  required
+  style={{
+    ...inputStyle,
+    width: "40%",
+  }}
+>
+  <option value="">Country Code</option>
+  {countryOptions.map((c) => (
+    <option key={c.value} value={c.value}>
+      {c.label} ({c.value})
+    </option>
+  ))}
+</select>
 
             <input
               type="tel"
