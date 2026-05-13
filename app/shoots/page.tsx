@@ -177,7 +177,7 @@ export default function ShootsPage() {
                 border: "1px solid #1a1a1a",
               }}
             >
-              🎬 Video Placeholder (You can embed Vimeo / YouTube here)
+              🎬 Video Placeholder (You can embed Vimeoooo / YouTube here)
             </div>
           </div>
         </section>
