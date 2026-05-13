@@ -1,16 +1,18 @@
 "use client";
-
-import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
   const [typedText, setTypedText] = useState("");
   const [introDone, setIntroDone] = useState(false);
   const [step, setStep] = useState(1);
+  const [activeVideo, setActiveVideo] = useState(0);
+
+  const video1Ref = useRef<HTMLVideoElement>(null);
+  const video2Ref = useRef<HTMLVideoElement>(null);
 
   const introText = "REDLINE VFX — CINEMATIC STUDIO";
-
-  // ✨ Typewriter intro
+const router = useRouter();
   useEffect(() => {
     let i = 0;
 
@@ -30,7 +32,6 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // 🔁 CLEAN LOOP (FIXED - NO FLICKER)
   useEffect(() => {
     if (!introDone) return;
 
@@ -57,6 +58,35 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [introDone]);
 
+  useEffect(() => {
+    const video1 = video1Ref.current;
+    const video2 = video2Ref.current;
+
+    if (!video1 || !video2) return;
+
+    const handleVideo1End = () => {
+      video2.currentTime = 0;
+      video2.play();
+      setActiveVideo(1);
+    };
+
+    const handleVideo2End = () => {
+      video1.currentTime = 0;
+      video1.play();
+      setActiveVideo(0);
+    };
+
+    video1.addEventListener("ended", handleVideo1End);
+    video2.addEventListener("ended", handleVideo2End);
+
+    video1.play();
+
+    return () => {
+      video1.removeEventListener("ended", handleVideo1End);
+      video2.removeEventListener("ended", handleVideo2End);
+    };
+  }, []);
+
   return (
     <section
       style={{
@@ -71,70 +101,61 @@ export default function Hero() {
         padding: "40px",
       }}
     >
-{/* 🎥 CINEMATIC VIDEO SPACE LAYER */}
-<div
-  style={{
-    position: "absolute",
-    inset: 0,
-    zIndex: 0,
-    overflow: "hidden",
-    pointerEvents: "none",
-  }}
->
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      opacity: 1,
-        filter: "contrast(1.1) brightness(0.8)",
-   
-    }}
-  >
-    <source src="/images/Highlightes.mp4" type="video/mp4" />
-  </video>
-
-  {/* dark cinematic overlay */}
-  <div
-    style={{
-      position: "absolute",
-      inset: 0,
-      background:
-        "radial-gradient(circle at center, rgba(0,0,0,0.35), rgba(0,0,0,0.9))",
-    }}
-  />
-</div>
-      {/* 🎥 Cinematic Shutter */}
-      {!introDone && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "#000",
-            transform: "scaleY(1)",
-            transformOrigin: "top",
-            animation:
-              "shutterOpen 1.2s cubic-bezier(0.22,1,0.36,1) forwards",
-            zIndex: 50,
-          }}
-        />
-      )}
-
-      {/* Glow */}
+      {/* VIDEO LAYER */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background:
-            "radial-gradient(circle at center, rgba(229,50,50,0.12), transparent 60%)",
+          zIndex: 0,
+          overflow: "hidden",
           pointerEvents: "none",
-          zIndex: 1,
         }}
-      />
+      >
+        <video
+          ref={video1Ref}
+          muted
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: activeVideo === 0 ? 1 : 0,
+            transition: "opacity 1.8s ease-in-out",
+            filter: "contrast(1.1) brightness(0.8)",
+          }}
+        >
+          <source src="/images/Highlightes.mp4" type="video/mp4" />
+        </video>
+
+        <video
+          ref={video2Ref}
+          muted
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: activeVideo === 1 ? 1 : 0,
+            transition: "opacity 1.8s ease-in-out",
+            filter: "contrast(1.1) brightness(0.8)",
+          }}
+        >
+          <source src="/images/Highlightes2.mp4" type="video/mp4" />
+        </video>
+
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at center, rgba(0,0,0,0.35), rgba(0,0,0,0.9))",
+          }}
+        />
+      </div>
 
       {/* CONTENT */}
       <div
@@ -145,28 +166,27 @@ export default function Hero() {
           zIndex: 2,
         }}
       >
-        {/* ✨ TYPEWRITER */}
         {!introDone && (
           <div
             style={{
-              color: "#e53232",
+              color: "#ff4d4d",
               letterSpacing: "0.35em",
               fontSize: 18,
               marginBottom: 20,
-                  fontWeight: 800,
+              fontWeight: 800,
+              textShadow: "0 0 12px rgba(255,77,77,0.8)",
             }}
           >
             {typedText}
-            <span style={{ opacity: 0.4 }}>|</span>
+            <span style={{ opacity: 0.6 }}>|</span>
           </div>
         )}
 
-        {/* 🔁 SCENE 1 + 2 */}
         {introDone && (step === 1 || step === 2) && (
           <div style={{ animation: "fadeUp 1s ease" }}>
             <h1 style={headlineStyle}>
               Cinematic visuals that make brands{" "}
-              <span style={{ color: "#e53232" }}>
+              <span style={{ color: "#ff4d4d" }}>
                 impossible to scroll past.
               </span>
             </h1>
@@ -180,32 +200,78 @@ export default function Hero() {
           </div>
         )}
 
-        {/* 📖 ABOUT */}
         {introDone && step === 3 && (
           <div style={{ animation: "fadeUp 1s ease", maxWidth: 820 }}>
             <div style={tagStyle}>A small studio. Senior craft.</div>
 
             <p style={textStyleLarge}>
-              Redline VFX is a Jeddah-based CGI and marketing studio. We build
-              photoreal 3D content for brands, then run the paid and organic
-              channels that put it in front of the right people.
+              Redline VFX is a Jeddah-based CGI and marketing studio.
             </p>
 
             <p style={textStyleSmall}>
-              Founder-led, three people deep, built around a senior compositor
-              with a decade of post-production experience.
+              Founder-led, three people deep, built around senior production.
             </p>
           </div>
         )}
       </div>
 
-      {/* Animations */}
-      <style>{`
-        @keyframes shutterOpen {
-          0% { transform: scaleY(1); }
-          100% { transform: scaleY(0); }
-        }
+      {/* ✅ BUTTONS FIXED AT BOTTOM OF HERO (NOT MOVING ON SCROLL) */}
+      {introDone && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 50,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            gap: 16,
+            zIndex: 10,
+          }}
+        >
+<button
+  onClick={() => router.push("/shoots")}
+  style={{
+    background: "#e53232",
+    color: "#fff",
+    border: "none",
+    padding: "14px 26px",
+    fontSize: 13,
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  }}
+  onMouseEnter={(e) =>
+    (e.currentTarget.style.background = "#ff3c3c")
+  }
+  onMouseLeave={(e) =>
+    (e.currentTarget.style.background = "#e53232")
+  }
+>
+  View Cinematic Shoots
+</button>
 
+<button
+  onClick={() => router.push("/Plans")}
+  style={{
+    background: "transparent",
+    color: "#ddd",
+    border: "1px solid #333",
+    padding: "14px 26px",
+    fontSize: 13,
+    fontWeight: 500,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+  }}
+>
+  Explore Plans
+</button>
+        </div>
+      )}
+
+      <style>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(40px); }
           to { opacity: 1; transform: translateY(0px); }
@@ -215,50 +281,60 @@ export default function Hero() {
   );
 }
 
-/* Styles */
+/* styles unchanged */
 const headlineStyle = {
   fontSize: "clamp(48px,7vw,96px)",
   lineHeight: 0.95,
-  color: "#f5f5f5",
+  color: "#fff",
   marginBottom: 26,
   letterSpacing: "-0.05em",
   fontWeight: 600,
+  textShadow:
+    "0 2px 4px rgba(0,0,0,0.9), 0 6px 18px rgba(0,0,0,0.85), 0 12px 40px rgba(0,0,0,0.75)",
 };
 
 const lineStyle = {
   width: 180,
   height: 2,
   margin: "0 auto 30px",
-  background: "#e53232",
-  boxShadow: "0 0 25px rgba(229,50,50,0.5)",
+  background: "#ff4d4d",
+  boxShadow: "0 0 25px rgba(255,77,77,0.6)",
 };
 
 const textStyle = {
   maxWidth: 760,
   margin: "0 auto",
-  color: "#8d8d8d",
+  color: "#f1f1f1",
   fontSize: 18,
   lineHeight: 1.7,
+  textShadow:
+    "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
 };
 
 const tagStyle = {
-  color: "#e53232",
-  textTransform: "uppercase",
+  color: "#b90808",
+  textTransform: "uppercase" as const,
   letterSpacing: "0.28em",
   fontSize: 12,
+  fontWeight: 600,
   marginBottom: 26,
+  textShadow: "0 0 10px rgba(0, 0, 0, 0.7)",
 };
 
 const textStyleLarge = {
-  color: "#d0d0d0",
+  color: "#f3f3f3",
   fontSize: "clamp(18px,2vw,24px)",
   lineHeight: 1.8,
   fontWeight: 300,
+  textShadow:
+    "0 2px 4px rgba(0,0,0,0.95), 0 6px 20px rgba(0,0,0,0.85)",
 };
 
 const textStyleSmall = {
-  color: "#777",
+  color: "#d0d0d0",
   marginTop: 28,
   fontSize: 15,
   lineHeight: 1.8,
+  textShadow:
+    "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
 };

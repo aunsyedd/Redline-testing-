@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ClientWrapper from "./ClientWrapper";
 
 export const metadata: Metadata = {
   title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
   description: "Cinematic visuals that make brands impossible to scroll past.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -17,7 +22,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+
+      <body style={{ background: "#000" }}>
+        <ClientWrapper>
+          <div className="page-fade">{children}</div>
+        </ClientWrapper>
+      </body>
     </html>
   );
 }
