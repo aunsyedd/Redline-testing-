@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import LogoImage from "@/images/redline-logo.png";
+import LogoImage from "@/images/whitelogo.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

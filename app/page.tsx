@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 
 import Hero from "./components/Hero";
+import Pricing from "./components/Pricing"
 import { FinalCTA, Footer } from "./components/Bottom";
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
             "linear-gradient(90deg, transparent, #1e1e1e, transparent)",
         }}
       />
-
+<Pricing/>
       <FinalCTA />
       <Footer />
     </main>

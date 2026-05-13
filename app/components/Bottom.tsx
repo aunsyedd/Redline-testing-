@@ -183,17 +183,51 @@ export function Footer() {
         </a>
       </span>
 
-      <div style={{ display: "flex", gap: 24 }}>
-        {["IG", "TikTok", "Behance"].map((s) => (
-          <a
-            key={s}
-            href="#"
-            style={{ fontSize: 12, color: "#555", textDecoration: "none" }}
-          >
-            {s}
-          </a>
-        ))}
-      </div>
+<div style={{ display: "flex", gap: 24 }}>
+  
+  {/* Instagram */}
+  <a
+    href="https://www.instagram.com/redlinevfx.studio?igsh=MnF2ZXd3YXhseTEx"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      fontSize: 12,
+      color: "#888",
+      textDecoration: "none",
+      transition: "0.3s ease",
+    }}
+    onMouseEnter={(e) =>
+      ((e.currentTarget as HTMLElement).style.color = "#e53232")
+    }
+    onMouseLeave={(e) =>
+      ((e.currentTarget as HTMLElement).style.color = "#888")
+    }
+  >
+    Instagram
+  </a>
+
+  {/* Facebook */}
+  <a
+    href="https://www.facebook.com/profile.php?id=61589104636306"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      fontSize: 12,
+      color: "#888",
+      textDecoration: "none",
+      transition: "0.3s ease",
+    }}
+    onMouseEnter={(e) =>
+      ((e.currentTarget as HTMLElement).style.color = "#e53232")
+    }
+    onMouseLeave={(e) =>
+      ((e.currentTarget as HTMLElement).style.color = "#888")
+    }
+  >
+    Facebook
+  </a>
+
+</div>
     </footer>
   );
 }

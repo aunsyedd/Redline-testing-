@@ -38,27 +38,39 @@ function PricingHighlight() {
     <section
       id="pkg-2-growth"
       style={{
-        height: "100vh",
-        background: "#00000034",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "60px 80px",
-        fontFamily: "sans-serif",
+        minHeight: "100vh",
+    background: "#00000034",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "clamp(30px, 5vw, 80px)",
+    gap: "40px",
+    fontFamily: "sans-serif",
+    flexWrap: "wrap",
       }}
     >
-      {/* LEFT BIG NUMBER */}
-      <div
-        style={{
-          fontSize: "180px",
-          fontWeight: 800,
-          color: "#e53232",
-          lineHeight: 1,
-        }}
-      >
-        02
-      </div>
+{/* LEFT BIG NUMBER */}
+<div
+  style={{
+    flex: "1 1 400px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingLeft: "clamp(10px, 4vw, 80px)",
+  }}
+>
+  <div
+    style={{
+      fontSize: "clamp(120px, 18vw, 220px)",
+      fontWeight: 800,
+      color: "#e53232",
+      lineHeight: 1,
+    }}
+  >
+    02
+  </div>
+</div>
 
       {/* RIGHT CONTENT */}
       <div style={{ maxWidth: "600px" }}>

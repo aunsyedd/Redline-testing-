@@ -20,6 +20,17 @@ const countryOptions = [
   { label: "France", value: "+33" },
 ];
 
+const mixMatchOptions = [
+  { name: "One-off CGI Piece", price: "SAR 4,500" },
+  { name: "3D Architectural Visualisation", price: "SAR 2,500" },
+  { name: "Full Production Day", price: "SAR 3,500" },
+  { name: "Green-Screen Production", price: "SAR 5,500" },
+  { name: "Voiceover (AR / EN)", price: "SAR 1,500" },
+  { name: "Performance Ad Management", price: "SAR 2,500" },
+  { name: "Community Management", price: "SAR 2,500" },
+  { name: "Additional Revision Round", price: "SAR 800" },
+];
+
 function ContactForm() {
   const searchParams = useSearchParams();
 
@@ -30,6 +41,7 @@ function ContactForm() {
     countryCode: "",
     message: "",
     plan: "",
+    mixMatch: "",
   });
 
   const handleChange = (e: any) => {
@@ -41,6 +53,8 @@ function ContactForm() {
     const fullPhone = `${form.countryCode} ${form.phone}`;
     alert("Message sent successfully");
     console.log("FULL PHONE:", fullPhone);
+    console.log("MIX MATCH:", form.mixMatch);
+
     setForm({
       name: "",
       email: "",
@@ -48,6 +62,7 @@ function ContactForm() {
       countryCode: "",
       message: "",
       plan: "",
+      mixMatch: "",
     });
   };
 
@@ -126,25 +141,24 @@ function ContactForm() {
             style={inputStyle}
           />
 
-          {/* HARDCORE COUNTRY CODE FIX */}
           <div style={{ display: "flex", gap: 10 }}>
-<select
-  name="countryCode"
-  value={form.countryCode}
-  onChange={handleChange}
-  required
-  style={{
-    ...inputStyle,
-    width: "40%",
-  }}
->
-  <option value="">Country Code</option>
-  {countryOptions.map((c) => (
-    <option key={c.value} value={c.value}>
-      {c.label} ({c.value})
-    </option>
-  ))}
-</select>
+            <select
+              name="countryCode"
+              value={form.countryCode}
+              onChange={handleChange}
+              required
+              style={{
+                ...inputStyle,
+                width: "40%",
+              }}
+            >
+              <option value="">Country Code</option>
+              {countryOptions.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label} ({c.value})
+                </option>
+              ))}
+            </select>
 
             <input
               type="tel"
@@ -157,11 +171,11 @@ function ContactForm() {
             />
           </div>
 
+          {/* PLAN (NO VALIDATION) */}
           <select
             name="plan"
             value={form.plan}
             onChange={handleChange}
-            required
             style={inputStyle}
           >
             <option value="">Select Plan</option>
@@ -180,6 +194,24 @@ function ContactForm() {
             <option value="05 GROWTH ENGINE - SAR 5,500 / month">
               05 Growth Engine - SAR 5,500 / month
             </option>
+          </select>
+
+          {/* MIX & MATCH (NO VALIDATION) */}
+          <select
+            name="mixMatch"
+            value={form.mixMatch}
+            onChange={handleChange}
+            style={inputStyle}
+          >
+            <option value="">Mix & Match Services</option>
+            {mixMatchOptions.map((item) => (
+              <option
+                key={item.name}
+                value={`${item.name} - ${item.price}`}
+              >
+                {item.name} - {item.price}
+              </option>
+            ))}
           </select>
 
           <textarea

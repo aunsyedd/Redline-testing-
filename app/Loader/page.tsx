@@ -20,7 +20,7 @@ export default function Loader({ finish }: { finish: () => void }) {
       {/* 🧠 LOGO */}
       <div className="logoWrap">
         <Image
-          src="/images/redline-logo.png"
+          src="/images/whitelogo.png"
           alt="REDLINE VFX"
           width={580}
           height={580}

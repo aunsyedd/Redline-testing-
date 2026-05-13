@@ -1,36 +1,107 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const tiers = [
   {
-    name: "Starter",
-    price: "SAR 3,500",
+    name: "One-off CGI Piece",
+    price: "SAR 4,500",
     period: "per project",
     popular: false,
-    features: ["1 CGI hero shot", "30s product anim", "2 revisions"],
+    features: [
+      "High-end CGI visual",
+      "Product or brand-focused",
+      "2 revision rounds",
+    ],
   },
   {
-    name: "Retainer",
-    price: "SAR 8,500",
-    period: "per month",
-    popular: true,
-    features: ["4 videos + photos", "1 CGI piece/mo", "Strategy sync"],
-  },
-  {
-    name: "Campaign",
-    price: "SAR 18,000+",
-    period: "per launch",
+    name: "3D Architectural Visualisation",
+    price: "SAR 2,500",
+    period: "per scene",
     popular: false,
-    features: ["Full launch bundle", "CGI + film + ads", "End-to-end"],
+    features: [
+      "Interior / exterior renders",
+      "Realistic lighting & textures",
+      "Scene-based pricing",
+    ],
+  },
+  {
+    name: "Full Production Day",
+    price: "SAR 3,500",
+    period: "per day",
+    popular: false,
+    features: [
+      "Professional shoot setup",
+      "Camera + lighting crew",
+      "On-site production support",
+    ],
+  },
+  {
+    name: "Green-Screen Production",
+    price: "SAR 5,500",
+    period: "per day",
+    popular: false,
+    features: [
+      "Green-screen studio setup",
+      "Advanced compositing ready",
+      "Lighting & backdrop included",
+    ],
+  },
+  {
+    name: "Voiceover (AR / EN)",
+    price: "SAR 1,500",
+    period: "per project",
+    popular: false,
+    features: [
+      "Arabic or English VO",
+      "Studio-quality delivery",
+      "Commercial-ready audio",
+    ],
+  },
+  {
+    name: "Performance Ad Management",
+    price: "SAR 2,500",
+    period: "+ 15% over SAR 5K spend",
+    popular: false,
+    features: [
+      "Campaign optimisation",
+      "Meta / TikTok ad handling",
+      "Performance reporting",
+    ],
+  },
+  {
+    name: "Community Management",
+    price: "SAR 2,500",
+    period: "per platform",
+    popular: false,
+    features: [
+      "Daily audience engagement",
+      "Comment & DM handling",
+      "Brand tone consistency",
+    ],
+  },
+  {
+    name: "Additional Revision Round",
+    price: "SAR 800",
+    period: "per round",
+    popular: false,
+    features: [
+      "Extra creative revisions",
+      "Fast implementation",
+      "Feedback-based refinements",
+    ],
   },
 ];
 
 export default function Pricing() {
+  const router = useRouter();
+
   return (
     <section
       id="pricing"
       style={{
         padding: "100px 40px",
-        maxWidth: 1100,
+        maxWidth: 1400,
         margin: "0 auto",
       }}
     >
@@ -44,21 +115,26 @@ export default function Pricing() {
           fontWeight: 600,
         }}
       >
-        Pricing
+        Production Plans
       </div>
+
       <h2
         className="font-display"
-        style={{ fontSize: "clamp(40px, 5vw, 60px)", marginBottom: 56, color: "#f0f0f0" }}
+        style={{
+          fontSize: "clamp(40px, 5vw, 60px)",
+          marginBottom: 56,
+          color: "#f0f0f0",
+        }}
       >
-        Pick your tier.
+        Mix & Match
       </h2>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 3,
-          alignItems: "start",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: 20,
+          alignItems: "stretch",
         }}
       >
         {tiers.map((tier, i) => (
@@ -66,38 +142,25 @@ export default function Pricing() {
             key={i}
             style={{
               background: tier.popular ? "#1a0a0a" : "#111",
-              border: tier.popular ? "1px solid #e53232" : "1px solid #1e1e1e",
+              border: tier.popular
+                ? "1px solid #e53232"
+                : "1px solid #1e1e1e",
               padding: "36px 32px",
               position: "relative",
-              transition: "transform 0.2s",
+              transition: "all 0.25s ease",
+              minHeight: 320,
+              display: "flex",
+              flexDirection: "column",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+              (e.currentTarget as HTMLElement).style.transform =
+                "translateY(-6px)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+              (e.currentTarget as HTMLElement).style.transform =
+                "translateY(0)";
             }}
           >
-            {tier.popular && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: -12,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: "#e53232",
-                  color: "#fff",
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  padding: "4px 14px",
-                  borderRadius: 1,
-                }}
-              >
-                Popular
-              </div>
-            )}
             <div
               style={{
                 fontSize: 11,
@@ -110,6 +173,7 @@ export default function Pricing() {
             >
               {tier.name}
             </div>
+
             <div
               className="font-display"
               style={{
@@ -121,6 +185,7 @@ export default function Pricing() {
             >
               {tier.price}
             </div>
+
             <div
               style={{
                 fontSize: 12,
@@ -130,6 +195,7 @@ export default function Pricing() {
             >
               {tier.period}
             </div>
+
             <div
               style={{
                 height: "1px",
@@ -137,61 +203,63 @@ export default function Pricing() {
                 marginBottom: 24,
               }}
             />
-            {tier.features.map((f, j) => (
-              <div
-                key={j}
-                style={{
-                  fontSize: 13,
-                  color: "#aaa",
-                  marginBottom: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <span style={{ color: "#e53232", fontSize: 10 }}>▸</span>
-                {f}
-              </div>
-            ))}
-            <button
-              style={{
-                width: "100%",
-                marginTop: 28,
-                padding: "12px",
-                background: tier.popular ? "#e53232" : "transparent",
-                color: tier.popular ? "#fff" : "#888",
-                border: tier.popular ? "none" : "1px solid #333",
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                cursor: "pointer",
-                borderRadius: 1,
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                if (tier.popular) {
-                  el.style.background = "#ff3c3c";
-                } else {
-                  el.style.borderColor = "#666";
-                  el.style.color = "#f0f0f0";
-                }
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                if (tier.popular) {
-                  el.style.background = "#e53232";
-                } else {
-                  el.style.borderColor = "#333";
-                  el.style.color = "#888";
-                }
-              }}
-            >
-              Get started
-            </button>
+
+            <div style={{ flex: 1 }}>
+              {tier.features.map((f, j) => (
+                <div
+                  key={j}
+                  style={{
+                    fontSize: 13,
+                    color: "#aaa",
+                    marginBottom: 12,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <span style={{ color: "#e53232", fontSize: 10 }}>
+                    ▸
+                  </span>
+                  {f}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
+      </div>
+
+      {/* CLICK TO START BUTTON */}
+      <div
+        style={{
+          marginTop: 60,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          onClick={() => router.push("/contact")}
+          style={{
+            background: "#e53232",
+            color: "#fff",
+            padding: "14px 28px",
+            fontSize: 14,
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            border: "none",
+            borderRadius: 4,
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+          }}
+          onMouseOver={(e) => {
+            (e.currentTarget as HTMLElement).style.opacity = "0.85";
+          }}
+          onMouseOut={(e) => {
+            (e.currentTarget as HTMLElement).style.opacity = "1";
+          }}
+        >
+          Click to start
+        </button>
       </div>
     </section>
   );

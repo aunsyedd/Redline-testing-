@@ -162,23 +162,29 @@ export default function ShootsPage() {
               A glimpse into our cinematic universe of CGI + real-world visuals.
             </p>
 
-            <div
-              style={{
-                width: "100%",
-                height: 420,
-                background:
-                  "linear-gradient(135deg, #111, #0a0a0a, #111)",
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#666",
-                fontSize: 14,
-                border: "1px solid #1a1a1a",
-              }}
-            >
-              🎬 Video Placeholder (You can embed Vimeoooo / YouTube here)
-            </div>
+<div
+  style={{
+    width: "100%",
+    height: 420,
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #1a1a1a",
+    background: "#000",
+    position: "relative",
+  }}
+>
+  <video
+        src="/images/web_video_004.mp4" // 👈 put your mp4 in /public folder
+    controls
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      background: "#000",
+    }}
+  />
+</div>
           </div>
         </section>
 
