@@ -15,12 +15,39 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
+
+        {/* PRELOAD LOGO (shown in loader on every first visit) */}
+        <link
+          rel="preload"
+          href="/images/whitelogo.png"
+          as="image"
+          type="image/png"
+        />
+
+        {/* PRELOAD FIRST VIDEO ONLY (second loads lazily) */}
+        <link
+          rel="preload"
+          href="/images/Highlightes.mp4"
+          as="video"
+          type="video/mp4"
+        />
+
+        {/* DNS PREFETCH FOR FASTER FONT LOAD */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+        {/* MOBILE VIEWPORT */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* THEME COLOR (browser chrome matches your brand) */}
+        <meta name="theme-color" content="#050505" />
       </head>
 
       <body style={{ background: "#000" }}>

@@ -7,31 +7,33 @@ export default function Hero() {
   const [introDone, setIntroDone] = useState(false);
   const [step, setStep] = useState(1);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [secondVideoReady, setSecondVideoReady] = useState(false);
 
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
 
   const introText = "REDLINE VFX — CINEMATIC STUDIO";
-const router = useRouter();
+  const router = useRouter();
+
+  // =========================
+  // TYPING EFFECT
+  // =========================
   useEffect(() => {
     let i = 0;
-
     const interval = setInterval(() => {
       setTypedText(introText.slice(0, i));
       i++;
-
       if (i > introText.length) {
         clearInterval(interval);
-
-        setTimeout(() => {
-          setIntroDone(true);
-        }, 800);
+        setTimeout(() => setIntroDone(true), 800);
       }
     }, 60);
-
     return () => clearInterval(interval);
   }, []);
 
+  // =========================
+  // CONTENT STEP CYCLE
+  // =========================
   useEffect(() => {
     if (!introDone) return;
 
@@ -42,11 +44,10 @@ const router = useRouter();
     ];
 
     let index = 0;
-    let timeout: any;
+    let timeout: ReturnType<typeof setTimeout>;
 
     const run = () => {
       setStep(sequence[index].step);
-
       timeout = setTimeout(() => {
         index = (index + 1) % sequence.length;
         run();
@@ -54,38 +55,58 @@ const router = useRouter();
     };
 
     run();
-
     return () => clearTimeout(timeout);
   }, [introDone]);
 
+  // =========================
+  // VIDEO LOGIC — lazy load second video
+  // =========================
   useEffect(() => {
     const video1 = video1Ref.current;
-    const video2 = video2Ref.current;
-
-    if (!video1 || !video2) return;
+    if (!video1) return;
 
     const handleVideo1End = () => {
-      video2.currentTime = 0;
-      video2.play();
+      setSecondVideoReady(true); // mount second video
       setActiveVideo(1);
     };
 
-    const handleVideo2End = () => {
-      video1.currentTime = 0;
-      video1.play();
-      setActiveVideo(0);
-    };
-
     video1.addEventListener("ended", handleVideo1End);
-    video2.addEventListener("ended", handleVideo2End);
-
-    video1.play();
+    video1.play().catch(() => {}); // catch autoplay block silently
 
     return () => {
       video1.removeEventListener("ended", handleVideo1End);
-      video2.removeEventListener("ended", handleVideo2End);
     };
   }, []);
+
+  // play second video once it's mounted
+  useEffect(() => {
+    if (!secondVideoReady) return;
+    const video2 = video2Ref.current;
+    if (!video2) return;
+
+    video2.currentTime = 0;
+    video2.play().catch(() => {});
+
+    const handleVideo2End = () => {
+      const video1 = video1Ref.current;
+      if (!video1) return;
+      video1.currentTime = 0;
+      video1.play().catch(() => {});
+      setActiveVideo(0);
+    };
+
+    const handleVideo2Play = () => {
+      // already playing, nothing needed
+    };
+
+    video2.addEventListener("ended", handleVideo2End);
+    return () => {
+      video2.removeEventListener("ended", handleVideo2End);
+    };
+  }, [secondVideoReady]);
+
+  // when activeVideo goes back to 0, second video goes invisible
+  // no extra logic needed — opacity handles it
 
   return (
     <section
@@ -111,10 +132,12 @@ const router = useRouter();
           pointerEvents: "none",
         }}
       >
+        {/* VIDEO 1 — always mounted, preloaded */}
         <video
           ref={video1Ref}
           muted
           playsInline
+          preload="auto"
           style={{
             position: "absolute",
             inset: 0,
@@ -129,23 +152,27 @@ const router = useRouter();
           <source src="/images/Highlightes.mp4" type="video/mp4" />
         </video>
 
-        <video
-          ref={video2Ref}
-          muted
-          playsInline
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: activeVideo === 1 ? 1 : 0,
-            transition: "opacity 1.8s ease-in-out",
-            filter: "contrast(1.1) brightness(0.8)",
-          }}
-        >
-          <source src="/images/Highlightes2.mp4" type="video/mp4" />
-        </video>
+        {/* VIDEO 2 — only mounted after video 1 ends */}
+        {secondVideoReady && (
+          <video
+            ref={video2Ref}
+            muted
+            playsInline
+            preload="none"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: activeVideo === 1 ? 1 : 0,
+              transition: "opacity 1.8s ease-in-out",
+              filter: "contrast(1.1) brightness(0.8)",
+            }}
+          >
+            <source src="/images/Highlightes2.mp4" type="video/mp4" />
+          </video>
+        )}
 
         <div
           style={{
@@ -190,9 +217,7 @@ const router = useRouter();
                 impossible to scroll past.
               </span>
             </h1>
-
             <div style={lineStyle} />
-
             <p style={textStyle}>
               Photoreal CGI, product animation, and premium content for the
               brands and agencies shaping the next decade in KSA.
@@ -203,11 +228,9 @@ const router = useRouter();
         {introDone && step === 3 && (
           <div style={{ animation: "fadeUp 1s ease", maxWidth: 820 }}>
             <div style={tagStyle}>A small studio. Senior craft.</div>
-
             <p style={textStyleLarge}>
               Redline VFX is a Jeddah-based CGI and marketing studio.
             </p>
-
             <p style={textStyleSmall}>
               Founder-led, three people deep, built around senior production.
             </p>
@@ -215,7 +238,7 @@ const router = useRouter();
         )}
       </div>
 
-      {/* ✅ BUTTONS FIXED AT BOTTOM OF HERO (NOT MOVING ON SCROLL) */}
+      {/* BUTTONS */}
       {introDone && (
         <div
           style={{
@@ -226,62 +249,69 @@ const router = useRouter();
             display: "flex",
             gap: 16,
             zIndex: 10,
+            whiteSpace: "nowrap",
           }}
         >
-<button
-  onClick={() => router.push("/shoots")}
-  style={{
-    background: "#e53232",
-    color: "#fff",
-    border: "none",
-    padding: "14px 26px",
-    fontSize: 13,
-    fontWeight: 600,
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-  }}
-  onMouseEnter={(e) =>
-    (e.currentTarget.style.background = "#ff3c3c")
-  }
-  onMouseLeave={(e) =>
-    (e.currentTarget.style.background = "#e53232")
-  }
->
-  View Cinematic Shoots
-</button>
+          <button
+            onClick={() => router.push("/shoots")}
+            style={{
+              background: "#e53232",
+              color: "#fff",
+              border: "none",
+              padding: "14px 26px",
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              transition: "background 0.3s ease",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background = "#ff3c3c")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = "#e53232")
+            }
+          >
+            View Cinematic Shoots
+          </button>
 
-<button
-  onClick={() => router.push("/Plans")}
-  style={{
-    background: "transparent",
-    color: "#ddd",
-    border: "1px solid #333",
-    padding: "14px 26px",
-    fontSize: 13,
-    fontWeight: 500,
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    cursor: "pointer",
-  }}
->
-  Explore Plans
-</button>
+          <button
+            onClick={() => router.push("/Plans")}
+            style={{
+              background: "transparent",
+              color: "#ddd",
+              border: "1px solid #333",
+              padding: "14px 26px",
+              fontSize: 13,
+              fontWeight: 500,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              transition: "border-color 0.3s ease",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.borderColor = "#666")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.borderColor = "#333")
+            }
+          >
+            Explore Plans
+          </button>
         </div>
       )}
 
       <style>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0px); }
+          to   { opacity: 1; transform: translateY(0px);  }
         }
       `}</style>
     </section>
   );
 }
 
-/* styles unchanged */
 const headlineStyle = {
   fontSize: "clamp(48px,7vw,96px)",
   lineHeight: 0.95,
@@ -318,7 +348,7 @@ const tagStyle = {
   fontSize: 12,
   fontWeight: 600,
   marginBottom: 26,
-  textShadow: "0 0 10px rgba(0, 0, 0, 0.7)",
+  textShadow: "0 0 10px rgba(0,0,0,0.7)",
 };
 
 const textStyleLarge = {
