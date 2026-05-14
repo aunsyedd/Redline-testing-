@@ -7,12 +7,6 @@ import LogoImage from "@/images/whitelogo.png";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const links = [
     {
       label: "View Our Cinematic Shoots",
@@ -31,6 +25,23 @@ export default function Navbar() {
       href: "/contact",
     },
   ];
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // 🚀 PRELOAD ALL ROUTES IN BACKGROUND (FAST NAVIGATION)
+  useEffect(() => {
+    links.forEach((link) => {
+      const prefetchLink = document.createElement("link");
+      prefetchLink.rel = "prefetch";
+      prefetchLink.href = link.href;
+      prefetchLink.as = "document";
+      document.head.appendChild(prefetchLink);
+    });
+  }, []);
 
   return (
     <nav
@@ -54,6 +65,7 @@ export default function Navbar() {
       {/* LOGO */}
       <Link
         href="/"
+        prefetch={true}
         style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
       >
         <img
@@ -69,6 +81,15 @@ export default function Navbar() {
           <Link
             key={link.label}
             href={link.href}
+            prefetch={true}
+            onMouseEnter={() => {
+              // ⚡ instant prefetch on hover
+              const linkEl = document.createElement("link");
+              linkEl.rel = "prefetch";
+              linkEl.href = link.href;
+              linkEl.as = "document";
+              document.head.appendChild(linkEl);
+            }}
             style={{
               background: "transparent",
               border: "none",
