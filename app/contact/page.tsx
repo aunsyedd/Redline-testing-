@@ -153,8 +153,8 @@ function ContactForm() {
               }}
             >
               <option value="">Country Code</option>
-              {countryOptions.map((c) => (
-                <option key={c.value} value={c.value}>
+              {countryOptions.map((c, index) => (
+                <option key={`${c.value}-${index}`} value={c.value}>
                   {c.label} ({c.value})
                 </option>
               ))}
