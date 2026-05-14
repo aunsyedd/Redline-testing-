@@ -227,14 +227,40 @@ export default function Pricing() {
         ))}
       </div>
 
-      {/* CLICK TO START BUTTON */}
+      {/* CLICK TO START BUTTONS */}
       <div
         style={{
           marginTop: 60,
           display: "flex",
           justifyContent: "center",
+          gap: "16px",
         }}
       >
+        <Link
+          href="/Plans"
+          style={{
+            background: "#222",
+            color: "#fff",
+            padding: "14px 28px",
+            fontSize: 14,
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            border: "1px solid #333",
+            borderRadius: 4,
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            textDecoration: "none",
+          }}
+          onMouseOver={(e) => {
+            (e.currentTarget as HTMLElement).style.opacity = "0.85";
+          }}
+          onMouseOut={(e) => {
+            (e.currentTarget as HTMLElement).style.opacity = "1";
+          }}
+        >
+          Explore The Main Plans
+        </Link>
+
         <Link
           href="/contact"
           style={{
