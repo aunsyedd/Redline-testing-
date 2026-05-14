@@ -10,14 +10,8 @@ export default function ClientWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-
   const [firstLoad, setFirstLoad] = useState(true);
-
-  // route loader
   const [routeLoading, setRouteLoading] = useState(false);
-
-  // 🔒 block UI rendering during transition
-  const [showPage, setShowPage] = useState(false);
 
   // =========================
   // 🎬 FIRST LOAD ONLY
@@ -27,33 +21,24 @@ export default function ClientWrapper({
 
     if (visited) {
       setFirstLoad(false);
-      setShowPage(true);
       return;
     }
 
-    const t = setTimeout(() => {
-      setFirstLoad(false);
-      setShowPage(true);
-      sessionStorage.setItem("visited", "true");
-    }, 4000);
-
-    return () => clearTimeout(t);
+    // Loader component controls its own timing via finish()
+    // No timeout needed here — Loader calls finish() when done
   }, []);
 
   // =========================
-  // ⚡ ROUTE CHANGE FIX (IMPORTANT PART)
+  // ⚡ ROUTE CHANGE
   // =========================
   useEffect(() => {
     if (firstLoad) return;
 
     setRouteLoading(true);
-    setShowPage(false); // hide page immediately (prevents flash)
 
-    // minimum loader time (controls UX smoothness)
     const t = setTimeout(() => {
       setRouteLoading(false);
-      setShowPage(true);
-    }, 500); // ⬅️ THIS IS YOUR TIMER FIX
+    }, 300);
 
     return () => clearTimeout(t);
   }, [pathname]);
@@ -61,19 +46,27 @@ export default function ClientWrapper({
   return (
     <>
       {/* FIRST LOAD LOADER */}
-      {firstLoad && <Loader finish={() => setFirstLoad(false)} />}
+      {firstLoad && (
+        <Loader
+          finish={() => {
+            setFirstLoad(false);
+            sessionStorage.setItem("visited", "true");
+          }}
+        />
+      )}
 
-      {/* ROUTE LOADER */}
+      {/* ROUTE CHANGE SPINNER — overlays page, doesn't block it */}
       {routeLoading && (
         <div
           style={{
             position: "fixed",
             inset: 0,
-            background: "#050505",
+            background: "rgba(5,5,5,0.75)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             zIndex: 9999,
+            backdropFilter: "blur(2px)",
           }}
         >
           <div
@@ -86,22 +79,17 @@ export default function ClientWrapper({
               animation: "spin 0.8s linear infinite",
             }}
           />
-
           <style jsx>{`
             @keyframes spin {
-              0% {
-                transform: rotate(0deg);
-              }
-              100% {
-                transform: rotate(360deg);
-              }
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
             }
           `}</style>
         </div>
       )}
 
-      {/* PAGE CONTENT (CONTROLLED) */}
-      {showPage && !firstLoad && children}
+      {/* PAGE — always rendered once first load is done */}
+      {!firstLoad && children}
     </>
   );
 }
