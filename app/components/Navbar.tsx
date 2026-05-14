@@ -8,22 +8,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const links = [
-    {
-      label: "View Our Cinematic Shoots",
-      href: "/shoots",
-    },
-    {
-      label: "Explore The Plans",
-      href: "/Plans",
-    },
-    {
-      label: "PKG 2 - Growth",
-      href: "/Pkg2",
-    },
-    {
-      label: "Contact",
-      href: "/contact",
-    },
+    { label: "View Our Cinematic Shoots", href: "/shoots" },
+    { label: "Explore The Plans", href: "/Plans" },
+    { label: "PKG 2 - Growth", href: "/Pkg2" },
+    { label: "Contact", href: "/contact" },
   ];
 
   useEffect(() => {
@@ -32,7 +20,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 🚀 PRELOAD ALL ROUTES IN BACKGROUND (FAST NAVIGATION)
+  // 🚀 PRELOAD ALL ROUTES IN BACKGROUND
   useEffect(() => {
     links.forEach((link) => {
       const prefetchLink = document.createElement("link");
@@ -82,13 +70,19 @@ export default function Navbar() {
             key={link.label}
             href={link.href}
             prefetch={true}
-            onMouseEnter={() => {
+            onMouseEnter={(e) => {
               // ⚡ instant prefetch on hover
               const linkEl = document.createElement("link");
               linkEl.rel = "prefetch";
               linkEl.href = link.href;
               linkEl.as = "document";
               document.head.appendChild(linkEl);
+
+              // 🎨 hover color
+              (e.currentTarget as HTMLElement).style.color = "#f0f0f0";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "#aaa";
             }}
             style={{
               background: "transparent",
@@ -102,12 +96,6 @@ export default function Navbar() {
               transition: "color 0.2s",
               textDecoration: "none",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = "#f0f0f0")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "#aaa")
-            }
           >
             {link.label}
           </Link>
