@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
@@ -13,7 +13,6 @@ export default function Hero() {
   const video2Ref = useRef<HTMLVideoElement>(null);
 
   const introText = "REDLINE VFX — CINEMATIC STUDIO";
-  const router = useRouter();
 
   // =========================
   // TYPING EFFECT
@@ -28,6 +27,7 @@ export default function Hero() {
         setTimeout(() => setIntroDone(true), 800);
       }
     }, 60);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -48,6 +48,7 @@ export default function Hero() {
 
     const run = () => {
       setStep(sequence[index].step);
+
       timeout = setTimeout(() => {
         index = (index + 1) % sequence.length;
         run();
@@ -55,58 +56,61 @@ export default function Hero() {
     };
 
     run();
+
     return () => clearTimeout(timeout);
   }, [introDone]);
 
   // =========================
-  // VIDEO LOGIC — lazy load second video
+  // VIDEO LOGIC
   // =========================
   useEffect(() => {
     const video1 = video1Ref.current;
-    if (!video1) return;
+    const video2 = video2Ref.current;
 
-    const handleVideo1End = () => {
-      setSecondVideoReady(true); // mount second video
-      setActiveVideo(1);
+    if (!video1 || !video2) return;
+
+    // autoplay first video
+    video1.play().catch(() => {});
+
+    // preload second video
+    video2.load();
+
+    const switchToVideo2 = async () => {
+      setSecondVideoReady(true);
+
+      video2.currentTime = 0;
+
+      try {
+        await video2.play();
+      } catch {}
+
+      // fade old video down THEN switch
+      setTimeout(() => {
+        setActiveVideo(1);
+      }, 100);
     };
 
-    video1.addEventListener("ended", handleVideo1End);
-    video1.play().catch(() => {}); // catch autoplay block silently
+    const switchToVideo1 = async () => {
+      video1.currentTime = 0;
+
+      try {
+        await video1.play();
+      } catch {}
+
+      // fade old video down THEN switch
+      setTimeout(() => {
+        setActiveVideo(0);
+      }, 100);
+    };
+
+    video1.addEventListener("ended", switchToVideo2);
+    video2.addEventListener("ended", switchToVideo1);
 
     return () => {
-      video1.removeEventListener("ended", handleVideo1End);
+      video1.removeEventListener("ended", switchToVideo2);
+      video2.removeEventListener("ended", switchToVideo1);
     };
   }, []);
-
-  // play second video once it's mounted
-  useEffect(() => {
-    if (!secondVideoReady) return;
-    const video2 = video2Ref.current;
-    if (!video2) return;
-
-    video2.currentTime = 0;
-    video2.play().catch(() => {});
-
-    const handleVideo2End = () => {
-      const video1 = video1Ref.current;
-      if (!video1) return;
-      video1.currentTime = 0;
-      video1.play().catch(() => {});
-      setActiveVideo(0);
-    };
-
-    const handleVideo2Play = () => {
-      // already playing, nothing needed
-    };
-
-    video2.addEventListener("ended", handleVideo2End);
-    return () => {
-      video2.removeEventListener("ended", handleVideo2End);
-    };
-  }, [secondVideoReady]);
-
-  // when activeVideo goes back to 0, second video goes invisible
-  // no extra logic needed — opacity handles it
 
   return (
     <section
@@ -132,7 +136,7 @@ export default function Hero() {
           pointerEvents: "none",
         }}
       >
-        {/* VIDEO 1 — always mounted, preloaded */}
+        {/* VIDEO 1 */}
         <video
           ref={video1Ref}
           muted
@@ -145,34 +149,32 @@ export default function Hero() {
             height: "100%",
             objectFit: "cover",
             opacity: activeVideo === 0 ? 1 : 0,
-            transition: "opacity 1.8s ease-in-out",
+            transition: "opacity 2s ease-in-out",
             filter: "contrast(1.1) brightness(0.8)",
           }}
         >
           <source src="/images/Highlightes.mp4" type="video/mp4" />
         </video>
 
-        {/* VIDEO 2 — only mounted after video 1 ends */}
-        {secondVideoReady && (
-          <video
-            ref={video2Ref}
-            muted
-            playsInline
-            preload="none"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: activeVideo === 1 ? 1 : 0,
-              transition: "opacity 1.8s ease-in-out",
-              filter: "contrast(1.1) brightness(0.8)",
-            }}
-          >
-            <source src="/images/Highlightes2.mp4" type="video/mp4" />
-          </video>
-        )}
+        {/* VIDEO 2 */}
+        <video
+          ref={video2Ref}
+          muted
+          playsInline
+          preload="auto"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: activeVideo === 1 ? 1 : 0,
+            transition: "opacity 2s ease-in-out",
+            filter: "contrast(1.1) brightness(0.8)",
+          }}
+        >
+          <source src="/images/Highlightes2.mp4" type="video/mp4" />
+        </video>
 
         <div
           style={{
@@ -217,7 +219,9 @@ export default function Hero() {
                 impossible to scroll past.
               </span>
             </h1>
+
             <div style={lineStyle} />
+
             <p style={textStyle}>
               Photoreal CGI, product animation, and premium content for the
               brands and agencies shaping the next decade in KSA.
@@ -228,9 +232,11 @@ export default function Hero() {
         {introDone && step === 3 && (
           <div style={{ animation: "fadeUp 1s ease", maxWidth: 820 }}>
             <div style={tagStyle}>A small studio. Senior craft.</div>
+
             <p style={textStyleLarge}>
               Redline VFX is a Jeddah-based CGI and marketing studio.
             </p>
+
             <p style={textStyleSmall}>
               Founder-led, three people deep, built around senior production.
             </p>
@@ -252,8 +258,8 @@ export default function Hero() {
             whiteSpace: "nowrap",
           }}
         >
-          <button
-            onClick={() => router.push("/shoots")}
+          <Link
+            href="/shoots"
             style={{
               background: "#e53232",
               color: "#fff",
@@ -265,6 +271,7 @@ export default function Hero() {
               textTransform: "uppercase",
               cursor: "pointer",
               transition: "background 0.3s ease",
+              textDecoration: "none",
             }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.background = "#ff3c3c")
@@ -274,10 +281,10 @@ export default function Hero() {
             }
           >
             View Cinematic Shoots
-          </button>
+          </Link>
 
-          <button
-            onClick={() => router.push("/Plans")}
+          <Link
+            href="/Plans"
             style={{
               background: "transparent",
               color: "#ddd",
@@ -289,6 +296,7 @@ export default function Hero() {
               textTransform: "uppercase",
               cursor: "pointer",
               transition: "border-color 0.3s ease",
+              textDecoration: "none",
             }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.borderColor = "#666")
@@ -298,14 +306,21 @@ export default function Hero() {
             }
           >
             Explore Plans
-          </button>
+          </Link>
         </div>
       )}
 
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to   { opacity: 1; transform: translateY(0px);  }
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0px);
+          }
         }
       `}</style>
     </section>

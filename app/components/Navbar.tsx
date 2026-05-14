@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import LogoImage from "@/images/whitelogo.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -14,46 +13,23 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const goHome = () => {
-    router.push("/");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleNavClick = (link: string) => {
-    // ✅ PAGE ROUTES
-    if (link === "View Our Cinematic Shoots") {
-      router.push("/shoots");
-      return;
-    }
-    if (link === "PKG 2 - Growth") {
-      router.push("/Pkg2");
-      return;
-    }
-
-    if (link === "Explore The Plans") {
-      router.push("/Plans");
-      return;
-    }
-
-    if (link === "Contact") {
-      router.push("/contact");
-      return;
-    }
-
-    // ✅ fallback scroll for same page sections
-    const id = link.toLowerCase().replace(/\s+/g, "-");
-    const el = document.getElementById(id);
-
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const links = [
-    "View Our Cinematic Shoots",
-    "Explore The Plans",
-    "PKG 2 - Growth",
-    "Contact",
+    {
+      label: "View Our Cinematic Shoots",
+      href: "/shoots",
+    },
+    {
+      label: "Explore The Plans",
+      href: "/Plans",
+    },
+    {
+      label: "PKG 2 - Growth",
+      href: "/Pkg2",
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+    },
   ];
 
   return (
@@ -76,8 +52,8 @@ export default function Navbar() {
       }}
     >
       {/* LOGO */}
-      <div
-        onClick={goHome}
+      <Link
+        href="/"
         style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
       >
         <img
@@ -85,14 +61,14 @@ export default function Navbar() {
           alt="logo"
           style={{ height: 120, width: "auto", display: "block" }}
         />
-      </div>
+      </Link>
 
       {/* LINKS */}
       <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
         {links.map((link) => (
-          <button
-            key={link}
-            onClick={() => handleNavClick(link)}
+          <Link
+            key={link.label}
+            href={link.href}
             style={{
               background: "transparent",
               border: "none",
@@ -103,6 +79,7 @@ export default function Navbar() {
               letterSpacing: "0.06em",
               textTransform: "uppercase",
               transition: "color 0.2s",
+              textDecoration: "none",
             }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.color = "#f0f0f0")
@@ -111,8 +88,8 @@ export default function Navbar() {
               (e.currentTarget.style.color = "#aaa")
             }
           >
-            {link}
-          </button>
+            {link.label}
+          </Link>
         ))}
       </div>
     </nav>

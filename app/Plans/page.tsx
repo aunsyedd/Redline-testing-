@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
-import { useRouter } from "next/navigation";
 
 type PricingItem = {
   id: string;
@@ -14,8 +14,6 @@ type PricingItem = {
 };
 
 export default function PricingPage() {
-  const router = useRouter();
-
   const items: PricingItem[] = [
     {
       id: "01",
@@ -59,11 +57,6 @@ export default function PricingPage() {
     },
   ];
 
-const handleSelectPlan = (item: PricingItem) => {
-  const planValue = `${item.id} ${item.title} - ${item.price} ${item.sub}`;
-  router.push(`/contact?plan=${encodeURIComponent(planValue)}`);
-};
-
   return (
     <>
       <Navbar />
@@ -95,131 +88,160 @@ const handleSelectPlan = (item: PricingItem) => {
           </h2>
 
           <div>
-            {items.map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "22px 0",
-                  borderTop: "1px solid #1a1a1a",
-                }}
-              >
-                {/* LEFT */}
-                <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-                  <span
-                    style={{
-                      color: "#e53232",
-                      fontSize: 26,
-                      fontWeight: 800,
-                      width: 40,
-                    }}
-                  >
-                    {item.id}
-                  </span>
+            {items.map((item, index) => {
+              const planValue = `${item.id} ${item.title} - ${item.price} ${item.sub}`;
 
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 900,
-                        color: "#fff",
-                      }}
-                    >
-                      {item.title}
-                    </div>
-
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "#888",
-                        marginTop: 2,
-                        fontWeight: 500,
-                        letterSpacing: "0.5px",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.type}
-                    </div>
-                  </div>
-                </div>
-
-                {/* CENTER */}
+              return (
                 <div
+                  key={index}
                   style={{
-                    position: "absolute",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    maxWidth: 420,
-                    textAlign: "center",
-                    fontSize: 13,
-                    color: "#aaa",
-                    lineHeight: 1.6,
+                    position: "relative",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "22px 0",
+                    borderTop: "1px solid #1a1a1a",
                   }}
                 >
-                  {item.desc}
-                </div>
-
-                {/* RIGHT */}
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ textAlign: "right" }}>
-                    <div
+                  {/* LEFT */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 20,
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
                       style={{
-                        fontSize: 20,
-                        fontWeight: 900,
-                        color: "#fff",
+                        color: "#e53232",
+                        fontSize: 26,
+                        fontWeight: 800,
+                        width: 40,
                       }}
                     >
-                      {item.price}
-                    </div>
+                      {item.id}
+                    </span>
 
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "#888",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {item.sub}
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 900,
+                          color: "#fff",
+                        }}
+                      >
+                        {item.title}
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: "#888",
+                          marginTop: 2,
+                          fontWeight: 500,
+                          letterSpacing: "0.5px",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {item.type}
+                      </div>
                     </div>
                   </div>
 
-                  {/* ANIMATED ARROW BUTTON */}
-                  <button
-                    onClick={() => handleSelectPlan(item)}
+                  {/* CENTER */}
+                  <div
                     style={{
-                      background: "transparent",
-                      border: "1px solid #2a2a2a",
-                      color: "#e53232",
-                      width: 42,
-                      height: 42,
-                      borderRadius: "50%",
-                      cursor: "pointer",
-                      fontSize: 18,
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget;
-                      el.style.background = "#e53232";
-                      el.style.color = "#fff";
-                      el.style.transform = "translateX(4px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget;
-                      el.style.background = "transparent";
-                      el.style.color = "#e53232";
-                      el.style.transform = "translateX(0px)";
+                      position: "absolute",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      maxWidth: 420,
+                      textAlign: "center",
+                      fontSize: 13,
+                      color: "#aaa",
+                      lineHeight: 1.6,
                     }}
                   >
-                    →
-                  </button>
+                    {item.desc}
+                  </div>
+
+                  {/* RIGHT */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                    }}
+                  >
+                    <div style={{ textAlign: "right" }}>
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 900,
+                          color: "#fff",
+                        }}
+                      >
+                        {item.price}
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: "#888",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.sub}
+                      </div>
+                    </div>
+
+                    {/* ANIMATED ARROW BUTTON */}
+                    <Link
+                      href={`/contact?plan=${encodeURIComponent(planValue)}`}
+                      style={{
+                        background: "transparent",
+                        border: "1px solid #2a2a2a",
+                        color: "#e53232",
+                        width: 42,
+                        height: 42,
+                        borderRadius: "50%",
+                        cursor: "pointer",
+                        fontSize: 18,
+                        transition: "all 0.3s ease",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textDecoration: "none",
+                      }}
+                      onMouseEnter={(e) => {
+                        const el = e.currentTarget;
+                        el.style.background = "#e53232";
+                        el.style.color = "#fff";
+                        el.style.transform = "translateX(4px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        const el = e.currentTarget;
+                        el.style.background = "transparent";
+                        el.style.color = "#e53232";
+                        el.style.transform = "translateX(0px)";
+                      }}
+                    >
+                      →
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          <div style={{ marginTop: 20, fontSize: 11, color: "#666", }} > All prices SAR, VAT-exclusive. 15% applied at invoice. </div>
+
+          <div
+            style={{
+              marginTop: 20,
+              fontSize: 11,
+              color: "#666",
+            }}
+          >
+            All prices SAR, VAT-exclusive. 15% applied at invoice.
+          </div>
         </section>
       </main>
 

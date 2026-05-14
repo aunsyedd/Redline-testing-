@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function CaseStudy() {
   return (
@@ -38,9 +38,16 @@ export function CaseStudy() {
           Chef Station — F&B social from zero
         </h3>
 
-        <p style={{ fontSize: 14, color: "#777", maxWidth: 600, lineHeight: 1.7 }}>
-          Built and run by our founder. The same playbook is now available to F&B brands across
-          Jeddah and Makkah.
+        <p
+          style={{
+            fontSize: 14,
+            color: "#777",
+            maxWidth: 600,
+            lineHeight: 1.7,
+          }}
+        >
+          Built and run by our founder. The same playbook is now available to
+          F&B brands across Jeddah and Makkah.
         </p>
       </div>
     </section>
@@ -48,8 +55,6 @@ export function CaseStudy() {
 }
 
 export function FinalCTA() {
-  const router = useRouter(); // ✅ FIXED HERE
-
   return (
     <section
       id="contact"
@@ -125,9 +130,8 @@ export function FinalCTA() {
           Chat on WhatsApp ↗
         </button>
 
-        {/* ✅ FIXED BUTTON */}
-        <button
-          onClick={() => router.push("/contact")}
+        <Link
+          href="/contact"
           style={{
             background: "transparent",
             color: "#aaa",
@@ -139,6 +143,7 @@ export function FinalCTA() {
             cursor: "pointer",
             borderRadius: 2,
             transition: "all 0.2s",
+            textDecoration: "none",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = "#666";
@@ -150,7 +155,7 @@ export function FinalCTA() {
           }}
         >
           Contact Us
-        </button>
+        </Link>
       </div>
     </section>
   );
@@ -183,51 +188,49 @@ export function Footer() {
         </a>
       </span>
 
-<div style={{ display: "flex", gap: 24 }}>
-  
-  {/* Instagram */}
-  <a
-    href="https://www.instagram.com/redlinevfx.studio?igsh=MnF2ZXd3YXhseTEx"
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      fontSize: 12,
-      color: "#888",
-      textDecoration: "none",
-      transition: "0.3s ease",
-    }}
-    onMouseEnter={(e) =>
-      ((e.currentTarget as HTMLElement).style.color = "#e53232")
-    }
-    onMouseLeave={(e) =>
-      ((e.currentTarget as HTMLElement).style.color = "#888")
-    }
-  >
-    Instagram
-  </a>
+      <div style={{ display: "flex", gap: 24 }}>
+        {/* Instagram */}
+        <a
+          href="https://www.instagram.com/redlinevfx.studio?igsh=MnF2ZXd3YXhseTEx"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 12,
+            color: "#888",
+            textDecoration: "none",
+            transition: "0.3s ease",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLElement).style.color = "#e53232")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLElement).style.color = "#888")
+          }
+        >
+          Instagram
+        </a>
 
-  {/* Facebook */}
-  <a
-    href="https://www.facebook.com/profile.php?id=61589104636306"
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      fontSize: 12,
-      color: "#888",
-      textDecoration: "none",
-      transition: "0.3s ease",
-    }}
-    onMouseEnter={(e) =>
-      ((e.currentTarget as HTMLElement).style.color = "#e53232")
-    }
-    onMouseLeave={(e) =>
-      ((e.currentTarget as HTMLElement).style.color = "#888")
-    }
-  >
-    Facebook
-  </a>
-
-</div>
+        {/* Facebook */}
+        <a
+          href="https://www.facebook.com/profile.php?id=61589104636306"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 12,
+            color: "#888",
+            textDecoration: "none",
+            transition: "0.3s ease",
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLElement).style.color = "#e53232")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLElement).style.color = "#888")
+          }
+        >
+          Facebook
+        </a>
+      </div>
     </footer>
   );
 }

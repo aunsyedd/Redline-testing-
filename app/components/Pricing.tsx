@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const tiers = [
   {
@@ -94,8 +94,6 @@ const tiers = [
 ];
 
 export default function Pricing() {
-  const router = useRouter();
-
   return (
     <section
       id="pricing"
@@ -237,8 +235,8 @@ export default function Pricing() {
           justifyContent: "center",
         }}
       >
-        <button
-          onClick={() => router.push("/contact")}
+        <Link
+          href="/contact"
           style={{
             background: "#e53232",
             color: "#fff",
@@ -250,6 +248,7 @@ export default function Pricing() {
             borderRadius: 4,
             cursor: "pointer",
             transition: "all 0.2s ease",
+            textDecoration: "none",
           }}
           onMouseOver={(e) => {
             (e.currentTarget as HTMLElement).style.opacity = "0.85";
@@ -259,7 +258,7 @@ export default function Pricing() {
           }}
         >
           Click to start
-        </button>
+        </Link>
       </div>
     </section>
   );
