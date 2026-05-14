@@ -63,54 +63,67 @@ export default function Hero() {
   // =========================
   // VIDEO LOGIC
   // =========================
-  useEffect(() => {
-    const video1 = video1Ref.current;
-    const video2 = video2Ref.current;
+useEffect(() => {
+  const video1 = video1Ref.current;
+  const video2 = video2Ref.current;
 
-    if (!video1 || !video2) return;
+  if (!video1 || !video2) return;
 
-    // autoplay first video
-    video1.play().catch(() => {});
+  // 🔥 Faster loading hints
+  video1.preload = "auto";
+  video2.preload = "auto";
 
-    // preload second video
-    video2.load();
+  video1.muted = true;
+  video2.muted = true;
 
-    const switchToVideo2 = async () => {
-      setSecondVideoReady(true);
+  video1.playsInline = true;
+  video2.playsInline = true;
 
-      video2.currentTime = 0;
+  // autoplay first video (slightly faster start)
+  video1.currentTime = 0;
+  video1.play().catch(() => {});
 
-      try {
-        await video2.play();
-      } catch {}
+  // preload second immediately
+  video2.load();
 
-      // fade old video down THEN switch
-      setTimeout(() => {
-        setActiveVideo(1);
-      }, 100);
-    };
+  let switchTimeout: ReturnType<typeof setTimeout>;
 
-    const switchToVideo1 = async () => {
-      video1.currentTime = 0;
+  const switchToVideo2 = async () => {
+    setSecondVideoReady(true);
 
-      try {
-        await video1.play();
-      } catch {}
+    video2.currentTime = 0;
 
-      // fade old video down THEN switch
-      setTimeout(() => {
-        setActiveVideo(0);
-      }, 100);
-    };
+    try {
+      await video2.play();
+    } catch {}
 
-    video1.addEventListener("ended", switchToVideo2);
-    video2.addEventListener("ended", switchToVideo1);
+    // 🔥 faster switch (reduced delay)
+    switchTimeout = setTimeout(() => {
+      setActiveVideo(1);
+    }, 50);
+  };
 
-    return () => {
-      video1.removeEventListener("ended", switchToVideo2);
-      video2.removeEventListener("ended", switchToVideo1);
-    };
-  }, []);
+  const switchToVideo1 = async () => {
+    video1.currentTime = 0;
+
+    try {
+      await video1.play();
+    } catch {}
+
+    switchTimeout = setTimeout(() => {
+      setActiveVideo(0);
+    }, 50);
+  };
+
+  video1.addEventListener("ended", switchToVideo2);
+  video2.addEventListener("ended", switchToVideo1);
+
+  return () => {
+    clearTimeout(switchTimeout);
+    video1.removeEventListener("ended", switchToVideo2);
+    video2.removeEventListener("ended", switchToVideo1);
+  };
+}, []);
 
   return (
     <section
@@ -153,7 +166,7 @@ export default function Hero() {
             filter: "contrast(1.1) brightness(0.8)",
           }}
         >
-          <source src="/images/Highlightes.mp4" type="video/mp4" />
+          <source src="/images/Highlightess.mp4" type="video/mp4" />
         </video>
 
         {/* VIDEO 2 */}
@@ -173,7 +186,7 @@ export default function Hero() {
             filter: "contrast(1.1) brightness(0.8)",
           }}
         >
-          <source src="/images/Highlightes2.mp4" type="video/mp4" />
+          <source src="/images/Highlightess2.mp4" type="video/mp4" />
         </video>
 
         <div
