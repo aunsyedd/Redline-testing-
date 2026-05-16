@@ -7,18 +7,39 @@ import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
 
+/* MAIN COUNTRIES (EXPANDED) */
 const countryOptions = [
   { label: "Pakistan", value: "+92" },
   { label: "India", value: "+91" },
   { label: "United States", value: "+1" },
-  { label: "United Kingdom", value: "+44" },
-  { label: "UAE", value: "+971" },
-  { label: "Saudi Arabia", value: "+966" },
   { label: "Canada", value: "+1" },
+  { label: "United Kingdom", value: "+44" },
   { label: "Australia", value: "+61" },
   { label: "Germany", value: "+49" },
   { label: "France", value: "+33" },
+  { label: "Italy", value: "+39" },
+  { label: "Spain", value: "+34" },
+  { label: "Brazil", value: "+55" },
+  { label: "Mexico", value: "+52" },
+  { label: "UAE", value: "+971" },
+  { label: "Saudi Arabia", value: "+966" },
+  { label: "Qatar", value: "+974" },
+  { label: "Kuwait", value: "+965" },
+  { label: "Turkey", value: "+90" },
+  { label: "Russia", value: "+7" },
+  { label: "China", value: "+86" },
+  { label: "Japan", value: "+81" },
+  { label: "South Korea", value: "+82" },
+  { label: "Indonesia", value: "+62" },
+  { label: "Malaysia", value: "+60" },
+  { label: "Singapore", value: "+65" },
+  { label: "South Africa", value: "+27" },
+  { label: "Nigeria", value: "+234" },
+  { label: "Egypt", value: "+20" },
+  { label: "Bangladesh", value: "+880" },
+  { label: "Sri Lanka", value: "+94" },
 ];
+
 
 const mixMatchOptions = [
   { name: "One-off CGI Piece", price: "SAR 4,500" },
@@ -171,7 +192,6 @@ function ContactForm() {
             />
           </div>
 
-          {/* PLAN (NO VALIDATION) */}
           <select
             name="plan"
             value={form.plan}
@@ -196,7 +216,6 @@ function ContactForm() {
             </option>
           </select>
 
-          {/* MIX & MATCH (NO VALIDATION) */}
           <select
             name="mixMatch"
             value={form.mixMatch}
@@ -205,10 +224,7 @@ function ContactForm() {
           >
             <option value="">Mix & Match Services</option>
             {mixMatchOptions.map((item) => (
-              <option
-                key={item.name}
-                value={`${item.name} - ${item.price}`}
-              >
+              <option key={item.name} value={`${item.name} - ${item.price}`}>
                 {item.name} - {item.price}
               </option>
             ))}
@@ -238,6 +254,47 @@ function ContactForm() {
           </button>
         </form>
       </div>
+
+      {/* RESPONSIVE CSS ONLY */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          section {
+            flex-direction: column !important;
+            gap: 30px !important;
+            padding: 20px 16px 80px !important;
+          }
+
+          section > div {
+            width: 100% !important;
+          }
+
+          form {
+            padding: 20px !important;
+          }
+
+          form > div:nth-of-type(1),
+          form > div:nth-of-type(2),
+          form > div:nth-of-type(4),
+          form > div:nth-of-type(5) {
+            flex-direction: column !important;
+          }
+
+          form > div:nth-of-type(3) {
+            flex-direction: column !important;
+          }
+
+          form > div:nth-of-type(3) select,
+          form > div:nth-of-type(3) input {
+            width: 100% !important;
+          }
+
+          input,
+          select,
+          textarea {
+            width: 100% !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -254,11 +311,7 @@ export default function ContactPage() {
           paddingTop: "120px",
         }}
       >
-        <Suspense
-          fallback={
-            <div style={{ color: "#fff", padding: 40 }}>Loading...</div>
-          }
-        >
+        <Suspense fallback={<div style={{ color: "#fff", padding: 40 }}>Loading...</div>}>
           <ContactForm />
         </Suspense>
       </main>
