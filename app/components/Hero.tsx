@@ -163,10 +163,11 @@ useEffect(() => {
             objectFit: "cover",
             opacity: activeVideo === 0 ? 1 : 0,
             transition: "opacity 2s ease-in-out",
-            filter: "contrast(1.1) brightness(0.8)",
+            filter: "contrast(1.1) brightness(0.6)",
           }}
         >
-          <source src="/images/Highlightess.mp4" type="video/mp4" />
+          {/* <source src="/images/Highlightess.mp4" type="video/mp4" /> */}
+          <source src="/images/1.mp4" type="video/mp4" />
         </video>
 
         {/* VIDEO 2 */}
@@ -183,10 +184,11 @@ useEffect(() => {
             objectFit: "cover",
             opacity: activeVideo === 1 ? 1 : 0,
             transition: "opacity 2s ease-in-out",
-            filter: "contrast(1.1) brightness(0.8)",
+            filter: "contrast(1.1) brightness(0.6)",
           }}
         >
-          <source src="/images/Highlightess2.mp4" type="video/mp4" />
+          {/* <source src="/images/Highlightess2.mp4" type="video/mp4" /> */}
+          <source src="/images/2.mp4" type="video/mp4" />
         </video>
 
         <div

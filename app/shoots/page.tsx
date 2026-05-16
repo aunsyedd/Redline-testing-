@@ -146,6 +146,7 @@ export default function ShootsPage() {
               borderRadius: 10,
               padding: 40,
               textAlign: "center",
+              marginBottom: 40,
             }}
           >
             <h2
@@ -174,7 +175,204 @@ export default function ShootsPage() {
   }}
 >
   <video
-        src="/images/web_video_004.mp4" // 👈 put your mp4 in /public folder
+    src="/images/web_video_004.mp4"
+    controls
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      background: "#000",
+    }}
+  />
+</div>
+          </div>
+
+          {/* SHOWREEL 2 */}
+          <div
+            style={{
+              background: "#0b0b0b",
+              border: "1px solid #1a1a1a",
+              borderRadius: 10,
+              padding: 40,
+              textAlign: "center",
+              marginBottom: 40,
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 28,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Showreel 2026
+            </h2>
+
+            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+              Cinematic storytelling blended with high-end motion visuals.
+            </p>
+
+<div
+  style={{
+    width: "100%",
+    height: 420,
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #1a1a1a",
+    background: "#000",
+    position: "relative",
+  }}
+>
+  <video
+    src="/images/web_video_008.mp4"
+    controls
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      background: "#000",
+    }}
+  />
+</div>
+          </div>
+          {/* SHOWREEL 3 */}
+          <div
+            style={{
+              background: "#0b0b0b",
+              border: "1px solid #1a1a1a",
+              borderRadius: 10,
+              padding: 40,
+              textAlign: "center",
+              marginBottom: 40,
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 28,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Showreel 2026
+            </h2>
+
+            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+              Cinematic storytelling blended with high-end motion visuals.
+            </p>
+
+<div
+  style={{
+    width: "100%",
+    height: 420,
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #1a1a1a",
+    background: "#000",
+    position: "relative",
+  }}
+>
+  <video
+    src="/images/web_video_005.mp4"
+    controls
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      background: "#000",
+    }}
+  />
+</div>
+          </div>
+
+          {/* SHOWREEL 4 */}
+          <div
+            style={{
+              background: "#0b0b0b",
+              border: "1px solid #1a1a1a",
+              borderRadius: 10,
+              padding: 40,
+              textAlign: "center",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 28,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Showreel 2026
+            </h2>
+
+            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+              Premium CGI direction, VFX execution, and cinematic production.
+            </p>
+
+<div
+  style={{
+    width: "100%",
+    height: 420,
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #1a1a1a",
+    background: "#000",
+    position: "relative",
+  }}
+>
+  <video
+    src="/images/web_video_001.mp4"
+    controls
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      background: "#000",
+    }}
+  />
+</div>
+          </div>
+
+          {/* SHOWREEL 5 */}
+          <div
+            style={{
+              background: "#0b0b0b",
+              border: "1px solid #1a1a1a",
+              borderRadius: 10,
+              padding: 40,
+              textAlign: "center",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 28,
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Showreel 2026
+            </h2>
+
+            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+              Premium CGI direction, VFX execution, and cinematic production.
+            </p>
+
+<div
+  style={{
+    width: "100%",
+    height: 420,
+    borderRadius: 10,
+    overflow: "hidden",
+    border: "1px solid #1a1a1a",
+    background: "#000",
+    position: "relative",
+  }}
+>
+  <video
+    src="/images/Highlighted.mp4"
     controls
     playsInline
     style={{
