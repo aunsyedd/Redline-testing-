@@ -514,7 +514,7 @@ export default function PricingPage() {
             <span
               style={{
                 fontSize: "clamp(9px, 1.5vw, 11px)",
-                color: "#2a2a2a",
+                color: "#6b6b6b",
                 letterSpacing: "0.1em",
               }}
             >
@@ -524,7 +524,7 @@ export default function PricingPage() {
               href="/contact"
               style={{
                 fontSize: "clamp(9px, 1.5vw, 11px)",
-                color: "#333",
+                color: "#797979",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 textDecoration: "none",

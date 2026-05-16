@@ -339,7 +339,7 @@ export function FinalCTA() {
 
       <p
         style={{
-          color: "#444",
+          color: "#aaaaaa",
           fontSize: "clamp(12px, 1.8vw, 14px)",
           marginBottom: "clamp(36px, 5vw, 56px)",
           letterSpacing: "0.04em",
@@ -429,7 +429,7 @@ export function FinalCTA() {
           fontSize: 10,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color: "#1e1e1e",
+          color: "#aaaaaa",
         }}
       >
         Jeddah · KSA · Available for remote projects
@@ -482,7 +482,7 @@ export function Footer() {
           <span
             style={{
               fontSize: "clamp(10px, 1.6vw, 11px)",
-              color: "#2e2e2e",
+              color: "#6b6b6b",
               letterSpacing: "0.08em",
             }}
           >
@@ -491,7 +491,7 @@ export function Footer() {
           <span
             style={{
               fontSize: "clamp(9px, 1.4vw, 10px)",
-              color: "#1e1e1e",
+              color: "#6b6b6b",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
             }}
@@ -525,7 +525,7 @@ export function Footer() {
               rel="noopener noreferrer"
               style={{
                 fontSize: "clamp(9px, 1.6vw, 11px)",
-                color: "#2a2a2a",
+                color: "#6b6b6b",
                 textDecoration: "none",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
@@ -556,7 +556,7 @@ export function Footer() {
           <span
             style={{
               fontSize: "clamp(9px, 1.4vw, 10px)",
-              color: "#1e1e1e",
+              color: "#6b6b6b",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
             }}
@@ -569,7 +569,7 @@ export function Footer() {
             rel="noopener noreferrer"
             style={{
               fontSize: "clamp(10px, 1.6vw, 11px)",
-              color: "#2e2e2e",
+              color: "#6b6b6b",
               textDecoration: "none",
               letterSpacing: "0.08em",
               transition: "color 0.2s",
