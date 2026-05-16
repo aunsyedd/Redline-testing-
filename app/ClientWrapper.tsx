@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Loader from "@/app/Loader/page";
-import ChatBot from "./components/ChatBot";
 
 export default function ClientWrapper({
   children,
@@ -11,41 +10,24 @@ export default function ClientWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
   const [firstLoad, setFirstLoad] = useState(true);
   const [routeLoading, setRouteLoading] = useState(false);
-  const [showChat, setShowChat] = useState(false);
 
-  // =========================
-  // 🎬 FIRST LOAD
-  // =========================
   useEffect(() => {
     const visited = sessionStorage.getItem("visited");
 
     if (visited) {
       setFirstLoad(false);
-      setShowChat(true); // 👈 show chat for returning users
       return;
     }
   }, []);
 
-  // =========================
-  // ⚡ AFTER FIRST LOAD FINISH
-  // =========================
-const handleFinish = () => {
-  setFirstLoad(false);
-  sessionStorage.setItem("visited", "true");
+  const handleFinish = () => {
+    setFirstLoad(false);
+    sessionStorage.setItem("visited", "true");
+  };
 
-  // wait until page fully renders + loader removed
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      setShowChat(true);
-    }, 1000);
-  });
-};
-
-  // =========================
-  // 🔁 ROUTE CHANGE LOADER
-  // =========================
   useEffect(() => {
     if (firstLoad) return;
 
@@ -63,7 +45,7 @@ const handleFinish = () => {
       {/* FIRST LOAD LOADER */}
       {firstLoad && <Loader finish={handleFinish} />}
 
-      {/* ROUTE LOADING OVERLAY */}
+      {/* ROUTE LOADING */}
       {routeLoading && (
         <div
           style={{
@@ -74,7 +56,6 @@ const handleFinish = () => {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 9999,
-            backdropFilter: "blur(2px)",
           }}
         >
           <div
@@ -87,10 +68,15 @@ const handleFinish = () => {
               animation: "spin 0.8s linear infinite",
             }}
           />
+
           <style jsx>{`
             @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
             }
           `}</style>
         </div>
@@ -98,11 +84,6 @@ const handleFinish = () => {
 
       {/* PAGE */}
       {!firstLoad && children}
-
-      {/* 🤖 CHATBOT (GLOBAL + DELAYED) */}
-    {!firstLoad && !routeLoading && showChat && (
-  <ChatBot />
-)}
     </>
   );
 }

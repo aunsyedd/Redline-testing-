@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.css";import 
+ChatBot from "./components/ChatBot";
+
 
 import ClientWrapper from "./ClientWrapper";
 
@@ -55,7 +57,7 @@ export default function RootLayout({
         <ClientWrapper>
           <div className="page-fade">{children}</div>
         </ClientWrapper>
-           
+                   <ChatBot />
       </body>
     </html>
   );
