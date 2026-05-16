@@ -7,15 +7,15 @@ export default function Hero() {
   const [introDone, setIntroDone] = useState(false);
   const [step, setStep] = useState(1);
   const [activeVideo, setActiveVideo] = useState(0);
-  const [secondVideoReady, setSecondVideoReady] = useState(false);
 
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const introText = "REDLINE VFX — CINEMATIC STUDIO";
 
   // =========================
-  // TYPING EFFECT
+  // TYPING EFFECT — faster
   // =========================
   useEffect(() => {
     let i = 0;
@@ -24,9 +24,9 @@ export default function Hero() {
       i++;
       if (i > introText.length) {
         clearInterval(interval);
-        setTimeout(() => setIntroDone(true), 800);
+        setTimeout(() => setIntroDone(true), 600); // reduced from 800
       }
-    }, 60);
+    }, 35); // reduced from 60ms → ~42% faster
 
     return () => clearInterval(interval);
   }, []);
@@ -48,7 +48,6 @@ export default function Hero() {
 
     const run = () => {
       setStep(sequence[index].step);
-
       timeout = setTimeout(() => {
         index = (index + 1) % sequence.length;
         run();
@@ -56,77 +55,94 @@ export default function Hero() {
     };
 
     run();
-
     return () => clearTimeout(timeout);
   }, [introDone]);
 
   // =========================
-  // VIDEO LOGIC
+  // VIDEO LOGIC — optimized
   // =========================
-useEffect(() => {
-  const video1 = video1Ref.current;
-  const video2 = video2Ref.current;
+  useEffect(() => {
+    const video1 = video1Ref.current;
+    const video2 = video2Ref.current;
+    if (!video1 || !video2) return;
 
-  if (!video1 || !video2) return;
-
-  // 🔥 Faster loading hints
-  video1.preload = "auto";
-  video2.preload = "auto";
-
-  video1.muted = true;
-  video2.muted = true;
-
-  video1.playsInline = true;
-  video2.playsInline = true;
-
-  // autoplay first video (slightly faster start)
-  video1.currentTime = 0;
-  video1.play().catch(() => {});
-
-  // preload second immediately
-  video2.load();
-
-  let switchTimeout: ReturnType<typeof setTimeout>;
-
-  const switchToVideo2 = async () => {
-    setSecondVideoReady(true);
-
-    video2.currentTime = 0;
-
-    try {
-      await video2.play();
-    } catch {}
-
-    // 🔥 faster switch (reduced delay)
-    switchTimeout = setTimeout(() => {
-      setActiveVideo(1);
-    }, 50);
-  };
-
-  const switchToVideo1 = async () => {
+    // Video 1: load and play immediately
+    video1.preload = "auto";
+    video1.muted = true;
+    video1.playsInline = true;
     video1.currentTime = 0;
+    video1.play().catch(() => {});
 
-    try {
-      await video1.play();
-    } catch {}
+    // Video 2: defer loading until browser is idle
+    // so it doesn't compete with video1's initial load
+    video2.preload = "none";
+    video2.muted = true;
+    video2.playsInline = true;
 
-    switchTimeout = setTimeout(() => {
-      setActiveVideo(0);
-    }, 50);
-  };
+    const loadVideo2 = () => {
+      video2.preload = "auto";
+      video2.load();
+    };
 
-  video1.addEventListener("ended", switchToVideo2);
-  video2.addEventListener("ended", switchToVideo1);
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(loadVideo2, { timeout: 3000 });
+    } else {
+      setTimeout(loadVideo2, 2000); // Safari fallback
+    }
 
-  return () => {
-    clearTimeout(switchTimeout);
-    video1.removeEventListener("ended", switchToVideo2);
-    video2.removeEventListener("ended", switchToVideo1);
-  };
-}, []);
+    let switchTimeout: ReturnType<typeof setTimeout>;
+
+    const switchToVideo2 = async () => {
+      video2.currentTime = 0;
+      try { await video2.play(); } catch {}
+      switchTimeout = setTimeout(() => setActiveVideo(1), 50);
+    };
+
+    const switchToVideo1 = async () => {
+      video1.currentTime = 0;
+      try { await video1.play(); } catch {}
+      switchTimeout = setTimeout(() => setActiveVideo(0), 50);
+    };
+
+    video1.addEventListener("ended", switchToVideo2);
+    video2.addEventListener("ended", switchToVideo1);
+
+    return () => {
+      clearTimeout(switchTimeout);
+      video1.removeEventListener("ended", switchToVideo2);
+      video2.removeEventListener("ended", switchToVideo1);
+    };
+  }, []);
+
+  // =========================
+  // PAUSE VIDEO WHEN OFF-SCREEN
+  // =========================
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const v1 = video1Ref.current;
+        const v2 = video2Ref.current;
+        if (entry.isIntersecting) {
+          if (v1 && v1.paused) v1.play().catch(() => {});
+          if (v2 && !v2.paused) v2.play().catch(() => {});
+        } else {
+          v1?.pause();
+          v2?.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       style={{
         minHeight: "100vh",
         background: "#050505",
@@ -137,6 +153,8 @@ useEffect(() => {
         overflow: "hidden",
         color: "white",
         padding: "40px",
+        contentVisibility: "auto" as any, // skip rendering when off-screen
+        containIntrinsicSize: "100vw 100vh",
       }}
     >
       {/* VIDEO LAYER */}
@@ -155,6 +173,7 @@ useEffect(() => {
           muted
           playsInline
           preload="auto"
+          poster="/images/poster1.jpg" // export first frame from your video
           style={{
             position: "absolute",
             inset: 0,
@@ -164,9 +183,10 @@ useEffect(() => {
             opacity: activeVideo === 0 ? 1 : 0,
             transition: "opacity 2s ease-in-out",
             filter: "contrast(1.1) brightness(0.6)",
+            willChange: "opacity",
+            transform: "translateZ(0)", // force GPU layer, helps Safari
           }}
         >
-          {/* <source src="/images/Highlightess.mp4" type="video/mp4" /> */}
           <source src="/images/1.mp4" type="video/mp4" />
         </video>
 
@@ -175,7 +195,8 @@ useEffect(() => {
           ref={video2Ref}
           muted
           playsInline
-          preload="auto"
+          preload="none" // loaded lazily via requestIdleCallback
+          poster="/images/poster2.jpg" // export first frame from video 2
           style={{
             position: "absolute",
             inset: 0,
@@ -185,9 +206,10 @@ useEffect(() => {
             opacity: activeVideo === 1 ? 1 : 0,
             transition: "opacity 2s ease-in-out",
             filter: "contrast(1.1) brightness(0.6)",
+            willChange: "opacity",
+            transform: "translateZ(0)",
           }}
         >
-          {/* <source src="/images/Highlightess2.mp4" type="video/mp4" /> */}
           <source src="/images/2.mp4" type="video/mp4" />
         </video>
 
@@ -234,9 +256,7 @@ useEffect(() => {
                 impossible to scroll past.
               </span>
             </h1>
-
             <div style={lineStyle} />
-
             <p style={textStyle}>
               Photoreal CGI, product animation, and premium content for the
               brands and agencies shaping the next decade in KSA.
@@ -247,11 +267,9 @@ useEffect(() => {
         {introDone && step === 3 && (
           <div style={{ animation: "fadeUp 1s ease", maxWidth: 820 }}>
             <div style={tagStyle}>A small studio. Senior craft.</div>
-
             <p style={textStyleLarge}>
               Redline VFX is a Jeddah-based CGI and marketing studio.
             </p>
-
             <p style={textStyleSmall}>
               Founder-led, three people deep, built around senior production.
             </p>
@@ -288,12 +306,8 @@ useEffect(() => {
               transition: "background 0.3s ease",
               textDecoration: "none",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "#ff3c3c")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "#e53232")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#ff3c3c")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#e53232")}
           >
             View Cinematic Shoots
           </Link>
@@ -313,12 +327,8 @@ useEffect(() => {
               transition: "border-color 0.3s ease",
               textDecoration: "none",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.borderColor = "#666")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.borderColor = "#333")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#666")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333")}
           >
             Explore Plans
           </Link>
@@ -327,21 +337,17 @@ useEffect(() => {
 
       <style>{`
         @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0px);
-          }
+          from { opacity: 0; transform: translateY(40px); }
+          to   { opacity: 1; transform: translateY(0px); }
         }
       `}</style>
     </section>
   );
 }
 
+// =====================
+// STYLES
+// =====================
 const headlineStyle = {
   fontSize: "clamp(48px,7vw,96px)",
   lineHeight: 0.95,
@@ -367,8 +373,7 @@ const textStyle = {
   color: "#f1f1f1",
   fontSize: 18,
   lineHeight: 1.7,
-  textShadow:
-    "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
+  textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
 };
 
 const tagStyle = {
@@ -395,6 +400,5 @@ const textStyleSmall = {
   marginTop: 28,
   fontSize: 15,
   lineHeight: 1.8,
-  textShadow:
-    "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
+  textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
 };
