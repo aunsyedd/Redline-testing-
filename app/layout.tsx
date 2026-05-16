@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+
 import ClientWrapper from "./ClientWrapper";
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ export default function RootLayout({
         <ClientWrapper>
           <div className="page-fade">{children}</div>
         </ClientWrapper>
+           
       </body>
     </html>
   );

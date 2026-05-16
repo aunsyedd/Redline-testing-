@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Loader from "@/app/Loader/page";
+import ChatBot from "./components/ChatBot";
 
 export default function ClientWrapper({
   children,
@@ -12,24 +13,38 @@ export default function ClientWrapper({
   const pathname = usePathname();
   const [firstLoad, setFirstLoad] = useState(true);
   const [routeLoading, setRouteLoading] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   // =========================
-  // 🎬 FIRST LOAD ONLY
+  // 🎬 FIRST LOAD
   // =========================
   useEffect(() => {
     const visited = sessionStorage.getItem("visited");
 
     if (visited) {
       setFirstLoad(false);
+      setShowChat(true); // 👈 show chat for returning users
       return;
     }
-
-    // Loader component controls its own timing via finish()
-    // No timeout needed here — Loader calls finish() when done
   }, []);
 
   // =========================
-  // ⚡ ROUTE CHANGE
+  // ⚡ AFTER FIRST LOAD FINISH
+  // =========================
+const handleFinish = () => {
+  setFirstLoad(false);
+  sessionStorage.setItem("visited", "true");
+
+  // wait until page fully renders + loader removed
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      setShowChat(true);
+    }, 1000);
+  });
+};
+
+  // =========================
+  // 🔁 ROUTE CHANGE LOADER
   // =========================
   useEffect(() => {
     if (firstLoad) return;
@@ -46,16 +61,9 @@ export default function ClientWrapper({
   return (
     <>
       {/* FIRST LOAD LOADER */}
-      {firstLoad && (
-        <Loader
-          finish={() => {
-            setFirstLoad(false);
-            sessionStorage.setItem("visited", "true");
-          }}
-        />
-      )}
+      {firstLoad && <Loader finish={handleFinish} />}
 
-      {/* ROUTE CHANGE SPINNER — overlays page, doesn't block it */}
+      {/* ROUTE LOADING OVERLAY */}
       {routeLoading && (
         <div
           style={{
@@ -88,8 +96,13 @@ export default function ClientWrapper({
         </div>
       )}
 
-      {/* PAGE — always rendered once first load is done */}
+      {/* PAGE */}
       {!firstLoad && children}
+
+      {/* 🤖 CHATBOT (GLOBAL + DELAYED) */}
+    {!firstLoad && !routeLoading && showChat && (
+  <ChatBot />
+)}
     </>
   );
 }
