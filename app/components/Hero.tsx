@@ -15,7 +15,7 @@ export default function Hero() {
   const introText = "REDLINE VFX — CINEMATIC STUDIO";
 
   // =========================
-  // TYPING EFFECT — faster
+  // TYPING EFFECT
   // =========================
   useEffect(() => {
     let i = 0;
@@ -24,9 +24,9 @@ export default function Hero() {
       i++;
       if (i > introText.length) {
         clearInterval(interval);
-        setTimeout(() => setIntroDone(true), 600); // reduced from 800
+        setTimeout(() => setIntroDone(true), 600);
       }
-    }, 35); // reduced from 60ms → ~42% faster
+    }, 35);
 
     return () => clearInterval(interval);
   }, []);
@@ -59,22 +59,19 @@ export default function Hero() {
   }, [introDone]);
 
   // =========================
-  // VIDEO LOGIC — optimized
+  // VIDEO LOGIC
   // =========================
   useEffect(() => {
     const video1 = video1Ref.current;
     const video2 = video2Ref.current;
     if (!video1 || !video2) return;
 
-    // Video 1: load and play immediately
     video1.preload = "auto";
     video1.muted = true;
     video1.playsInline = true;
     video1.currentTime = 0;
     video1.play().catch(() => {});
 
-    // Video 2: defer loading until browser is idle
-    // so it doesn't compete with video1's initial load
     video2.preload = "none";
     video2.muted = true;
     video2.playsInline = true;
@@ -87,7 +84,7 @@ export default function Hero() {
     if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(loadVideo2, { timeout: 3000 });
     } else {
-      setTimeout(loadVideo2, 2000); // Safari fallback
+      setTimeout(loadVideo2, 2000);
     }
 
     let switchTimeout: ReturnType<typeof setTimeout>;
@@ -144,7 +141,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       style={{
-        minHeight: "100vh",
+        minHeight: "100svh", // svh for mobile browser chrome awareness
         background: "#050505",
         position: "relative",
         display: "flex",
@@ -152,8 +149,8 @@ export default function Hero() {
         justifyContent: "center",
         overflow: "hidden",
         color: "white",
-        padding: "40px",
-        contentVisibility: "auto" as any, // skip rendering when off-screen
+        padding: "clamp(20px, 5vw, 40px)",
+        contentVisibility: "auto" as any,
         containIntrinsicSize: "100vw 100vh",
       }}
     >
@@ -173,7 +170,7 @@ export default function Hero() {
           muted
           playsInline
           preload="auto"
-          poster="/images/poster1.jpg" // export first frame from your video
+          poster="/images/poster1.jpg"
           style={{
             position: "absolute",
             inset: 0,
@@ -184,7 +181,7 @@ export default function Hero() {
             transition: "opacity 2s ease-in-out",
             filter: "contrast(1.1) brightness(0.6)",
             willChange: "opacity",
-            transform: "translateZ(0)", // force GPU layer, helps Safari
+            transform: "translateZ(0)",
           }}
         >
           <source src="/images/1.mp4" type="video/mp4" />
@@ -195,8 +192,8 @@ export default function Hero() {
           ref={video2Ref}
           muted
           playsInline
-          preload="none" // loaded lazily via requestIdleCallback
-          poster="/images/poster2.jpg" // export first frame from video 2
+          preload="none"
+          poster="/images/poster2.jpg"
           style={{
             position: "absolute",
             inset: 0,
@@ -228,19 +225,25 @@ export default function Hero() {
         style={{
           textAlign: "center",
           maxWidth: 1100,
+          width: "100%",
           position: "relative",
           zIndex: 2,
+          // Push content up slightly on mobile to avoid overlap with buttons
+          paddingBottom: "clamp(80px, 15vw, 120px)",
+          paddingTop: "clamp(80px, 12vw, 0px)",
         }}
       >
         {!introDone && (
           <div
             style={{
               color: "#ff4d4d",
-              letterSpacing: "0.35em",
-              fontSize: 18,
+              letterSpacing: "clamp(0.12em, 2vw, 0.35em)",
+              fontSize: "clamp(11px, 3vw, 18px)",
               marginBottom: 20,
               fontWeight: 800,
               textShadow: "0 0 12px rgba(255,77,77,0.8)",
+              // Wrap gracefully on tiny screens
+              wordBreak: "break-word",
             }}
           >
             {typedText}
@@ -250,14 +253,43 @@ export default function Hero() {
 
         {introDone && (step === 1 || step === 2) && (
           <div style={{ animation: "fadeUp 1s ease" }}>
-            <h1 style={headlineStyle}>
+            <h1
+              style={{
+                fontSize: "clamp(32px, 7vw, 96px)",
+                lineHeight: 1.0,
+                color: "#fff",
+                marginBottom: "clamp(16px, 3vw, 26px)",
+                letterSpacing: "-0.04em",
+                fontWeight: 600,
+                textShadow:
+                  "0 2px 4px rgba(0,0,0,0.9), 0 6px 18px rgba(0,0,0,0.85), 0 12px 40px rgba(0,0,0,0.75)",
+              }}
+            >
               Cinematic visuals that make brands{" "}
               <span style={{ color: "#ff4d4d" }}>
                 impossible to scroll past.
               </span>
             </h1>
-            <div style={lineStyle} />
-            <p style={textStyle}>
+            <div
+              style={{
+                width: "clamp(80px, 15vw, 180px)",
+                height: 2,
+                margin: "0 auto clamp(16px, 3vw, 30px)",
+                background: "#ff4d4d",
+                boxShadow: "0 0 25px rgba(255,77,77,0.6)",
+              }}
+            />
+            <p
+              style={{
+                maxWidth: 760,
+                margin: "0 auto",
+                color: "#f1f1f1",
+                fontSize: "clamp(14px, 2.5vw, 18px)",
+                lineHeight: 1.7,
+                textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
+                padding: "0 clamp(0px, 2vw, 20px)",
+              }}
+            >
               Photoreal CGI, product animation, and premium content for the
               brands and agencies shaping the next decade in KSA.
             </p>
@@ -265,12 +297,48 @@ export default function Hero() {
         )}
 
         {introDone && step === 3 && (
-          <div style={{ animation: "fadeUp 1s ease", maxWidth: 820 }}>
-            <div style={tagStyle}>A small studio. Senior craft.</div>
-            <p style={textStyleLarge}>
+          <div
+            style={{
+              animation: "fadeUp 1s ease",
+              maxWidth: 820,
+              margin: "0 auto",
+            }}
+          >
+            <div
+              style={{
+                color: "#b90808",
+                textTransform: "uppercase",
+                letterSpacing: "clamp(0.1em, 2vw, 0.28em)",
+                fontSize: "clamp(10px, 2vw, 12px)",
+                fontWeight: 600,
+                marginBottom: "clamp(14px, 3vw, 26px)",
+                textShadow: "0 0 10px rgba(0,0,0,0.7)",
+              }}
+            >
+              A small studio. Senior craft.
+            </div>
+            <p
+              style={{
+                color: "#f3f3f3",
+                fontSize: "clamp(16px, 3vw, 24px)",
+                lineHeight: 1.8,
+                fontWeight: 300,
+                textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 6px 20px rgba(0,0,0,0.85)",
+                padding: "0 clamp(0px, 2vw, 20px)",
+              }}
+            >
               Redline VFX is a Jeddah-based CGI and marketing studio.
             </p>
-            <p style={textStyleSmall}>
+            <p
+              style={{
+                color: "#d0d0d0",
+                marginTop: "clamp(14px, 3vw, 28px)",
+                fontSize: "clamp(12px, 2vw, 15px)",
+                lineHeight: 1.8,
+                textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
+                padding: "0 clamp(0px, 2vw, 20px)",
+              }}
+            >
               Founder-led, three people deep, built around senior production.
             </p>
           </div>
@@ -282,13 +350,19 @@ export default function Hero() {
         <div
           style={{
             position: "absolute",
-            bottom: 50,
+            bottom: "clamp(24px, 5vw, 50px)",
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",
-            gap: 16,
+            // Stack vertically on very small screens
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: "clamp(8px, 2vw, 16px)",
             zIndex: 10,
-            whiteSpace: "nowrap",
+            justifyContent: "center",
+            width: "100%",
+            padding: "0 clamp(16px, 5vw, 40px)",
+            boxSizing: "border-box",
           }}
         >
           <Link
@@ -297,14 +371,16 @@ export default function Hero() {
               background: "#e53232",
               color: "#fff",
               border: "none",
-              padding: "14px 26px",
-              fontSize: 13,
+              padding: "clamp(11px, 2vw, 14px) clamp(18px, 3vw, 26px)",
+              fontSize: "clamp(10px, 1.8vw, 13px)",
               fontWeight: 600,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               cursor: "pointer",
               transition: "background 0.3s ease",
               textDecoration: "none",
+              whiteSpace: "nowrap",
+              textAlign: "center",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = "#ff3c3c")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#e53232")}
@@ -318,14 +394,16 @@ export default function Hero() {
               background: "transparent",
               color: "#ddd",
               border: "1px solid #333",
-              padding: "14px 26px",
-              fontSize: 13,
+              padding: "clamp(11px, 2vw, 14px) clamp(18px, 3vw, 26px)",
+              fontSize: "clamp(10px, 1.8vw, 13px)",
               fontWeight: 500,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               cursor: "pointer",
               transition: "border-color 0.3s ease",
               textDecoration: "none",
+              whiteSpace: "nowrap",
+              textAlign: "center",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#666")}
             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333")}
@@ -340,65 +418,15 @@ export default function Hero() {
           from { opacity: 0; transform: translateY(40px); }
           to   { opacity: 1; transform: translateY(0px); }
         }
+
+        /* Stack buttons on very small screens */
+        @media (max-width: 380px) {
+          .hero-buttons {
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+        }
       `}</style>
     </section>
   );
 }
-
-// =====================
-// STYLES
-// =====================
-const headlineStyle = {
-  fontSize: "clamp(48px,7vw,96px)",
-  lineHeight: 0.95,
-  color: "#fff",
-  marginBottom: 26,
-  letterSpacing: "-0.05em",
-  fontWeight: 600,
-  textShadow:
-    "0 2px 4px rgba(0,0,0,0.9), 0 6px 18px rgba(0,0,0,0.85), 0 12px 40px rgba(0,0,0,0.75)",
-};
-
-const lineStyle = {
-  width: 180,
-  height: 2,
-  margin: "0 auto 30px",
-  background: "#ff4d4d",
-  boxShadow: "0 0 25px rgba(255,77,77,0.6)",
-};
-
-const textStyle = {
-  maxWidth: 760,
-  margin: "0 auto",
-  color: "#f1f1f1",
-  fontSize: 18,
-  lineHeight: 1.7,
-  textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
-};
-
-const tagStyle = {
-  color: "#b90808",
-  textTransform: "uppercase" as const,
-  letterSpacing: "0.28em",
-  fontSize: 12,
-  fontWeight: 600,
-  marginBottom: 26,
-  textShadow: "0 0 10px rgba(0,0,0,0.7)",
-};
-
-const textStyleLarge = {
-  color: "#f3f3f3",
-  fontSize: "clamp(18px,2vw,24px)",
-  lineHeight: 1.8,
-  fontWeight: 300,
-  textShadow:
-    "0 2px 4px rgba(0,0,0,0.95), 0 6px 20px rgba(0,0,0,0.85)",
-};
-
-const textStyleSmall = {
-  color: "#d0d0d0",
-  marginTop: 28,
-  fontSize: 15,
-  lineHeight: 1.8,
-  textShadow: "0 2px 4px rgba(0,0,0,0.95), 0 4px 14px rgba(0,0,0,0.85)",
-};
