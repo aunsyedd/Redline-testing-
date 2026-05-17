@@ -468,18 +468,18 @@ export function Footer() {
 
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 1400,
           margin: "0 auto",
-          padding: "clamp(24px, 5vw, 44px) clamp(20px, 6vw, 60px)",
+          padding: "clamp(14px, 3vw, 24px) clamp(20px, 6vw, 60px)",
           display: "grid",
           gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
-          gap: "clamp(16px, 3vw, 32px)",
+          gap: "clamp(10px, 2vw, 20px)",
         }}
         className="footer-grid"
       >
         {/* Left: Copyright */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <span
             style={{
               fontSize: "clamp(10px, 1.6vw, 11px)",
@@ -505,7 +505,7 @@ export function Footer() {
         <div
           style={{
             display: "flex",
-            gap: "clamp(16px, 3vw, 28px)",
+            gap: "clamp(12px, 2vw, 20px)",
             alignItems: "center",
           }}
         >
@@ -550,7 +550,7 @@ export function Footer() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
-            gap: 4,
+            gap: 2,
           }}
           className="footer-credit"
         >
@@ -587,21 +587,43 @@ export function Footer() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 600px) {
-          .footer-grid {
-            grid-template-columns: 1fr !important;
-            text-align: center !important;
-            gap: 20px !important;
-          }
-          .footer-credit {
-            align-items: center !important;
-          }
-          .footer-grid > div:nth-child(2) {
-            justify-content: center !important;
-          }
-        }
-      `}</style>
+<style>{`
+  @media (max-width: 600px) {
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+      text-align: center !important;
+      gap: 14px !important;
+    }
+
+    .footer-grid > div {
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+    }
+
+    .footer-credit {
+      align-items: center !important;
+    }
+
+    /* Make copyright + location horizontal */
+    .footer-grid > div:first-child {
+      flex-direction: row !important;
+      gap: 10px !important;
+      flex-wrap: wrap;
+    }
+
+    /* Make developer text horizontal */
+    .footer-credit {
+      flex-direction: row !important;
+      gap: 8px !important;
+      flex-wrap: wrap;
+    }
+
+    .footer-grid > div:nth-child(2) {
+      justify-content: center !important;
+    }
+  }
+`}</style>
     </footer>
   );
 }
