@@ -8,6 +8,7 @@ import Link from "next/link";
 export function CaseStudy() {
   return (
     <section
+    
       style={{
         padding: "clamp(48px, 8vw, 100px) clamp(20px, 6vw, 60px)",
         maxWidth: 1200,
@@ -535,7 +536,7 @@ export function Footer() {
                 ((e.currentTarget as HTMLElement).style.color = "#e53232")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "#2a2a2a")
+                ((e.currentTarget as HTMLElement).style.color = "#6b6b6b")
               }
             >
               {s.label}
@@ -561,7 +562,7 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            Engineered by
+            Engineered and Developed by
           </span>
           <a
             href="https://www.nexoratech.info/"
@@ -578,7 +579,7 @@ export function Footer() {
               ((e.currentTarget as HTMLElement).style.color = "#555")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = "#2e2e2e")
+              ((e.currentTarget as HTMLElement).style.color = "#6b6b6b")
             }
           >
             Nexora Tech ↗

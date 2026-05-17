@@ -138,7 +138,7 @@ export default function PricingPage() {
                   fontSize: 9,
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
-                  color: "#2a2a2a",
+                  color: "#6b6b6b",
                   fontWeight: 600,
                 }}
               >
@@ -250,7 +250,7 @@ export default function PricingPage() {
                       <div
                         style={{
                           fontSize: 10,
-                          color: "#333",
+                          color: "#6b6b6b",
                           marginTop: 4,
                           fontWeight: 600,
                           letterSpacing: "0.18em",
@@ -265,7 +265,7 @@ export default function PricingPage() {
                     <div
                       style={{
                         fontSize: "clamp(11px, 1.5vw, 13px)",
-                        color: "#4a4a4a",
+                        color: "#6b6b6b",
                         lineHeight: 1.7,
                       }}
                     >
@@ -287,7 +287,7 @@ export default function PricingPage() {
                       <div
                         style={{
                           fontSize: 10,
-                          color: "#2e2e2e",
+                          color: "#6b6b6b",
                           letterSpacing: "0.1em",
                           textTransform: "uppercase",
                           marginTop: 2,
@@ -524,7 +524,7 @@ export default function PricingPage() {
               href="/contact"
               style={{
                 fontSize: "clamp(9px, 1.5vw, 11px)",
-                color: "#797979",
+                color: "#6b6b6b",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 textDecoration: "none",
@@ -534,7 +534,7 @@ export default function PricingPage() {
                 (e.currentTarget.style.color = "#e53232")
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "#333")
+                (e.currentTarget.style.color = "#6b6b6b")
               }
             >
               Need a custom scope? Talk to us →
