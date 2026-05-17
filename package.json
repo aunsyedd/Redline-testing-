@@ -2,12 +2,12 @@
   "name": "redline-studio",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
+"scripts": {
+  "dev": "next dev --webpack",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint"
+},
   "dependencies": {
     "framer-motion": "^12.38.0",
     "libphonenumber-js": "^1.13.1",

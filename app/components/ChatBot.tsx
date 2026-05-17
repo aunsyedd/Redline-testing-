@@ -2,49 +2,38 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const PROMPTS = [
+  "What services do you offer?",
+  "Pricing plans",
+  "Project timeline",
+  "CGI portfolio",
+];
+
+type Message = { role: "bot" | "user"; text: string };
+
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: "bot", text: "Hi 👋 I’m Redline AI. How can I help you today?" },
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "bot",
+      text: "Hi there — I'm Redline AI. Ask me about our CGI services, pricing, or turnaround times.",
+    },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
-
   const chatRef = useRef<HTMLDivElement>(null);
 
-  // PRESET PROMPTS
-  const prompts = [
-    "What services do you offer?",
-    "Explain your pricing plans",
-    "Show me CGI portfolio ideas",
-    "How long does a project take?",
-  ];
-  const [isMobile, setIsMobile] = useState(false);
-
-useEffect(() => {
-  const check = () => setIsMobile(window.innerWidth < 640);
-  check();
-  window.addEventListener("resize", check);
-  return () => window.removeEventListener("resize", check);
-}, []);
-
-  // AUTO SCROLL
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, typing]);
 
-  // SEND MESSAGE
   const sendMessage = async (text?: string) => {
-    const messageText = text || input;
-    if (!messageText.trim()) return;
+    const msg = text ?? input;
+    if (!msg.trim()) return;
 
-    setMessages((prev) => [
-      ...prev,
-      { role: "user", text: messageText },
-    ]);
-
+    setMessages((prev) => [...prev, { role: "user", text: msg }]);
     setInput("");
     setTyping(true);
 
@@ -52,220 +41,67 @@ useEffect(() => {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: messageText }),
+        body: JSON.stringify({ message: msg }),
       });
-
       const data = await res.json();
-
-      setTyping(false);
-
       setMessages((prev) => [
         ...prev,
-        {
-          role: "bot",
-          text: data.reply || "No response from Gemini.",
-        },
+        { role: "bot", text: data.reply || "No response." },
       ]);
     } catch {
-      setTyping(false);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "bot",
-          text: "Error connecting to AI service ⚠️",
-        },
+        { role: "bot", text: "Connection error — please try again." },
       ]);
+    } finally {
+      setTyping(false);
     }
   };
 
   return (
     <>
-      {/* FLOATING BUTTON */}
-<button
-  onClick={() => setOpen(!open)}
-  style={{
-    position: "fixed",
-    bottom: 22,
-    right: 22,
-    zIndex: 9999,
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: isMobile ? 0 : 10,
-
-    padding: isMobile ? "14px" : "12px 16px",
-    borderRadius: 999,
-
-    border: "1px solid rgba(255, 77, 77, 0.25)",
-
-    background:
-      "linear-gradient(135deg, rgba(255,59,59,0.95), rgba(90,10,10,0.95))",
-
-    color: "#fff",
-    fontWeight: 600,
-    letterSpacing: "0.08em",
-    fontSize: 12,
-
-    cursor: "pointer",
-
-    boxShadow:
-      "0 8px 30px rgba(255,59,59,0.25), 0 0 60px rgba(0,0,0,0.6)",
-
-    transition: "all 0.25s ease",
-    animation: "pulse 2.8s infinite",
-  }}
->
-  {/* ICON (always visible) */}
-  <span
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: 22,
-      height: 22,
-      borderRadius: "50%",
-      background: "rgba(255,255,255,0.08)",
-    }}
-  >
-    {/* ROBOT ICON */}
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="5" y="6" width="14" height="12" rx="3" />
-      <path d="M12 2v4" />
-      <circle cx="12" cy="2" r="1" />
-      <circle cx="10" cy="12" r="1" />
-      <circle cx="14" cy="12" r="1" />
-      <path d="M9 15h6" />
-    </svg>
-  </span>
-
-  {/* TEXT ONLY ON DESKTOP */}
-  {!isMobile && (
-    <span style={{ fontSize: 11, letterSpacing: "0.1em" }}>
-      AI CHAT
-    </span>
-  )}
-
-  {/* DOT ONLY ON DESKTOP */}
-  {!isMobile && (
-    <span
-      style={{
-        width: 6,
-        height: 6,
-        borderRadius: "50%",
-        background: "#fff",
-        boxShadow: "0 0 10px rgba(255,255,255,0.8)",
-      }}
-    />
-  )}
-</button>
-
-      {/* CHAT WINDOW */}
+      {/* ── CHAT WINDOW ── */}
       {open && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: 90,
-            right: 22,
-            width: "min(380px, 92vw)",
-            height: 520,
-            zIndex: 9999,
-            display: "flex",
-            flexDirection: "column",
-            borderRadius: 16,
-            overflow: "hidden",
-            background:
-              "linear-gradient(180deg, rgba(10,10,10,0.85), rgba(0,0,0,0.95))",
-            border: "1px solid rgba(255,255,255,0.08)",
-            backdropFilter: "blur(14px)",
-            boxShadow:
-              "0 0 40px rgba(0,0,0,0.7), 0 0 20px rgba(255,59,59,0.1)",
-            animation: "popIn 0.25s ease-out",
-            transformOrigin: "bottom right",
-          }}
-        >
-          {/* HEADER */}
-          <div
-            style={{
-              padding: "12px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              color: "#fff",
-              fontWeight: 600,
-              fontSize: 12,
-              letterSpacing: "0.08em",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              {/* ROBOT ICON */}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#ff3b3b"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="4" y="8" width="16" height="12" rx="2" />
-                <path d="M9 3h6" />
-                <path d="M10 9h4" />
-                <path d="M12 2v2" />
-                <path d="M8 16h.01M16 16h.01" />
-                <path d="M2 12h2M20 12h2" />
-              </svg>
-
-              REDLINE AI ASSISTANT
+        <div style={windowStyle}>
+          {/* Header */}
+          <div style={headerStyle}>
+            <div style={avatarStyle}>
+              <RobotIcon size={16} color="#fff" />
             </div>
-
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
+                Redline AI
+              </div>
+              <div style={{ fontSize: 11, color: "#666", marginTop: 2, display: "flex", alignItems: "center", gap: 5 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
+                Online · CGI studio assistant
+              </div>
+            </div>
             <button
               onClick={() => setOpen(false)}
-              style={{
-                background: "transparent",
-                border: "none",
-                color: "#aaa",
-                cursor: "pointer",
-                fontSize: 14,
-              }}
+              style={{ background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: 18, lineHeight: 1, padding: "2px 4px" }}
+              aria-label="Close chat"
             >
               ✕
             </button>
           </div>
 
-          {/* PRESET PROMPTS */}
-          <div
-            style={{
-              padding: 10,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            {prompts.map((p, i) => (
+          {/* Quick prompts */}
+          <div style={{ padding: "10px 12px", display: "flex", flexWrap: "wrap", gap: 6, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            {PROMPTS.map((p) => (
               <button
-                key={i}
+                key={p}
                 onClick={() => sendMessage(p)}
-                style={{
-                  fontSize: 11,
-                  padding: "6px 10px",
-                  borderRadius: 20,
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "#ddd",
-                  cursor: "pointer",
+                style={chipStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(192,57,43,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(192,57,43,0.4)";
+                  e.currentTarget.style.color = "#e57373";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+                  e.currentTarget.style.color = "#aaa";
                 }}
               >
                 {p}
@@ -273,42 +109,36 @@ useEffect(() => {
             ))}
           </div>
 
-          {/* MESSAGES */}
-          <div
-            ref={chatRef}
-            style={{
-              flex: 1,
-              padding: 12,
-              overflowY: "auto",
-            }}
-          >
+          {/* Messages */}
+          <div ref={chatRef} style={msgsStyle}>
             {messages.map((m, i) => (
               <div
                 key={i}
                 style={{
                   display: "flex",
-                  justifyContent:
-                    m.role === "user" ? "flex-end" : "flex-start",
-                  marginBottom: 10,
-                  animation: "msgIn 0.25s ease",
+                  gap: 8,
+                  maxWidth: "88%",
+                  alignSelf: m.role === "user" ? "flex-end" : "flex-start",
+                  flexDirection: m.role === "user" ? "row-reverse" : "row",
+                  animation: "msgIn 0.2s ease",
                 }}
               >
+                <div style={m.role === "user" ? userMiniAvatarStyle : botMiniAvatarStyle}>
+                  {m.role === "user" ? "U" : "AI"}
+                </div>
                 <div
                   style={{
-                    maxWidth: "80%",
-                    padding: "10px 12px",
-                    borderRadius: 12,
+                    padding: "10px 13px",
+                    borderRadius: m.role === "user" ? "12px 4px 12px 12px" : "4px 12px 12px 12px",
                     fontSize: 13,
-                    lineHeight: 1.5,
-                    color: "#fff",
-                    background:
-                      m.role === "user"
-                        ? "linear-gradient(135deg, #ff3b3b, #7a0f0f)"
-                        : "rgba(255,255,255,0.06)",
-                    border:
-                      m.role === "user"
-                        ? "1px solid rgba(255,77,77,0.3)"
-                        : "1px solid rgba(255,255,255,0.06)",
+                    lineHeight: 1.55,
+                    color: "#f0f0f0",
+                    background: m.role === "user"
+                      ? "#c0392b"
+                      : "#1c1c1c",
+                    border: m.role === "user"
+                      ? "none"
+                      : "1px solid rgba(255,255,255,0.07)",
                   }}
                 >
                   {m.text}
@@ -317,86 +147,232 @@ useEffect(() => {
             ))}
 
             {typing && (
-              <div style={{ color: "#aaa", fontSize: 12 }}>
-                Gemini is thinking...
+              <div style={{ display: "flex", gap: 8, alignSelf: "flex-start" }}>
+                <div style={botMiniAvatarStyle}>AI</div>
+                <div style={{
+                  padding: "12px 16px",
+                  background: "#1c1c1c",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  borderRadius: "4px 12px 12px 12px",
+                  display: "flex",
+                  gap: 5,
+                  alignItems: "center",
+                }}>
+                  {[0, 150, 300].map((delay) => (
+                    <span
+                      key={delay}
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: "50%",
+                        background: "#555",
+                        display: "inline-block",
+                        animation: `bounce 0.9s ${delay}ms infinite`,
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* INPUT */}
-          <div
-            style={{
-              display: "flex",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-              padding: 8,
-              gap: 8,
-            }}
-          >
+          {/* Input */}
+          <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything..."
-              style={{
-                flex: 1,
-                padding: 10,
-                background: "rgba(0,0,0,0.6)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                color: "#fff",
-                outline: "none",
-                borderRadius: 10,
-                fontSize: 13,
-              }}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="Ask anything about Redline…"
+              style={inputStyle}
             />
-
             <button
               onClick={() => sendMessage()}
-              style={{
-                padding: "10px 14px",
-                background: "linear-gradient(135deg, #ff3b3b, #7a0f0f)",
-                color: "#fff",
-                border: "none",
-                borderRadius: 10,
-                cursor: "pointer",
-                fontWeight: 600,
-              }}
+              style={sendBtnStyle}
+              aria-label="Send message"
             >
-              SEND
+              <SendIcon />
             </button>
           </div>
         </div>
       )}
 
-      {/* ANIMATIONS */}
+      {/* ── FAB ── */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close chat" : "Open chat"}
+        style={fabStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#a93226")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#c0392b")}
+      >
+        {open ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        ) : (
+          <RobotIcon size={20} color="#fff" />
+        )}
+      </button>
+
       <style>{`
-        @keyframes popIn {
-          0% {
-            opacity: 0;
-            transform: scale(0.92) translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
-        }
-
         @keyframes msgIn {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(255,59,59,0.4); }
-          70% { box-shadow: 0 0 0 12px rgba(255,59,59,0); }
-          100% { box-shadow: 0 0 0 0 rgba(255,59,59,0); }
+        @keyframes bounce {
+          0%, 60%, 100% { transform: translateY(0); }
+          30%            { transform: translateY(-5px); }
+        }
+        @keyframes popIn {
+          from { opacity: 0; transform: scale(0.94) translateY(12px); }
+          to   { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
     </>
   );
 }
+
+// ── ICONS ──────────────────────────────────────────────
+function RobotIcon({ size, color }: { size: number; color: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="6" width="14" height="12" rx="3" />
+      <path d="M12 2v4" />
+      <circle cx="12" cy="2" r="1" />
+      <circle cx="9" cy="12" r="1" fill={color} />
+      <circle cx="15" cy="12" r="1" fill={color} />
+      <path d="M9 16h6" />
+    </svg>
+  );
+}
+
+function SendIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" fill="#fff" stroke="none" />
+    </svg>
+  );
+}
+
+// ── STYLES ─────────────────────────────────────────────
+const windowStyle: React.CSSProperties = {
+  position: "fixed",
+  bottom: 84,
+  right: 22,
+  width: "min(370px, 92vw)",
+  height: 530,
+  zIndex: 9999,
+  display: "flex",
+  flexDirection: "column",
+  borderRadius: 14,
+  overflow: "hidden",
+  background: "#111",
+  border: "1px solid rgba(255,255,255,0.09)",
+  animation: "popIn 0.22s ease-out",
+  transformOrigin: "bottom right",
+};
+
+const headerStyle: React.CSSProperties = {
+  padding: "14px 16px",
+  background: "#161616",
+  borderBottom: "1px solid rgba(255,255,255,0.07)",
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+};
+
+const avatarStyle: React.CSSProperties = {
+  width: 34,
+  height: 34,
+  borderRadius: "50%",
+  background: "#c0392b",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+};
+
+const msgsStyle: React.CSSProperties = {
+  flex: 1,
+  padding: "14px 12px",
+  overflowY: "auto",
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+};
+
+const chipStyle: React.CSSProperties = {
+  fontSize: 11,
+  padding: "5px 11px",
+  borderRadius: 20,
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.09)",
+  color: "#aaa",
+  cursor: "pointer",
+  transition: "all 0.15s ease",
+};
+
+const botMiniAvatarStyle: React.CSSProperties = {
+  width: 26,
+  height: 26,
+  borderRadius: "50%",
+  background: "#1e1e1e",
+  border: "1px solid rgba(255,255,255,0.08)",
+  flexShrink: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 10,
+  color: "#666",
+  marginTop: 2,
+};
+
+const userMiniAvatarStyle: React.CSSProperties = {
+  ...botMiniAvatarStyle,
+  background: "#3a1010",
+  borderColor: "rgba(192,57,43,0.3)",
+  color: "#c0392b",
+};
+
+const inputStyle: React.CSSProperties = {
+  flex: 1,
+  background: "#1a1a1a",
+  border: "1px solid rgba(255,255,255,0.09)",
+  borderRadius: 10,
+  padding: "10px 13px",
+  color: "#f0f0f0",
+  fontSize: 13,
+  outline: "none",
+};
+
+const sendBtnStyle: React.CSSProperties = {
+  width: 40,
+  height: 40,
+  borderRadius: 10,
+  background: "#c0392b",
+  border: "none",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+  transition: "background 0.15s ease",
+};
+
+const fabStyle: React.CSSProperties = {
+  position: "fixed",
+  bottom: 22,
+  right: 22,
+  zIndex: 9999,
+  width: 52,
+  height: 52,
+  borderRadius: "50%",
+  background: "#c0392b",
+  border: "none",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "background 0.2s ease",
+  boxShadow: "0 4px 20px rgba(192,57,43,0.4)",
+};
