@@ -56,9 +56,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
   const [phase, setPhase] = useState<"enter" | "idle" | "exit">("enter");
 
   useEffect(() => {
-    // enter → idle after animation
     const t1 = setTimeout(() => setPhase("idle"), 50);
-    // auto-dismiss after 4.5 s
     const t2 = setTimeout(() => setPhase("exit"), 4500);
     const t3 = setTimeout(onDismiss, 5100);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
@@ -67,7 +65,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
   return (
     <>
       <style>{`
-        /* Scanline + noise texture */
         @keyframes scanline {
           0%   { transform: translateY(-100%); }
           100% { transform: translateY(100vh); }
@@ -143,7 +140,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
         }
       `}</style>
 
-      {/* Full-screen dim */}
       <div
         className="success-overlay"
         style={{
@@ -154,7 +150,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
         }}
         onClick={onDismiss}
       >
-        {/* Scanline sweep */}
         <div style={{
           position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none",
         }}>
@@ -165,7 +160,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
           }} />
         </div>
 
-        {/* Glitch layer (echo of frame) */}
         <div
           className="success-frame"
           style={{
@@ -179,7 +173,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
           }}
         />
 
-        {/* Main frame */}
         <div
           className="success-frame"
           style={{
@@ -193,7 +186,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Red corner accents */}
           {[
             { top: 0, left: 0, borderTop: "2px solid #e53232", borderLeft: "2px solid #e53232" },
             { top: 0, right: 0, borderTop: "2px solid #e53232", borderRight: "2px solid #e53232" },
@@ -203,9 +195,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
             <div key={i} style={{ position: "absolute", width: 18, height: 18, ...s }} />
           ))}
 
-          {/* SVG check + circle */}
           <div style={{ position: "relative", marginBottom: 32 }}>
-            {/* Flare burst */}
             <div style={{
               position: "absolute", inset: -20,
               borderRadius: "50%",
@@ -213,7 +203,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
               animation: "flare-burst 0.8s ease-out 0.5s 1 both",
             }} />
 
-            {/* Particles */}
             {Array.from({ length: 10 }).map((_, i) => {
               const angle = (i / 10) * 360;
               const dist = 55 + Math.random() * 20;
@@ -237,9 +226,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
               width="82" height="82" viewBox="0 0 100 100"
               style={{ animation: "check-pop 0.55s cubic-bezier(.2,.8,.3,1) 0.4s both" }}
             >
-              {/* Outer ring */}
               <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a1a" strokeWidth="1.5" />
-              {/* Animated circle */}
               <circle
                 cx="50" cy="50" r="45"
                 fill="none"
@@ -251,7 +238,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
                 transform="rotate(-90 50 50)"
                 style={{ animation: "draw-circle 0.6s cubic-bezier(.4,0,.2,1) 0.45s forwards" }}
               />
-              {/* Check mark */}
               <polyline
                 points="28,52 43,67 72,35"
                 fill="none"
@@ -266,7 +252,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
             </svg>
           </div>
 
-          {/* Text */}
           <div style={{
             fontSize: 22, fontWeight: 800, color: "#fff",
             letterSpacing: "0.04em", textTransform: "uppercase",
@@ -294,7 +279,6 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
             We'll respond within 24 hours
           </div>
 
-          {/* Dismiss button */}
           <button
             onClick={onDismiss}
             style={{
@@ -371,7 +355,6 @@ function ContactForm() {
         return;
       }
 
-      // Trigger the cinematic overlay
       setShowSuccess(true);
 
       setForm({
@@ -400,17 +383,113 @@ function ContactForm() {
     <>
       {showSuccess && <SuccessOverlay onDismiss={() => setShowSuccess(false)} />}
 
-      <section
-        style={{
-          display: "flex",
-          gap: 60,
-          maxWidth: 1100,
-          margin: "0 auto",
-          padding: "40px 20px 100px",
-          alignItems: "flex-start",
-        }}
-      >
-        <div style={{ flex: 1 }}>
+      {/* ── Global responsive styles ── */}
+      <style jsx global>{`
+        .contact-section {
+          display: flex;
+          gap: 60px;
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 40px 20px 100px;
+          align-items: flex-start;
+        }
+        .contact-info {
+          flex: 1;
+        }
+        .contact-form-wrapper {
+          flex: 1;
+        }
+        .contact-form {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          background: #0b0b0b;
+          padding: 30px;
+          border: 1px solid #1a1a1a;
+          border-radius: 6px;
+        }
+        .contact-input {
+          background: #0f0f0f;
+          border: 1px solid #1f1f1f;
+          padding: 14px 16px;
+          color: #fff;
+          font-size: 14px;
+          outline: none;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .phone-row {
+          display: flex;
+          gap: 10px;
+        }
+        .country-select {
+          background: #0f0f0f;
+          border: 1px solid #1f1f1f;
+          padding: 14px 16px;
+          color: #fff;
+          font-size: 14px;
+          outline: none;
+          width: 42%;
+          box-sizing: border-box;
+          flex-shrink: 0;
+        }
+        .phone-input {
+          background: #0f0f0f;
+          border: 1px solid #1f1f1f;
+          padding: 14px 16px;
+          color: #fff;
+          font-size: 14px;
+          outline: none;
+          flex: 1;
+          min-width: 0;
+          box-sizing: border-box;
+        }
+        .submit-btn {
+          background: #e53232;
+          color: #fff;
+          border: none;
+          padding: 14px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          width: 100%;
+        }
+        .submit-btn:hover {
+          background: #ff3c3c;
+        }
+
+        @media (max-width: 768px) {
+          .contact-section {
+            flex-direction: column !important;
+            gap: 30px !important;
+            padding: 20px 16px 80px !important;
+          }
+          .contact-info,
+          .contact-form-wrapper {
+            width: 100% !important;
+          }
+          .contact-form {
+            padding: 20px !important;
+          }
+
+          /* Stack country code + phone vertically */
+          .phone-row {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+          .country-select {
+            width: 100% !important;
+          }
+          .phone-input {
+            width: 100% !important;
+            flex: none !important;
+          }
+        }
+      `}</style>
+
+      <section className="contact-section">
+        {/* Left: info */}
+        <div className="contact-info">
           <h2 style={{ fontSize: 34, fontWeight: 700, marginBottom: 20 }}>
             {"Let's build something "}
             <span style={{ color: "#e53232" }}>impossible</span>
@@ -420,9 +499,7 @@ function ContactForm() {
             Have a project in mind? We usually respond within 24 hours.
           </p>
 
-          <div
-            style={{ marginTop: 40, color: "#777", fontSize: 14, lineHeight: 2 }}
-          >
+          <div style={{ marginTop: 40, color: "#777", fontSize: 14, lineHeight: 2 }}>
             <div>hello@redlinevfx.studio</div>
             <div>Jeddah, Saudi Arabia</div>
             <div>Response Time: 24 Hours</div>
@@ -434,19 +511,10 @@ function ContactForm() {
           </div>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 18,
-              background: "#0b0b0b",
-              padding: 30,
-              border: "1px solid #1a1a1a",
-              borderRadius: 6,
-            }}
-          >
+        {/* Right: form */}
+        <div className="contact-form-wrapper">
+          <form onSubmit={handleSubmit} className="contact-form">
+
             <input
               type="text"
               name="name"
@@ -454,7 +522,7 @@ function ContactForm() {
               value={form.name}
               onChange={handleChange}
               required
-              style={inputStyle}
+              className="contact-input"
             />
 
             <input
@@ -464,16 +532,17 @@ function ContactForm() {
               value={form.email}
               onChange={handleChange}
               required
-              style={inputStyle}
+              className="contact-input"
             />
 
-            <div style={{ display: "flex", gap: 10 }}>
+            {/* Phone row — stacks on mobile */}
+            <div className="phone-row">
               <select
                 name="countryCode"
                 value={form.countryCode}
                 onChange={handleChange}
                 required
-                style={{ ...inputStyle, width: "40%" }}
+                className="country-select"
               >
                 <option value="">Country Code</option>
                 {countryOptions.map((c, index) => (
@@ -490,7 +559,7 @@ function ContactForm() {
                 value={form.phone}
                 onChange={handleChange}
                 required
-                style={{ ...inputStyle, flex: 1 }}
+                className="phone-input"
               />
             </div>
 
@@ -498,7 +567,7 @@ function ContactForm() {
               name="plan"
               value={form.plan}
               onChange={handleChange}
-              style={inputStyle}
+              className="contact-input"
             >
               <option value="">Select Plan</option>
               <option value="01 STARTER - SAR 4,500 / month">01 Starter - SAR 4,500 / month</option>
@@ -512,7 +581,7 @@ function ContactForm() {
               name="mixMatch"
               value={form.mixMatch}
               onChange={handleChange}
-              style={inputStyle}
+              className="contact-input"
             >
               <option value="">Mix & Match Services</option>
               {mixMatchOptions.map((item) => (
@@ -529,39 +598,16 @@ function ContactForm() {
               onChange={handleChange}
               rows={6}
               required
-              style={{ ...inputStyle, resize: "none" }}
+              className="contact-input"
+              style={{ resize: "none" }}
             />
 
-            <button
-              type="submit"
-              style={buttonStyle}
-              onMouseEnter={(e: any) =>
-                (e.currentTarget.style.background = "#ff3c3c")
-              }
-              onMouseLeave={(e: any) =>
-                (e.currentTarget.style.background = "#e53232")
-              }
-            >
+            <button type="submit" className="submit-btn">
               Send Message
             </button>
+
           </form>
         </div>
-
-        <style jsx>{`
-          @media (max-width: 768px) {
-            section {
-              flex-direction: column !important;
-              gap: 30px !important;
-              padding: 20px 16px 80px !important;
-            }
-            section > div { width: 100% !important; }
-            form { padding: 20px !important; }
-            form > div:nth-of-type(3) { flex-direction: column !important; }
-            form > div:nth-of-type(3) select,
-            form > div:nth-of-type(3) input { width: 100% !important; }
-            input, select, textarea { width: 100% !important; }
-          }
-        `}</style>
       </section>
     </>
   );
