@@ -58,177 +58,177 @@ export default function ChatBot() {
     }
   };
 
-  return (
-    <>
-      {/* ── CHAT WINDOW ── */}
-      {open && (
-        <div style={windowStyle}>
-          {/* Header */}
-          <div style={headerStyle}>
-            <div style={avatarStyle}>
-              <RobotIcon size={16} color="#fff" />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
-                Redline AI
-              </div>
-              <div style={{ fontSize: 11, color: "#666", marginTop: 2, display: "flex", alignItems: "center", gap: 5 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
-                Online · CGI studio assistant
-              </div>
-            </div>
-            <button
-              onClick={() => setOpen(false)}
-              style={{ background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: 18, lineHeight: 1, padding: "2px 4px" }}
-              aria-label="Close chat"
-            >
-              ✕
-            </button>
-          </div>
+//   return (
+//     <>
+//       {/* ── CHAT WINDOW ── */}
+//       {open && (
+//         <div style={windowStyle}>
+//           {/* Header */}
+//           <div style={headerStyle}>
+//             <div style={avatarStyle}>
+//               <RobotIcon size={16} color="#fff" />
+//             </div>
+//             <div style={{ flex: 1 }}>
+//               <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
+//                 Redline AI
+//               </div>
+//               <div style={{ fontSize: 11, color: "#666", marginTop: 2, display: "flex", alignItems: "center", gap: 5 }}>
+//                 <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block" }} />
+//                 Online · CGI studio assistant
+//               </div>
+//             </div>
+//             <button
+//               onClick={() => setOpen(false)}
+//               style={{ background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: 18, lineHeight: 1, padding: "2px 4px" }}
+//               aria-label="Close chat"
+//             >
+//               ✕
+//             </button>
+//           </div>
 
-          {/* Quick prompts */}
-          <div style={{ padding: "10px 12px", display: "flex", flexWrap: "wrap", gap: 6, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            {PROMPTS.map((p) => (
-              <button
-                key={p}
-                onClick={() => sendMessage(p)}
-                style={chipStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(192,57,43,0.15)";
-                  e.currentTarget.style.borderColor = "rgba(192,57,43,0.4)";
-                  e.currentTarget.style.color = "#e57373";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-                  e.currentTarget.style.color = "#aaa";
-                }}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
+//           {/* Quick prompts */}
+//           <div style={{ padding: "10px 12px", display: "flex", flexWrap: "wrap", gap: 6, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+//             {PROMPTS.map((p) => (
+//               <button
+//                 key={p}
+//                 onClick={() => sendMessage(p)}
+//                 style={chipStyle}
+//                 onMouseEnter={(e) => {
+//                   e.currentTarget.style.background = "rgba(192,57,43,0.15)";
+//                   e.currentTarget.style.borderColor = "rgba(192,57,43,0.4)";
+//                   e.currentTarget.style.color = "#e57373";
+//                 }}
+//                 onMouseLeave={(e) => {
+//                   e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+//                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+//                   e.currentTarget.style.color = "#aaa";
+//                 }}
+//               >
+//                 {p}
+//               </button>
+//             ))}
+//           </div>
 
-          {/* Messages */}
-          <div ref={chatRef} style={msgsStyle}>
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: 8,
-                  maxWidth: "88%",
-                  alignSelf: m.role === "user" ? "flex-end" : "flex-start",
-                  flexDirection: m.role === "user" ? "row-reverse" : "row",
-                  animation: "msgIn 0.2s ease",
-                }}
-              >
-                <div style={m.role === "user" ? userMiniAvatarStyle : botMiniAvatarStyle}>
-                  {m.role === "user" ? "U" : "AI"}
-                </div>
-                <div
-                  style={{
-                    padding: "10px 13px",
-                    borderRadius: m.role === "user" ? "12px 4px 12px 12px" : "4px 12px 12px 12px",
-                    fontSize: 13,
-                    lineHeight: 1.55,
-                    color: "#f0f0f0",
-                    background: m.role === "user"
-                      ? "#c0392b"
-                      : "#1c1c1c",
-                    border: m.role === "user"
-                      ? "none"
-                      : "1px solid rgba(255,255,255,0.07)",
-                  }}
-                >
-                  {m.text}
-                </div>
-              </div>
-            ))}
+//           {/* Messages */}
+//           <div ref={chatRef} style={msgsStyle}>
+//             {messages.map((m, i) => (
+//               <div
+//                 key={i}
+//                 style={{
+//                   display: "flex",
+//                   gap: 8,
+//                   maxWidth: "88%",
+//                   alignSelf: m.role === "user" ? "flex-end" : "flex-start",
+//                   flexDirection: m.role === "user" ? "row-reverse" : "row",
+//                   animation: "msgIn 0.2s ease",
+//                 }}
+//               >
+//                 <div style={m.role === "user" ? userMiniAvatarStyle : botMiniAvatarStyle}>
+//                   {m.role === "user" ? "U" : "AI"}
+//                 </div>
+//                 <div
+//                   style={{
+//                     padding: "10px 13px",
+//                     borderRadius: m.role === "user" ? "12px 4px 12px 12px" : "4px 12px 12px 12px",
+//                     fontSize: 13,
+//                     lineHeight: 1.55,
+//                     color: "#f0f0f0",
+//                     background: m.role === "user"
+//                       ? "#c0392b"
+//                       : "#1c1c1c",
+//                     border: m.role === "user"
+//                       ? "none"
+//                       : "1px solid rgba(255,255,255,0.07)",
+//                   }}
+//                 >
+//                   {m.text}
+//                 </div>
+//               </div>
+//             ))}
 
-            {typing && (
-              <div style={{ display: "flex", gap: 8, alignSelf: "flex-start" }}>
-                <div style={botMiniAvatarStyle}>AI</div>
-                <div style={{
-                  padding: "12px 16px",
-                  background: "#1c1c1c",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: "4px 12px 12px 12px",
-                  display: "flex",
-                  gap: 5,
-                  alignItems: "center",
-                }}>
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        background: "#555",
-                        display: "inline-block",
-                        animation: `bounce 0.9s ${delay}ms infinite`,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+//             {typing && (
+//               <div style={{ display: "flex", gap: 8, alignSelf: "flex-start" }}>
+//                 <div style={botMiniAvatarStyle}>AI</div>
+//                 <div style={{
+//                   padding: "12px 16px",
+//                   background: "#1c1c1c",
+//                   border: "1px solid rgba(255,255,255,0.07)",
+//                   borderRadius: "4px 12px 12px 12px",
+//                   display: "flex",
+//                   gap: 5,
+//                   alignItems: "center",
+//                 }}>
+//                   {[0, 150, 300].map((delay) => (
+//                     <span
+//                       key={delay}
+//                       style={{
+//                         width: 6,
+//                         height: 6,
+//                         borderRadius: "50%",
+//                         background: "#555",
+//                         display: "inline-block",
+//                         animation: `bounce 0.9s ${delay}ms infinite`,
+//                       }}
+//                     />
+//                   ))}
+//                 </div>
+//               </div>
+//             )}
+//           </div>
 
-          {/* Input */}
-          <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Ask anything about Redline…"
-              style={inputStyle}
-            />
-            <button
-              onClick={() => sendMessage()}
-              style={sendBtnStyle}
-              aria-label="Send message"
-            >
-              <SendIcon />
-            </button>
-          </div>
-        </div>
-      )}
+//           {/* Input */}
+//           <div style={{ display: "flex", gap: 8, padding: "10px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+//             <input
+//               value={input}
+//               onChange={(e) => setInput(e.target.value)}
+//               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+//               placeholder="Ask anything about Redline…"
+//               style={inputStyle}
+//             />
+//             <button
+//               onClick={() => sendMessage()}
+//               style={sendBtnStyle}
+//               aria-label="Send message"
+//             >
+//               <SendIcon />
+//             </button>
+//           </div>
+//         </div>
+//       )}
 
-      {/* ── FAB ── */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Open chat"}
-        style={fabStyle}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#a93226")}
-        onMouseLeave={(e) => (e.currentTarget.style.background = "#c0392b")}
-      >
-        {open ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        ) : (
-          <RobotIcon size={20} color="#fff" />
-        )}
-      </button>
+//       {/* ── FAB ── */}
+//       <button
+//         onClick={() => setOpen((v) => !v)}
+//         aria-label={open ? "Close chat" : "Open chat"}
+//         style={fabStyle}
+//         onMouseEnter={(e) => (e.currentTarget.style.background = "#a93226")}
+//         onMouseLeave={(e) => (e.currentTarget.style.background = "#c0392b")}
+//       >
+//         {open ? (
+//           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+//             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+//           </svg>
+//         ) : (
+//           <RobotIcon size={20} color="#fff" />
+//         )}
+//       </button>
 
-      <style>{`
-        @keyframes msgIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounce {
-          0%, 60%, 100% { transform: translateY(0); }
-          30%            { transform: translateY(-5px); }
-        }
-        @keyframes popIn {
-          from { opacity: 0; transform: scale(0.94) translateY(12px); }
-          to   { opacity: 1; transform: scale(1) translateY(0); }
-        }
-      `}</style>
-    </>
-  );
+//       <style>{`
+//         @keyframes msgIn {
+//           from { opacity: 0; transform: translateY(6px); }
+//           to   { opacity: 1; transform: translateY(0); }
+//         }
+//         @keyframes bounce {
+//           0%, 60%, 100% { transform: translateY(0); }
+//           30%            { transform: translateY(-5px); }
+//         }
+//         @keyframes popIn {
+//           from { opacity: 0; transform: scale(0.94) translateY(12px); }
+//           to   { opacity: 1; transform: scale(1) translateY(0); }
+//         }
+//       `}</style>
+//     </>
+//   );
 }
 
 // ── ICONS ──────────────────────────────────────────────

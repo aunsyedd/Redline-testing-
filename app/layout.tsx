@@ -57,7 +57,7 @@ export default function RootLayout({
         <ClientWrapper>
           <div className="page-fade">{children}</div>
         </ClientWrapper>
-                   <ChatBot />
+                   {/* <ChatBot /> */}
       </body>
     </html>
   );
