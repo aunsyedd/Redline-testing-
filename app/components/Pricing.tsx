@@ -103,6 +103,39 @@ export default function Pricing() {
         margin: "0 auto",
       }}
     >
+      <style>{`
+        .pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 20px;
+          align-items: stretch;
+        }
+
+        @media (max-width: 640px) {
+          .pricing-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+          }
+
+          .pricing-card {
+            padding: 20px 16px !important;
+            min-height: 260px !important;
+          }
+
+          .pricing-card-price {
+            font-size: 26px !important;
+          }
+
+          .pricing-card-name {
+            font-size: 10px !important;
+          }
+
+          #pricing {
+            padding: 60px 16px !important;
+          }
+        }
+      `}</style>
+
       <div
         style={{
           fontSize: 11,
@@ -127,17 +160,11 @@ export default function Pricing() {
         Mix & Match
       </h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 20,
-          alignItems: "stretch",
-        }}
-      >
+      <div className="pricing-grid">
         {tiers.map((tier, i) => (
           <div
             key={i}
+            className="pricing-card"
             style={{
               background: tier.popular ? "#1a0a0a" : "#111",
               border: tier.popular
@@ -160,6 +187,7 @@ export default function Pricing() {
             }}
           >
             <div
+              className="pricing-card-name"
               style={{
                 fontSize: 11,
                 letterSpacing: "0.18em",
@@ -173,7 +201,7 @@ export default function Pricing() {
             </div>
 
             <div
-              className="font-display"
+              className="font-display pricing-card-price"
               style={{
                 fontSize: 42,
                 color: tier.popular ? "#e53232" : "#f0f0f0",
