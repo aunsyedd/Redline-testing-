@@ -500,7 +500,7 @@ function ContactForm() {
           </p>
 
           <div style={{ marginTop: 40, color: "#777", fontSize: 14, lineHeight: 2 }}>
-            <div>hello@redlinevfx.studio</div>
+            <div>info@redlinevfx.com</div>
             <div>Jeddah, Saudi Arabia</div>
             <div>Response Time: 24 Hours</div>
           </div>
