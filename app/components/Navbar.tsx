@@ -11,7 +11,7 @@ export default function Navbar() {
   const links = [
     { label: "View Our Cinematic Shoots", href: "/shoots" },
     { label: "Explore The Plans", href: "/Plans" },
-    { label: "Pricing Deck", href: "/Pkg2" },
+    { label: "Plan's Pricing Deck", href: "/Pkg2" },
     { label: "Contact", href: "/contact" },
   ];
 
