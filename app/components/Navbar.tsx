@@ -114,10 +114,10 @@ export default function Navbar() {
             aria-label={tr.nav.langToggle}
             style={{
               background: "transparent",
-              border: "1px solid #333",
+              border: "none",
               color: "#aaa",
               cursor: "pointer",
-              fontSize: "clamp(9px, 1.2vw, 11px)",
+              fontSize: "clamp(18px, 1.2vw, 11px)",
               fontWeight: 600,
               letterSpacing: "0.06em",
               padding: "6px 10px",
@@ -256,7 +256,7 @@ export default function Navbar() {
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             background: "none",
-            border: "1px solid #333",
+            border: "none",
             padding: "10px 20px",
             cursor: "pointer",
           }}
