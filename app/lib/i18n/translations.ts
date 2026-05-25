@@ -55,6 +55,11 @@ export type Translations = {
     clickStart: string;
     tiers: PricingTier[];
   };
+  work: {
+    label: string;
+    title: string;
+    projects: { title: string; category: string }[];
+  };
   cta: {
     eyebrow: string;
     headline: string;
@@ -275,6 +280,18 @@ export const translations: Record<Locale, Translations> = {
       clickStart: "Click to start",
       tiers: enTiers,
     },
+    work: {
+      label: "Work",
+      title: "Selected work",
+      projects: [
+        { title: "Chef Station", category: "F&B / PERFORMANCE" },
+        { title: "Komila Cafe", category: "F&B / CGI" },
+        { title: "Jeddah Yacht Club", category: "HOSPITALITY / CONCEPT" },
+        { title: "Coffee Cup", category: "CINEMATIC / CGI" },
+        { title: "Gym Vertical", category: "WELLNESS / PRODUCT" },
+        { title: "Architectural Pieces", category: "REAL ESTATE / VIZ" },
+      ],
+    },
     cta: {
       eyebrow: "Ready to start",
       headline: "Got a brand worth seeing?",
@@ -441,6 +458,18 @@ export const translations: Record<Locale, Translations> = {
       explorePlans: "استكشف الباقات الرئيسية",
       clickStart: "ابدأ الآن",
       tiers: arTiers,
+    },
+    work: {
+      label: "أعمال",
+      title: "أعمال مختارة",
+projects: [
+  { title: "محطة الشيف", category: "مطاعم ومشروبات / أداء" },
+  { title: "مقهى كوميلا", category: "مطاعم ومشروبات / CGI" },
+  { title: "نادي اليخوت في جدة", category: "ضيافة / مفهوم" },
+  { title: "كوب القهوة", category: "سينمائي / CGI" },
+  { title: "صالة رياضية رأسية", category: "عافية / منتج" },
+  { title: "قطع معمارية", category: "عقارات / تصور" },
+]
     },
     cta: {
       eyebrow: "جاهز للبدء",

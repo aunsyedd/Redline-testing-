@@ -226,6 +226,7 @@ export default function Pricing() {
         >
           {tr.pricing.clickStart}
         </Link>
+        
       </div>
     </section>
   );

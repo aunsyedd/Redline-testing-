@@ -1,130 +1,151 @@
-// "use client";
-// import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-// const projects = [
-//   { tag: "CGI", title: "Komila Cafe", hue: "20,10,10" },
-//   { tag: "F&B", title: "Coffee Cup", hue: "10,15,10" },
-//   { tag: "FITNESS", title: "Jeddah Yacht Club", hue: "10,10,20" },
-//   { tag: "PRODUCT", title: "Product spin", hue: "15,10,10" },
-//   { tag: "F&B", title: "Chef Station", hue: "10,12,10" },
-//   { tag: "VFX", title: "Green screen", hue: "10,15,15" },
-// ];
+export default function SelectedWork() {
+  const { tr } = useLanguage();
+  const projects = tr.work.projects;
+  const [active, setActive] = useState(0);
 
-// export default function SelectedWork() {
-//   const [hovered, setHovered] = useState<number | null>(null);
+  // Auto slide every 2.5 sec
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % projects.length);
+    }, 2500);
 
-//   return (
-//     <section
-//       id="selected work"
-//       style={{
-//         padding: "100px 40px",
-//         maxWidth: 1100,
-//         margin: "0 auto",
-//       }}
-//     >
-//       <div
-//         style={{
-//           fontSize: 11,
-//           letterSpacing: "0.2em",
-//           textTransform: "uppercase",
-//           color: "#e53232",
-//           marginBottom: 16,
-//           fontWeight: 600,
-//         }}
-//       >
-//         Selected Work
-//       </div>
-//       <h2
-//         className="font-display"
-//         style={{ fontSize: "clamp(40px, 5vw, 60px)", marginBottom: 48, color: "#f0f0f0" }}
-//       >
-//         Recent projects.
-//       </h2>
+    return () => clearInterval(interval);
+  }, [projects.length]);
 
-//       <div
-//         style={{
-//           display: "grid",
-//           gridTemplateColumns: "repeat(3, 1fr)",
-//           gap: 3,
-//         }}
-//       >
-//         {projects.map((p, i) => (
-//           <div
-//             key={i}
-//             onMouseEnter={() => setHovered(i)}
-//             onMouseLeave={() => setHovered(null)}
-//             style={{
-//               aspectRatio: "4/3",
-//               background: `rgb(${p.hue})`,
-//               border: "1px solid #1e1e1e",
-//               position: "relative",
-//               overflow: "hidden",
-//               cursor: "pointer",
-//               transition: "transform 0.3s ease",
-//               transform: hovered === i ? "scale(1.02)" : "scale(1)",
-//             }}
-//           >
-//             {/* Gradient overlay */}
-//             <div
-//               style={{
-//                 position: "absolute",
-//                 inset: 0,
-//                 background: `linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85) 100%)`,
-//               }}
-//             />
-//             {/* Red tint on hover */}
-//             <div
-//               style={{
-//                 position: "absolute",
-//                 inset: 0,
-//                 background: "rgba(229,50,50,0.08)",
-//                 opacity: hovered === i ? 1 : 0,
-//                 transition: "opacity 0.3s",
-//               }}
-//             />
-//             {/* Grid texture */}
-//             <div
-//               style={{
-//                 position: "absolute",
-//                 inset: 0,
-//                 backgroundImage:
-//                   "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
-//                 backgroundSize: "40px 40px",
-//               }}
-//             />
-//             {/* Tag + title */}
-//             <div
-//               style={{
-//                 position: "absolute",
-//                 bottom: 16,
-//                 left: 16,
-//               }}
-//             >
-//               <div
-//                 style={{
-//                   fontSize: 9,
-//                   letterSpacing: "0.2em",
-//                   textTransform: "uppercase",
-//                   color: "#e53232",
-//                   marginBottom: 4,
-//                   fontWeight: 600,
-//                 }}
-//               >
-//                 {p.tag}
-//               </div>
-//               <div
-//                 style={{
-//                   fontSize: 13,
-//                   color: "#ddd",
-//                   fontWeight: 500,
-//                 }}
-//               >
-//                 {p.title}
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
+  return (
+    <section
+      id="selected-work"
+      style={{
+        background: "#00000002",
+        padding: "clamp(80px, 12vw, 160px) clamp(20px, 6vw, 60px)",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
+        color: "#f5f5f5",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+        }}
+      >
+        {/* Small Label */}
+        <div
+          style={{
+            color: "#e53232",
+            fontSize: 14,
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            marginBottom: 14,
+          }}
+        >
+          {tr.work.label}
+        </div>
+
+        {/* Heading */}
+        <h2
+          className="font-display"
+          style={{
+            fontSize: "clamp(48px, 7vw, 86px)",
+            lineHeight: 1,
+            marginBottom: 90,
+            fontWeight: 320,
+          }}
+        >
+          {tr.work.title}
+        </h2>
+
+        {/* Sliding Work */}
+        <div
+          style={{
+            position: "relative",
+            height: 180,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {projects.map((project, i) => {
+            const isActive = i === active;
+
+            return (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  transition: "all 0.8s ease",
+                  opacity: isActive ? 1 : 0,
+                  transform: isActive
+                    ? "translateY(0px)"
+                    : "translateY(40px)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 18,
+                    marginBottom: 10,
+                  }}
+                >
+                  {/* Red Line */}
+                  <div
+                    style={{
+                      width: 24,
+                      height: 3,
+                      background: "#e53232",
+                    }}
+                  />
+
+                  {/* Title */}
+                  <h3
+                    style={{
+                      fontSize: "clamp(30px, 5vw, 48px)",
+                      fontWeight: 700,
+                      margin: 0,
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+                </div>
+
+                {/* Category */}
+                <div
+                  style={{
+                    color: "#e53232",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {project.category}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {/* Bottom Center Red Line */}
+<div
+  style={{
+  position: "absolute",
+  bottom: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
+  width: "60%",
+  height: 1,
+  background:
+    "linear-gradient(90deg, transparent 0%, #e53232 50%, transparent 100%)",
+}}
+/>
+      </div>
+    </section>
+  );
+}
