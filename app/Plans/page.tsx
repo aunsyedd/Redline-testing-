@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation"; // ← add this
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
@@ -15,6 +16,8 @@ type PricingItem = {
 };
 
 export default function PricingPage() {
+  const router = useRouter(); // ← add this
+
   const items: PricingItem[] = [
     {
       id: "01",
@@ -58,6 +61,12 @@ export default function PricingPage() {
       sub: "/ month",
     },
   ];
+
+  // ✅ Store the target id in sessionStorage, then navigate to /Pkg2
+  const handlePlanClick = (id: string) => {
+    sessionStorage.setItem("scrollToPlan", id);
+    router.push("/Pkg2");
+  };
 
   return (
     <>
@@ -131,7 +140,7 @@ export default function PricingPage() {
               alignItems: "center",
             }}
           >
-            {["#", "Plan", "Description", "Price", ""].map((h) => (
+            {["#", "Plan", "Description", "Price", "Plan Details"].map((h) => (
               <span
                 key={h}
                 style={{
@@ -150,8 +159,6 @@ export default function PricingPage() {
           {/* Rows */}
           <div>
             {items.map((item, index) => {
-              const planValue = `${item.id} ${item.title} - ${item.price} ${item.sub}`;
-
               return (
                 <div
                   key={index}
@@ -297,41 +304,78 @@ export default function PricingPage() {
                       </div>
                     </div>
 
-                    {/* Arrow */}
-                    <Link
-                      href={`/contact?plan=${encodeURIComponent(planValue)}`}
-                      style={{
-                        background: "transparent",
-                        border: "1px solid #1e1e1e",
-                        color: "#e53232",
-                        width: 44,
-                        height: 44,
-                        borderRadius: "50%",
-                        fontSize: 16,
-                        transition: "all 0.25s ease",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textDecoration: "none",
-                        flexShrink: 0,
-                      }}
-                      onMouseEnter={(e) => {
-                        const el = e.currentTarget;
-                        el.style.background = "#e53232";
-                        el.style.color = "#fff";
-                        el.style.borderColor = "#e53232";
-                        el.style.transform = "translateX(3px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        const el = e.currentTarget;
-                        el.style.background = "transparent";
-                        el.style.color = "#e53232";
-                        el.style.borderColor = "#1e1e1e";
-                        el.style.transform = "translateX(0)";
-                      }}
-                    >
-                      →
-                    </Link>
+                    {/* Arrow ✅ uses handlePlanClick instead of Link */}
+                    <div style={{ position: "relative", display: "inline-block" }}>
+                      <button
+                        onClick={() => handlePlanClick(item.id)}
+                        style={{
+                          background: "transparent",
+                          border: "1px solid #1e1e1e",
+                          color: "#e53232",
+                          width: 44,
+                          height: 44,
+                          borderRadius: "50%",
+                          fontSize: 16,
+                          transition: "all 0.25s ease",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          flexShrink: 0,
+                          position: "relative",
+                        }}
+                        onMouseEnter={(e) => {
+                          const el = e.currentTarget;
+                          el.style.background = "#e53232";
+                          el.style.color = "#fff";
+                          el.style.borderColor = "#e53232";
+                          el.style.transform = "translateX(3px)";
+                          const tooltip = el.nextElementSibling as HTMLElement;
+                          if (tooltip) {
+                            tooltip.style.opacity = "1";
+                            tooltip.style.visibility = "visible";
+                            tooltip.style.transform = "translateY(0)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          const el = e.currentTarget;
+                          el.style.background = "transparent";
+                          el.style.color = "#e53232";
+                          el.style.borderColor = "#1e1e1e";
+                          el.style.transform = "translateX(0)";
+                          const tooltip = el.nextElementSibling as HTMLElement;
+                          if (tooltip) {
+                            tooltip.style.opacity = "0";
+                            tooltip.style.visibility = "hidden";
+                            tooltip.style.transform = "translateY(5px)";
+                          }
+                        }}
+                      >
+                        →
+                      </button>
+
+                      <span
+                        style={{
+                          position: "absolute",
+                          bottom: "55px",
+                          left: "50%",
+                          transform: "translateX(-50%) translateY(5px)",
+                          background: "#111",
+                          color: "#fff",
+                          padding: "6px 10px",
+                          borderRadius: "8px",
+                          fontSize: "12px",
+                          whiteSpace: "nowrap",
+                          opacity: 0,
+                          visibility: "hidden",
+                          transition: "all 0.25s ease",
+                          pointerEvents: "none",
+                          zIndex: 10,
+                        }}
+                      >
+                        Click for more explanation
+                      </span>
+                    </div>
                   </div>
 
                   {/* MOBILE ROW */}
@@ -445,8 +489,9 @@ export default function PricingPage() {
                             {item.sub}
                           </div>
                         </div>
-                        <Link
-                          href={`/contact?plan=${encodeURIComponent(planValue)}`}
+                        {/* ✅ Mobile arrow also uses handlePlanClick */}
+                        <button
+                          onClick={() => handlePlanClick(item.id)}
                           style={{
                             background: "transparent",
                             border: "1px solid #1e1e1e",
@@ -458,7 +503,7 @@ export default function PricingPage() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            textDecoration: "none",
+                            cursor: "pointer",
                             flexShrink: 0,
                             transition: "all 0.25s ease",
                           }}
@@ -476,7 +521,7 @@ export default function PricingPage() {
                           }}
                         >
                           →
-                        </Link>
+                        </button>
                       </div>
                     </div>
 
@@ -530,12 +575,8 @@ export default function PricingPage() {
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "#e53232")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "#6b6b6b")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#e53232")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
             >
               Need a custom scope? Talk to us →
             </Link>

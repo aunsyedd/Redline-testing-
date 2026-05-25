@@ -3,10 +3,8 @@
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-/* ─────────────────────────────────────────
-   TYPES
-───────────────────────────────────────── */
 type PackageType = {
   id: string;
   slug: string;
@@ -18,9 +16,6 @@ type PackageType = {
   items: string[];
 };
 
-/* ─────────────────────────────────────────
-   SHARED DATA
-───────────────────────────────────────── */
 const packages: PackageType[] = [
   {
     id: "01",
@@ -62,8 +57,7 @@ const packages: PackageType[] = [
     title: "CAMPAIGN",
     price: "SAR 18,500",
     period: "per project · 4–6 weeks",
-    description:
-      "One-off campaigns. Launches, openings, seasonal pushes.",
+    description: "One-off campaigns. Launches, openings, seasonal pushes.",
     items: [
       "1 flagship hero CGI / brand film (up to 60s)",
       "5 short-form cutdowns",
@@ -194,7 +188,7 @@ function PackageSection({
 
   return (
     <section
-      id={`pkg-${pkg.id}`}
+      id={pkg.id} // ✅ plain id: "01", "02", "03", "04", "05"
       style={{
         minHeight: "100vh",
         background: "#050505",
@@ -280,17 +274,8 @@ function PackageSection({
         </h2>
 
         <div style={{ marginBottom: 20 }}>
-          <span style={{ fontSize: 28, fontWeight: 700 }}>
-            {pkg.price}
-          </span>
-
-          <span
-            style={{
-              fontSize: 14,
-              color: "#888",
-              marginLeft: 8,
-            }}
-          >
+          <span style={{ fontSize: 28, fontWeight: 700 }}>{pkg.price}</span>
+          <span style={{ fontSize: 14, color: "#888", marginLeft: 8 }}>
             {pkg.period}
           </span>
         </div>
@@ -306,13 +291,7 @@ function PackageSection({
           {pkg.description}
         </p>
 
-        <div
-          style={{
-            fontSize: 13,
-            color: "#ccc",
-            lineHeight: 1.8,
-          }}
-        >
+        <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.8 }}>
           {pkg.items.map((item: string, i: number) => (
             <div key={i}>— {item}</div>
           ))}
@@ -345,7 +324,6 @@ function PackageSection({
         </button>
       </div>
 
-      {/* SCROLL ARROW */}
       {nextId && <ScrollArrow nextId={nextId} />}
 
       <style jsx>{`
@@ -369,23 +347,31 @@ function PackageSection({
    FULL PAGE
 ───────────────────────────────────────── */
 export default function PlansPage() {
+useEffect(() => {
+  const targetId = sessionStorage.getItem("scrollToPlan");
+  if (targetId) {
+    sessionStorage.removeItem("scrollToPlan");
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 150);
+  }
+}, []);
+
   return (
     <>
       <Navbar />
 
-      <main
-        style={{
-          minHeight: "100vh",
-          background: "#050505",
-        }}
-      >
+      <main style={{ minHeight: "100vh", background: "#050505" }}>
         {packages.map((pkg, index) => (
           <PackageSection
             key={pkg.id}
             pkg={pkg}
             nextId={
               index < packages.length - 1
-                ? `pkg-${packages[index + 1].id}`
+                ? packages[index + 1].id // ✅ plain: "02", "03", etc.
                 : undefined
             }
           />
