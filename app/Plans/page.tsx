@@ -8,8 +8,13 @@ import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function PricingPage() {
   const router = useRouter();
-  const { tr } = useLanguage();
+
+  // ✅ FIXED
+  const { tr, isRtl } = useLanguage();
   const items = tr.plansPage.items;
+
+  // ✅ FIXED
+  const arrow = isRtl ? "←" : "→";
 
   // ✅ Store the target id in sessionStorage, then navigate to /Pkg2
   const handlePlanClick = (id: string) => {
@@ -22,6 +27,7 @@ export default function PricingPage() {
       <Navbar />
 
       <main
+        dir={isRtl ? "rtl" : "ltr"}
         style={{
           minHeight: "100vh",
           background: "#050505",
@@ -72,7 +78,9 @@ export default function PricingPage() {
             >
               {tr.plansPage.title}
               <br />
-              <span style={{ color: "#333", fontWeight: 300 }}>{tr.plansPage.titleSub}</span>
+              <span style={{ color: "#333", fontWeight: 300 }}>
+                {tr.plansPage.titleSub}
+              </span>
             </h2>
           </div>
 
@@ -116,7 +124,9 @@ export default function PricingPage() {
                     borderTop: "1px solid #141414",
                     transition: "background 0.25s ease",
                   }}
-                  className={`pricing-row${item.featured ? " pricing-row-featured" : ""}`}
+                  className={`pricing-row${
+                    item.featured ? " pricing-row-featured" : ""
+                  }`}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background =
                       "rgba(229,50,50,0.025)";
@@ -186,6 +196,7 @@ export default function PricingPage() {
                         >
                           {item.title}
                         </span>
+
                         {item.featured && (
                           <span
                             style={{
@@ -203,6 +214,7 @@ export default function PricingPage() {
                           </span>
                         )}
                       </div>
+
                       <div
                         style={{
                           fontSize: 10,
@@ -240,6 +252,7 @@ export default function PricingPage() {
                       >
                         {item.price}
                       </div>
+
                       <div
                         style={{
                           fontSize: 10,
@@ -253,7 +266,7 @@ export default function PricingPage() {
                       </div>
                     </div>
 
-                    {/* Arrow ✅ uses handlePlanClick instead of Link */}
+                    {/* Arrow */}
                     <div style={{ position: "relative", display: "inline-block" }}>
                       <button
                         onClick={() => handlePlanClick(item.id)}
@@ -275,40 +288,57 @@ export default function PricingPage() {
                         }}
                         onMouseEnter={(e) => {
                           const el = e.currentTarget;
+
                           el.style.background = "#e53232";
                           el.style.color = "#fff";
                           el.style.borderColor = "#e53232";
-                          el.style.transform = "translateX(3px)";
-                          const tooltip = el.nextElementSibling as HTMLElement;
+                          el.style.transform = isRtl
+                            ? "translateX(-3px)"
+                            : "translateX(3px)";
+
+                          const tooltip =
+                            el.nextElementSibling as HTMLElement;
+
                           if (tooltip) {
                             tooltip.style.opacity = "1";
                             tooltip.style.visibility = "visible";
-                            tooltip.style.transform = "translateY(0)";
+                            tooltip.style.transform = isRtl
+                              ? "translateX(50%) translateY(0)"
+                              : "translateX(-50%) translateY(0)";
                           }
                         }}
                         onMouseLeave={(e) => {
                           const el = e.currentTarget;
+
                           el.style.background = "transparent";
                           el.style.color = "#e53232";
                           el.style.borderColor = "#1e1e1e";
                           el.style.transform = "translateX(0)";
-                          const tooltip = el.nextElementSibling as HTMLElement;
+
+                          const tooltip =
+                            el.nextElementSibling as HTMLElement;
+
                           if (tooltip) {
                             tooltip.style.opacity = "0";
                             tooltip.style.visibility = "hidden";
-                            tooltip.style.transform = "translateY(5px)";
+                            tooltip.style.transform = isRtl
+                              ? "translateX(50%) translateY(5px)"
+                              : "translateX(-50%) translateY(5px)";
                           }
                         }}
                       >
-                        →
+                        {arrow}
                       </button>
 
                       <span
                         style={{
                           position: "absolute",
                           bottom: "55px",
-                          left: "50%",
-                          transform: "translateX(-50%) translateY(5px)",
+                          left: isRtl ? "auto" : "50%",
+                          right: isRtl ? "50%" : "auto",
+                          transform: isRtl
+                            ? "translateX(50%) translateY(5px)"
+                            : "translateX(-50%) translateY(5px)",
                           background: "#111",
                           color: "#fff",
                           padding: "6px 10px",
@@ -344,7 +374,13 @@ export default function PricingPage() {
                         alignItems: "flex-start",
                       }}
                     >
-                      <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 12,
+                          alignItems: "flex-start",
+                        }}
+                      >
                         <span
                           style={{
                             color: "#e53232",
@@ -356,6 +392,7 @@ export default function PricingPage() {
                         >
                           {item.id}
                         </span>
+
                         <div>
                           <div
                             style={{
@@ -375,6 +412,7 @@ export default function PricingPage() {
                             >
                               {item.title}
                             </span>
+
                             {item.featured && (
                               <span
                                 style={{
@@ -383,7 +421,8 @@ export default function PricingPage() {
                                   textTransform: "uppercase",
                                   color: "#e53232",
                                   background: "rgba(229,50,50,0.1)",
-                                  border: "1px solid rgba(229,50,50,0.2)",
+                                  border:
+                                    "1px solid rgba(229,50,50,0.2)",
                                   padding: "2px 6px",
                                   fontWeight: 700,
                                 }}
@@ -392,6 +431,7 @@ export default function PricingPage() {
                               </span>
                             )}
                           </div>
+
                           <div
                             style={{
                               fontSize: 9,
@@ -416,7 +456,11 @@ export default function PricingPage() {
                           flexShrink: 0,
                         }}
                       >
-                        <div style={{ textAlign: "right" }}>
+                        <div
+                          style={{
+                            textAlign: isRtl ? "left" : "right",
+                          }}
+                        >
                           <div
                             style={{
                               fontSize: 15,
@@ -427,6 +471,7 @@ export default function PricingPage() {
                           >
                             {item.price}
                           </div>
+
                           <div
                             style={{
                               fontSize: 9,
@@ -438,7 +483,8 @@ export default function PricingPage() {
                             {item.sub}
                           </div>
                         </div>
-                        {/* ✅ Mobile arrow also uses handlePlanClick */}
+
+                        {/* Mobile arrow */}
                         <button
                           onClick={() => handlePlanClick(item.id)}
                           style={{
@@ -458,18 +504,20 @@ export default function PricingPage() {
                           }}
                           onMouseEnter={(e) => {
                             const el = e.currentTarget;
+
                             el.style.background = "#e53232";
                             el.style.color = "#fff";
                             el.style.borderColor = "#e53232";
                           }}
                           onMouseLeave={(e) => {
                             const el = e.currentTarget;
+
                             el.style.background = "transparent";
                             el.style.color = "#e53232";
                             el.style.borderColor = "#1e1e1e";
                           }}
                         >
-                          →
+                          {arrow}
                         </button>
                       </div>
                     </div>
@@ -480,7 +528,8 @@ export default function PricingPage() {
                         color: "#444",
                         lineHeight: 1.7,
                         margin: 0,
-                        paddingLeft: 25,
+                        paddingLeft: isRtl ? 0 : 25,
+                        paddingRight: isRtl ? 25 : 0,
                       }}
                     >
                       {item.desc}
@@ -514,6 +563,7 @@ export default function PricingPage() {
             >
               {tr.plansPage.vatNote}
             </span>
+
             <Link
               href="/contact"
               style={{
@@ -524,8 +574,12 @@ export default function PricingPage() {
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#e53232")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "#e53232")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "#6b6b6b")
+              }
             >
               {tr.plansPage.customScope}
             </Link>
@@ -540,9 +594,11 @@ export default function PricingPage() {
           .pricing-table-header {
             display: none !important;
           }
+
           .pricing-row-desktop {
             display: none !important;
           }
+
           .pricing-row-mobile {
             display: flex !important;
           }
