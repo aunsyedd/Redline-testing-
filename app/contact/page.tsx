@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 /* MAIN COUNTRIES (EXPANDED) */
 const countryOptions = [
@@ -40,19 +41,14 @@ const countryOptions = [
   { label: "Sri Lanka", value: "+94" },
 ];
 
-const mixMatchOptions = [
-  { name: "One-off CGI Piece", price: "SAR 4,500" },
-  { name: "3D Architectural Visualisation", price: "SAR 2,500" },
-  { name: "Full Production Day", price: "SAR 3,500" },
-  { name: "Green-Screen Production", price: "SAR 5,500" },
-  { name: "Voiceover (AR / EN)", price: "SAR 1,500" },
-  { name: "Performance Ad Management", price: "SAR 2,500" },
-  { name: "Community Management", price: "SAR 2,500" },
-  { name: "Additional Revision Round", price: "SAR 800" },
-];
+function ContactLoading() {
+  const { tr } = useLanguage();
+  return <div style={{ color: "#fff", padding: 40 }}>{tr.contact.loading}</div>;
+}
 
 /* ─── SUCCESS OVERLAY ─────────────────────────────────────── */
 function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
+  const { tr } = useLanguage();
   const [phase, setPhase] = useState<"enter" | "idle" | "exit">("enter");
 
   useEffect(() => {
@@ -258,7 +254,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
             animation: "text-reveal 0.5s ease 1.1s both",
             textAlign: "center",
           }}>
-            Message Sent
+            {tr.contact.successTitle}
           </div>
 
           <div style={{
@@ -276,7 +272,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
             animation: "sub-reveal 0.5s ease 1.4s both",
             textAlign: "center",
           }}>
-            We'll respond within 24 hours
+            {tr.contact.successSub}
           </div>
 
           <button
@@ -303,7 +299,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
               (e.currentTarget as HTMLButtonElement).style.color = "#555";
             }}
           >
-            Close
+            {tr.contact.close}
           </button>
         </div>
       </div>
@@ -313,6 +309,7 @@ function SuccessOverlay({ onDismiss }: { onDismiss: () => void }) {
 
 /* ─── CONTACT FORM ────────────────────────────────────────── */
 function ContactForm() {
+  const { tr } = useLanguage();
   const searchParams = useSearchParams();
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -351,7 +348,7 @@ function ContactForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Failed to send message");
+        alert(data.error || tr.contact.failed);
         return;
       }
 
@@ -368,7 +365,7 @@ function ContactForm() {
       });
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      alert(tr.contact.error);
     }
   };
 
@@ -491,23 +488,22 @@ function ContactForm() {
         {/* Left: info */}
         <div className="contact-info">
           <h2 style={{ fontSize: 34, fontWeight: 700, marginBottom: 20 }}>
-            {"Let's build something "}
-            <span style={{ color: "#e53232" }}>impossible</span>
+            {tr.contact.headline}
+            <span style={{ color: "#e53232" }}>{tr.contact.headlineHighlight}</span>
           </h2>
 
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "#fff" }}>
-            Have a project in mind? We usually respond within 24 hours.
+            {tr.contact.sub}
           </p>
 
           <div style={{ marginTop: 40, color: "#777", fontSize: 14, lineHeight: 2 }}>
             <div>info@redlinevfx.com</div>
             <div>Jeddah, Saudi Arabia</div>
-            <div>Response Time: 24 Hours</div>
+            <div>{tr.contact.responseTime}</div>
           </div>
 
           <div style={{ marginTop: 40, color: "#aaa", fontSize: 13 }}>
-            Tell us your vision and we will turn it into cinematic visuals, CGI,
-            and high-impact marketing content.
+            {tr.contact.vision}
           </div>
         </div>
 
@@ -518,7 +514,7 @@ function ContactForm() {
             <input
               type="text"
               name="name"
-              placeholder="Your Name"
+              placeholder={tr.contact.name}
               value={form.name}
               onChange={handleChange}
               required
@@ -528,7 +524,7 @@ function ContactForm() {
             <input
               type="email"
               name="email"
-              placeholder="Your Email"
+              placeholder={tr.contact.email}
               value={form.email}
               onChange={handleChange}
               required
@@ -544,7 +540,7 @@ function ContactForm() {
                 required
                 className="country-select"
               >
-                <option value="">Country Code</option>
+                <option value="">{tr.contact.countryCode}</option>
                 {countryOptions.map((c, index) => (
                   <option key={`${c.value}-${index}`} value={c.value}>
                     {c.label} ({c.value})
@@ -555,7 +551,7 @@ function ContactForm() {
               <input
                 type="tel"
                 name="phone"
-                placeholder="Phone Number"
+                placeholder={tr.contact.phone}
                 value={form.phone}
                 onChange={handleChange}
                 required
@@ -569,12 +565,12 @@ function ContactForm() {
               onChange={handleChange}
               className="contact-input"
             >
-              <option value="">Select Plan</option>
-              <option value="01 STARTER - SAR 4,500 / month">01 Starter - SAR 4,500 / month</option>
-              <option value="02 GROWTH - SAR 8,500 / month">02 Growth - SAR 8,500 / month</option>
-              <option value="03 CAMPAIGN - SAR 18,500 / project">03 Campaign - SAR 18,500 / project</option>
-              <option value="04 FULL FUNNEL - SAR 14,500 / month">04 Full Funnel - SAR 14,500 / month</option>
-              <option value="05 GROWTH ENGINE - SAR 5,500 / month">05 Growth Engine - SAR 5,500 / month</option>
+              <option value="">{tr.contact.selectPlan}</option>
+              {tr.contact.planOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
 
             <select
@@ -583,8 +579,8 @@ function ContactForm() {
               onChange={handleChange}
               className="contact-input"
             >
-              <option value="">Mix & Match Services</option>
-              {mixMatchOptions.map((item) => (
+              <option value="">{tr.contact.mixMatch}</option>
+              {tr.contact.mixMatchItems.map((item) => (
                 <option key={item.name} value={`${item.name} - ${item.price}`}>
                   {item.name} - {item.price}
                 </option>
@@ -593,7 +589,7 @@ function ContactForm() {
 
             <textarea
               name="message"
-              placeholder="Tell us about your project..."
+              placeholder={tr.contact.message}
               value={form.message}
               onChange={handleChange}
               rows={6}
@@ -603,7 +599,7 @@ function ContactForm() {
             />
 
             <button type="submit" className="submit-btn">
-              Send Message
+              {tr.contact.send}
             </button>
 
           </form>
@@ -625,7 +621,7 @@ export default function ContactPage() {
           paddingTop: "120px",
         }}
       >
-        <Suspense fallback={<div style={{ color: "#fff", padding: 40 }}>Loading...</div>}>
+        <Suspense fallback={<ContactLoading />}>
           <ContactForm />
         </Suspense>
       </main>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 // ─────────────────────────────────────────────
 // CASE STUDY
@@ -257,6 +258,8 @@ export function CaseStudy() {
 // FINAL CTA
 // ─────────────────────────────────────────────
 export function FinalCTA() {
+  const { tr } = useLanguage();
+
   return (
     <section
       id="contact"
@@ -309,7 +312,7 @@ export function FinalCTA() {
             color: "#444",
           }}
         >
-          Ready to start
+          {tr.cta.eyebrow}
         </span>
         <div style={{ width: 24, height: 1, background: "#222" }} />
       </div>
@@ -325,7 +328,7 @@ export function FinalCTA() {
           fontWeight: 600,
         }}
       >
-        Got a brand worth seeing?
+        {tr.cta.headline}
         <br />
         <span
           style={{
@@ -334,7 +337,7 @@ export function FinalCTA() {
             fontWeight: 300,
           }}
         >
-          Let&apos;s make it impossible to miss.
+          {tr.cta.headlineHighlight}
         </span>
       </h2>
 
@@ -346,7 +349,7 @@ export function FinalCTA() {
           letterSpacing: "0.04em",
         }}
       >
-        15-min discovery call · No deck · Just your project, our take.
+        {tr.cta.sub}
       </p>
 
       <div
@@ -388,7 +391,7 @@ export function FinalCTA() {
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
             <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.556 4.121 1.523 5.851L0 24l6.29-1.497A11.932 11.932 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.838 0-3.568-.467-5.079-1.285l-.362-.215-3.736.889.924-3.64-.236-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
           </svg>
-          Chat on WhatsApp
+          {tr.cta.whatsapp}
         </button>
 
         <Link
@@ -419,7 +422,7 @@ export function FinalCTA() {
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
-          Send a Brief →
+          {tr.cta.brief}
         </Link>
       </div>
 
@@ -433,7 +436,7 @@ export function FinalCTA() {
           color: "#aaaaaa",
         }}
       >
-        Jeddah · KSA · Available for remote projects
+        {tr.cta.trust}
       </p>
     </section>
   );
@@ -443,6 +446,7 @@ export function FinalCTA() {
 // FOOTER
 // ─────────────────────────────────────────────
 export function Footer() {
+  const { tr } = useLanguage();
   const year = new Date().getFullYear();
 
   return (
@@ -497,7 +501,7 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            Jeddah, KSA
+            {tr.footer.location}
           </span>
         </div>
 
@@ -562,7 +566,7 @@ export function Footer() {
               textTransform: "uppercase",
             }}
           >
-            Engineered and Developed by
+            {tr.footer.engineered}
           </span>
           <a
             href="https://www.nexoratech.info/"

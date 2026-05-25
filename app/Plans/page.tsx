@@ -1,66 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation"; // ← add this
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
-
-type PricingItem = {
-  id: string;
-  title: string;
-  type: string;
-  desc: string;
-  price: string;
-  sub: string;
-  featured?: boolean;
-};
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function PricingPage() {
-  const router = useRouter(); // ← add this
-
-  const items: PricingItem[] = [
-    {
-      id: "01",
-      title: "STARTER",
-      type: "CGI RETAINER",
-      desc: "Entry-level monthly. Consistent visual content.",
-      price: "SAR 4,500",
-      sub: "/ month",
-    },
-    {
-      id: "02",
-      title: "GROWTH",
-      type: "CGI RETAINER",
-      desc: "Hero CGI plus supporting content. Most clients land here.",
-      price: "SAR 8,500",
-      sub: "/ month",
-      featured: true,
-    },
-    {
-      id: "03",
-      title: "CAMPAIGN",
-      type: "PROJECT",
-      desc: "One-off. Launches, openings, seasonal pushes.",
-      price: "SAR 18,500",
-      sub: "/ project",
-    },
-    {
-      id: "04",
-      title: "FULL FUNNEL",
-      type: "CGI + MARKETING",
-      desc: "Hero creative plus the engine that distributes it.",
-      price: "SAR 14,500",
-      sub: "/ month",
-    },
-    {
-      id: "05",
-      title: "GROWTH ENGINE",
-      type: "MARKETING ONLY",
-      desc: "Pure social and performance. Channels run by us.",
-      price: "SAR 5,500",
-      sub: "/ month",
-    },
-  ];
+  const router = useRouter();
+  const { tr } = useLanguage();
+  const items = tr.plansPage.items;
 
   // ✅ Store the target id in sessionStorage, then navigate to /Pkg2
   const handlePlanClick = (id: string) => {
@@ -107,7 +56,7 @@ export default function PricingPage() {
                   fontWeight: 700,
                 }}
               >
-                Pricing
+                {tr.plansPage.label}
               </span>
             </div>
 
@@ -121,9 +70,9 @@ export default function PricingPage() {
                 margin: 0,
               }}
             >
-              Five ways to work
+              {tr.plansPage.title}
               <br />
-              <span style={{ color: "#333", fontWeight: 300 }}>with us.</span>
+              <span style={{ color: "#333", fontWeight: 300 }}>{tr.plansPage.titleSub}</span>
             </h2>
           </div>
 
@@ -140,7 +89,7 @@ export default function PricingPage() {
               alignItems: "center",
             }}
           >
-            {["#", "Plan", "Description", "Price", "Plan Details"].map((h) => (
+            {tr.plansPage.tableHeaders.map((h) => (
               <span
                 key={h}
                 style={{
@@ -250,7 +199,7 @@ export default function PricingPage() {
                               fontWeight: 700,
                             }}
                           >
-                            Popular
+                            {tr.plansPage.popular}
                           </span>
                         )}
                       </div>
@@ -373,7 +322,7 @@ export default function PricingPage() {
                           zIndex: 10,
                         }}
                       >
-                        Click for more explanation
+                        {tr.plansPage.tooltip}
                       </span>
                     </div>
                   </div>
@@ -439,7 +388,7 @@ export default function PricingPage() {
                                   fontWeight: 700,
                                 }}
                               >
-                                Popular
+                                {tr.plansPage.popular}
                               </span>
                             )}
                           </div>
@@ -563,7 +512,7 @@ export default function PricingPage() {
                 letterSpacing: "0.1em",
               }}
             >
-              All prices SAR · VAT-exclusive · 15% applied at invoice.
+              {tr.plansPage.vatNote}
             </span>
             <Link
               href="/contact"
@@ -578,7 +527,7 @@ export default function PricingPage() {
               onMouseEnter={(e) => (e.currentTarget.style.color = "#e53232")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
             >
-              Need a custom scope? Talk to us →
+              {tr.plansPage.customScope}
             </Link>
           </div>
         </section>

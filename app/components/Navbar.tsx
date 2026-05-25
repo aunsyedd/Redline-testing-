@@ -1,19 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import LogoImage from "@/images/whitelogo.png";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { tr, toggleLocale } = useLanguage();
 
-  const links = [
-    { label: "View Our Cinematic Shoots", href: "/shoots" },
-    { label: "Explore The Plans", href: "/Plans" },
-    { label: "Plan's Pricing Deck", href: "/Pkg2" },
-    { label: "Contact", href: "/contact" },
-  ];
+  const links = useMemo(
+    () => [
+      { label: tr.nav.shoots, href: "/shoots" },
+      { label: tr.nav.plans, href: "/Plans" },
+      { label: tr.nav.pricingDeck, href: "/Pkg2" },
+      { label: tr.nav.contact, href: "/contact" },
+    ],
+    [tr]
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -45,7 +50,7 @@ export default function Navbar() {
       prefetchLink.as = "document";
       document.head.appendChild(prefetchLink);
     });
-  }, []);
+  }, [links]);
 
   return (
     <>
@@ -103,9 +108,36 @@ export default function Navbar() {
           }}
           className="desktop-links"
         >
+          <button
+            type="button"
+            onClick={toggleLocale}
+            aria-label={tr.nav.langToggle}
+            style={{
+              background: "transparent",
+              border: "1px solid #333",
+              color: "#aaa",
+              cursor: "pointer",
+              fontSize: "clamp(9px, 1.2vw, 11px)",
+              fontWeight: 600,
+              letterSpacing: "0.06em",
+              padding: "6px 10px",
+              transition: "color 0.2s, border-color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "#f0f0f0";
+              (e.currentTarget as HTMLElement).style.borderColor = "#666";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "#aaa";
+              (e.currentTarget as HTMLElement).style.borderColor = "#333";
+            }}
+          >
+            {tr.nav.langToggle}
+          </button>
+
           {links.map((link) => (
             <Link
-              key={link.label}
+              key={link.href}
               href={link.href}
               prefetch={true}
               onMouseEnter={(e) => {
@@ -141,7 +173,7 @@ export default function Navbar() {
         {/* HAMBURGER BUTTON — mobile only */}
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? tr.nav.closeMenu : tr.nav.openMenu}
           className="hamburger-btn"
           style={{
             display: "none", // shown via media query below
@@ -211,9 +243,30 @@ export default function Navbar() {
           backdropFilter: "blur(16px)",
         }}
       >
+        <button
+          type="button"
+          onClick={() => {
+            toggleLocale();
+            setMenuOpen(false);
+          }}
+          style={{
+            color: "#e53232",
+            fontSize: "clamp(12px, 3.5vw, 16px)",
+            fontWeight: 600,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            background: "none",
+            border: "1px solid #333",
+            padding: "10px 20px",
+            cursor: "pointer",
+          }}
+        >
+          {tr.nav.langToggle}
+        </button>
+
         {links.map((link, i) => (
           <Link
-            key={link.label}
+            key={link.href}
             href={link.href}
             prefetch={true}
             onClick={() => setMenuOpen(false)}

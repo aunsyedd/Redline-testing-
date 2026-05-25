@@ -4,108 +4,13 @@ import Navbar from "@/app/components/Navbar";
 import { Footer } from "@/app/components/Bottom";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
-type PackageType = {
-  id: string;
-  slug: string;
-  label: string;
-  title: string;
-  price: string;
-  period: string;
-  description: string;
-  items: string[];
-};
-
-const packages: PackageType[] = [
-  {
-    id: "01",
-    slug: "01 STARTER - SAR 4,500 / month",
-    label: "PACKAGE 01 / CGI RETAINER",
-    title: "STARTER",
-    price: "SAR 4,500",
-    period: "per month",
-    description:
-      "Entry-level monthly retainer for brands that need consistent visual content without committing to a full marketing engine.",
-    items: [
-      "1 short-form CGI piece per month (up to 15s)",
-      "8 brand stills",
-      "Light post-production on supplied footage",
-      "1 strategy call per month",
-    ],
-  },
-  {
-    id: "02",
-    slug: "02 GROWTH - SAR 8,500 / month",
-    label: "PACKAGE 02 / CGI RETAINER",
-    title: "GROWTH",
-    price: "SAR 8,500",
-    period: "per month",
-    description:
-      "Hero CGI plus consistent supporting content. The package most clients land on.",
-    items: [
-      "1 hero CGI piece per month (up to 30s)",
-      "3 short-form cutdowns",
-      "12 brand stills",
-      "Light post-production on supplied footage",
-      "Bi-weekly strategy calls",
-    ],
-  },
-  {
-    id: "03",
-    slug: "03 CAMPAIGN - SAR 18,500 / project",
-    label: "PACKAGE 03 / PROJECT",
-    title: "CAMPAIGN",
-    price: "SAR 18,500",
-    period: "per project · 4–6 weeks",
-    description: "One-off campaigns. Launches, openings, seasonal pushes.",
-    items: [
-      "1 flagship hero CGI / brand film (up to 60s)",
-      "5 short-form cutdowns",
-      "20 stills (key-art and supporting)",
-      "Full creative direction and storyboarding",
-      "Master plus platform-specific cuts",
-    ],
-  },
-  {
-    id: "04",
-    slug: "04 FULL FUNNEL - SAR 14,500 / month",
-    label: "PACKAGE 04 / CGI + MARKETING RETAINER",
-    title: "FULL FUNNEL",
-    price: "SAR 14,500",
-    period: "per month · capped at 3 accounts",
-    description:
-      "Hero creative plus the engine that distributes it. One team, one accountable owner.",
-    items: [
-      "1 hero CGI piece + 4 cutdowns per month",
-      "Social management on 2 platforms",
-      "Full performance ad management",
-      "12 brand stills + ad creative variants",
-      "Weekly strategy and performance calls",
-    ],
-  },
-  {
-    id: "05",
-    slug: "05 GROWTH ENGINE - SAR 5,500 / month",
-    label: "PACKAGE 05 / MARKETING ONLY",
-    title: "GROWTH ENGINE",
-    price: "SAR 5,500",
-    period: "per month",
-    description:
-      "Pure social and performance marketing. For brands with their own content who just need the channels run.",
-    items: [
-      "Social management on 2 platforms (12 posts each)",
-      "Full performance ad management on Meta and Google",
-      "Light creative cuts from supplied assets",
-      "Monthly performance report",
-      "Bi-weekly strategy calls",
-    ],
-  },
-];
+import { useLanguage } from "@/app/context/LanguageContext";
+import type { PackageItem } from "@/app/lib/i18n/translations";
 
 /* ─────────────────────────────────────────
    SCROLL ARROW
 ───────────────────────────────────────── */
-function ScrollArrow({ nextId }: { nextId: string }) {
+function ScrollArrow({ nextId, label }: { nextId: string; label: string }) {
   const scrollToNext = () => {
     const el = document.getElementById(nextId);
     if (el) {
@@ -137,7 +42,7 @@ function ScrollArrow({ nextId }: { nextId: string }) {
           marginBottom: 8,
         }}
       >
-        Explore
+        {label}
       </span>
 
       <div
@@ -176,9 +81,13 @@ function ScrollArrow({ nextId }: { nextId: string }) {
 function PackageSection({
   pkg,
   nextId,
+  chooseLabel,
+  exploreLabel,
 }: {
-  pkg: PackageType;
+  pkg: PackageItem;
   nextId?: string;
+  chooseLabel: string;
+  exploreLabel: string;
 }) {
   const router = useRouter();
 
@@ -320,11 +229,11 @@ function PackageSection({
             e.currentTarget.style.background = "#bb2929";
           }}
         >
-          Choose This Plan →
+          {chooseLabel}
         </button>
       </div>
 
-      {nextId && <ScrollArrow nextId={nextId} />}
+      {nextId && <ScrollArrow nextId={nextId} label={exploreLabel} />}
 
       <style jsx>{`
         @keyframes pulse {
@@ -347,6 +256,9 @@ function PackageSection({
    FULL PAGE
 ───────────────────────────────────────── */
 export default function PlansPage() {
+  const { tr } = useLanguage();
+  const packages = tr.pkg2.packages;
+
 useEffect(() => {
   const targetId = sessionStorage.getItem("scrollToPlan");
   if (targetId) {
@@ -369,9 +281,11 @@ useEffect(() => {
           <PackageSection
             key={pkg.id}
             pkg={pkg}
+            chooseLabel={tr.pkg2.choosePlan}
+            exploreLabel={tr.pkg2.explore}
             nextId={
               index < packages.length - 1
-                ? packages[index + 1].id // ✅ plain: "02", "03", etc.
+                ? packages[index + 1].id
                 : undefined
             }
           />

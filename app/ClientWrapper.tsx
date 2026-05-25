@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Loader from "@/app/Loader/page";
+import { LanguageProvider } from "@/app/context/LanguageContext";
 
 export default function ClientWrapper({
   children,
@@ -41,7 +42,7 @@ export default function ClientWrapper({
   }, [pathname]);
 
   return (
-    <>
+    <LanguageProvider>
       {/* FIRST LOAD LOADER */}
       {firstLoad && <Loader finish={handleFinish} />}
 
@@ -84,6 +85,6 @@ export default function ClientWrapper({
 
       {/* PAGE */}
       {!firstLoad && children}
-    </>
+    </LanguageProvider>
   );
 }

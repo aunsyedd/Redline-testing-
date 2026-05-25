@@ -3,9 +3,11 @@
 import Navbar from "@/app/components/Navbar";
 import { useRouter } from "next/navigation";
 import { Footer } from "@/app/components/Bottom";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function ShootsPage() {
-    const router = useRouter();
+  const router = useRouter();
+  const { tr } = useLanguage();
   return (
     
     <>
@@ -36,7 +38,8 @@ export default function ShootsPage() {
               marginBottom: 20,
             }}
           >
-            Cinematic <span style={{ color: "#e53232" }}>Shoots</span>
+            {tr.shoots.title}
+            <span style={{ color: "#e53232" }}>{tr.shoots.titleHighlight}</span>
           </h1>
 
           <p
@@ -48,8 +51,7 @@ export default function ShootsPage() {
               margin: "0 auto",
             }}
           >
-            We craft high-end cinematic visuals, product films, CGI sequences,
-            and brand storytelling that feels like a movie — not marketing.
+            {tr.shoots.sub}
           </p>
         </section>
 
@@ -64,32 +66,7 @@ export default function ShootsPage() {
             gap: 20,
           }}
         >
-          {[
-  {
-    title: "CGI & VFX",
-    desc: "Hero pieces, product visualisation, brand films.",
-  },
-  {
-    title: "3D Visualisation",
-    desc: "Architectural fly-throughs, retail and F&B spaces.",
-  },
-  {
-    title: "Performance Marketing",
-    desc: "Meta and Google paid media. Conversion-led.",
-  },
-  {
-    title: "Social Content",
-    desc: "Strategy, calendar, content production, community.",
-  },
-    {
-    title: "Motion Design",
-    desc: "High-end 2D/3D motion graphics for brands and campaigns.",
-  },
-  {
-    title: "AI Creative Production",
-    desc: "AI-driven visuals, concept generation, and hybrid VFX workflows.",
-  },
-          ].map((item, i) => (
+          {tr.shoots.services.map((item, i) => (
             <div
               key={i}
               style={{
@@ -156,11 +133,11 @@ export default function ShootsPage() {
                 marginBottom: 10,
               }}
             >
-              Showreel 2026
+              {tr.shoots.showreel}
             </h2>
 
             <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              A glimpse into our cinematic universe of CGI + real-world visuals.
+              {tr.shoots.showreelDesc1}
             </p>
 
 <div
@@ -206,11 +183,11 @@ export default function ShootsPage() {
                 marginBottom: 10,
               }}
             >
-              Showreel 2026
+              {tr.shoots.showreel}
             </h2>
 
             <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              Cinematic storytelling blended with high-end motion visuals.
+              {tr.shoots.showreelDesc2}
             </p>
 
 <div
@@ -255,11 +232,11 @@ export default function ShootsPage() {
                 marginBottom: 10,
               }}
             >
-              Showreel 2026
+              {tr.shoots.showreel}
             </h2>
 
             <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              Cinematic storytelling blended with high-end motion visuals.
+              {tr.shoots.showreelDesc2}
             </p>
 
 <div
@@ -304,11 +281,11 @@ export default function ShootsPage() {
                 marginBottom: 10,
               }}
             >
-              Showreel 2026
+              {tr.shoots.showreel}
             </h2>
 
             <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              Premium CGI direction, VFX execution, and cinematic production.
+              {tr.shoots.showreelDesc3}
             </p>
 
 <div
@@ -353,11 +330,11 @@ export default function ShootsPage() {
                 marginBottom: 10,
               }}
             >
-              Showreel 2026
+              {tr.shoots.showreel}
             </h2>
 
             <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              Premium CGI direction, VFX execution, and cinematic production.
+              {tr.shoots.showreelDesc3}
             </p>
 
 <div
@@ -400,11 +377,11 @@ export default function ShootsPage() {
               marginBottom: 10,
             }}
           >
-            Ready to shoot something impossible?
+            {tr.shoots.ctaTitle}
           </h2>
 
           <p style={{ color: "#888", fontSize: 14, marginBottom: 25 }}>
-            Let’s turn your idea into a cinematic experience.
+            {tr.shoots.ctaSub}
           </p>
 
 <button
@@ -427,7 +404,7 @@ export default function ShootsPage() {
     (e.currentTarget.style.background = "#e53232")
   }
 >
-  Start a Project
+  {tr.shoots.ctaBtn}
 </button>
         </section>
       </main>

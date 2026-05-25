@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function Hero() {
+  const { tr } = useLanguage();
   const [typedText, setTypedText] = useState("");
   const [introDone, setIntroDone] = useState(false);
   const [step, setStep] = useState(1);
@@ -12,12 +14,14 @@ export default function Hero() {
   const video2Ref = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const introText = "REDLINE VFX — CINEMATIC STUDIO";
+  const introText = tr.hero.intro;
 
   // =========================
   // TYPING EFFECT
   // =========================
   useEffect(() => {
+    setTypedText("");
+    setIntroDone(false);
     let i = 0;
     const interval = setInterval(() => {
       setTypedText(introText.slice(0, i));
@@ -29,7 +33,7 @@ export default function Hero() {
     }, 35);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [introText]);
 
   // =========================
   // CONTENT STEP CYCLE
@@ -265,9 +269,9 @@ export default function Hero() {
                   "0 2px 4px rgba(0,0,0,0.9), 0 6px 18px rgba(0,0,0,0.85), 0 12px 40px rgba(0,0,0,0.75)",
               }}
             >
-              Cinematic visuals that make brands{" "}
+              {tr.hero.headline}
               <span style={{ color: "#ff4d4d" }}>
-                impossible to scroll past.
+                {tr.hero.headlineHighlight}
               </span>
             </h1>
             <div
@@ -290,8 +294,7 @@ export default function Hero() {
                 padding: "0 clamp(0px, 2vw, 20px)",
               }}
             >
-              Photoreal CGI, product animation, and premium content for the
-              brands and agencies shaping the next decade in KSA.
+              {tr.hero.sub}
             </p>
           </div>
         )}
@@ -315,7 +318,7 @@ export default function Hero() {
                 textShadow: "0 0 10px rgba(0,0,0,0.7)",
               }}
             >
-              A small studio. Senior craft.
+              {tr.hero.eyebrow}
             </div>
             <p
               style={{
@@ -327,7 +330,7 @@ export default function Hero() {
                 padding: "0 clamp(0px, 2vw, 20px)",
               }}
             >
-              Redline VFX is a Jeddah-based CGI and marketing studio.
+              {tr.hero.studioLine}
             </p>
             <p
               style={{
@@ -339,7 +342,7 @@ export default function Hero() {
                 padding: "0 clamp(0px, 2vw, 20px)",
               }}
             >
-              Founder-led, three people deep, built around senior production.
+              {tr.hero.teamLine}
             </p>
           </div>
         )}
@@ -385,7 +388,7 @@ export default function Hero() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#ff3c3c")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#e53232")}
           >
-            View Cinematic Shoots
+            {tr.hero.btnShoots}
           </Link>
 
           <Link
@@ -408,7 +411,7 @@ export default function Hero() {
             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#666")}
             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333")}
           >
-            Explore Plans
+            {tr.hero.btnPlans}
           </Link>
         </div>
       )}

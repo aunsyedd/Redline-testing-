@@ -1,28 +1,12 @@
 "use client";
 
 import Navbar from "@/app/components/Navbar";
-import {  Footer } from "@/app/components/Bottom";
-
-const services = [
-  {
-    title: "CGI & VFX",
-    desc: "Hero pieces, product visualisation, brand films.",
-  },
-  {
-    title: "3D Visualisation",
-    desc: "Architectural fly-throughs, retail and F&B spaces.",
-  },
-  {
-    title: "Performance Marketing",
-    desc: "Meta and Google paid media. Conversion-led.",
-  },
-  {
-    title: "Social Content",
-    desc: "Strategy, calendar, content production, community.",
-  },
-];
+import { Footer } from "@/app/components/Bottom";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function CapabilitiesPage() {
+  const { tr } = useLanguage();
+
   return (
     <>
       <Navbar />
@@ -53,7 +37,7 @@ export default function CapabilitiesPage() {
               fontWeight: 600,
             }}
           >
-            Capabilities
+            {tr.capabilities.label}
           </div>
 
           <h2
@@ -63,7 +47,7 @@ export default function CapabilitiesPage() {
               color: "#f0f0f0",
             }}
           >
-            What we do
+            {tr.capabilities.title}
           </h2>
 
           <div
@@ -73,7 +57,7 @@ export default function CapabilitiesPage() {
               gap: 2,
             }}
           >
-            {services.map((s, i) => (
+            {tr.capabilities.services.map((s, i) => (
               <div
                 key={i}
                 style={{

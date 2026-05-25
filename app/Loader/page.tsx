@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function Loader({ finish }: { finish: () => void }) {
+  const { tr } = useLanguage();
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function Loader({ finish }: { finish: () => void }) {
         REDLINE <span>VFX</span>
       </div>
 
-      <div className="sub">rendering reality...</div>
+      <div className="sub">{tr.loader.sub}</div>
 
       <style jsx>{`
         .loader {

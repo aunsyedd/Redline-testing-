@@ -1,99 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-const tiers = [
-  {
-    name: "One-off CGI Piece",
-    price: "SAR 4,500",
-    period: "per project",
-    popular: false,
-    features: [
-      "High-end CGI visual",
-      "Product or brand-focused",
-      "2 revision rounds",
-    ],
-  },
-  {
-    name: "3D Architectural Visualisation",
-    price: "SAR 2,500",
-    period: "per scene",
-    popular: false,
-    features: [
-      "Interior / exterior renders",
-      "Realistic lighting & textures",
-      "Scene-based pricing",
-    ],
-  },
-  {
-    name: "Full Production Day",
-    price: "SAR 3,500",
-    period: "per day",
-    popular: false,
-    features: [
-      "Professional shoot setup",
-      "Camera + lighting crew",
-      "On-site production support",
-    ],
-  },
-  {
-    name: "Green-Screen Production",
-    price: "SAR 5,500",
-    period: "per day",
-    popular: false,
-    features: [
-      "Green-screen studio setup",
-      "Advanced compositing ready",
-      "Lighting & backdrop included",
-    ],
-  },
-  {
-    name: "Voiceover (AR / EN)",
-    price: "SAR 1,500",
-    period: "per project",
-    popular: false,
-    features: [
-      "Arabic or English VO",
-      "Studio-quality delivery",
-      "Commercial-ready audio",
-    ],
-  },
-  {
-    name: "Performance Ad Management",
-    price: "SAR 2,500",
-    period: "+ 15% over SAR 5K spend",
-    popular: false,
-    features: [
-      "Campaign optimisation",
-      "Meta / TikTok ad handling",
-      "Performance reporting",
-    ],
-  },
-  {
-    name: "Community Management",
-    price: "SAR 2,500",
-    period: "per platform",
-    popular: false,
-    features: [
-      "Daily audience engagement",
-      "Comment & DM handling",
-      "Brand tone consistency",
-    ],
-  },
-  {
-    name: "Additional Revision Round",
-    price: "SAR 800",
-    period: "per round",
-    popular: false,
-    features: [
-      "Extra creative revisions",
-      "Fast implementation",
-      "Feedback-based refinements",
-    ],
-  },
-];
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function Pricing() {
+  const { tr } = useLanguage();
+  const tiers = tr.pricing.tiers.map((tier) => ({ ...tier, popular: false }));
+
   return (
     <section
       id="pricing"
@@ -146,7 +59,7 @@ export default function Pricing() {
           fontWeight: 600,
         }}
       >
-        Production Plans
+        {tr.pricing.label}
       </div>
 
       <h2
@@ -157,7 +70,7 @@ export default function Pricing() {
           color: "#f0f0f0",
         }}
       >
-        Mix & Match
+        {tr.pricing.title}
       </h2>
 
       <div className="pricing-grid">
@@ -286,7 +199,7 @@ export default function Pricing() {
             (e.currentTarget as HTMLElement).style.opacity = "1";
           }}
         >
-          Explore The Main Plans
+          {tr.pricing.explorePlans}
         </Link>
 
         <Link
@@ -311,7 +224,7 @@ export default function Pricing() {
             (e.currentTarget as HTMLElement).style.opacity = "1";
           }}
         >
-          Click to start
+          {tr.pricing.clickStart}
         </Link>
       </div>
     </section>
