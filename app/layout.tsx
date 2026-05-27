@@ -4,18 +4,18 @@ import "./globals.css";
 import ClientWrapper from "./ClientWrapper";
 
 export const metadata: Metadata = {
-  /* ✅ MAIN SEO TITLE (strong keyword + brand) */
+  /* ✅ MAIN SEO TITLE */
   title: {
     default:
       "REDLINE VFX | CGI, 3D Animation & VFX Studio in Saudi Arabia",
     template: "%s | REDLINE VFX",
   },
 
-  /* ✅ SEO DESCRIPTION (optimized for ranking + clicks) */
+  /* ✅ SEO DESCRIPTION */
   description:
     "REDLINE VFX is a premium CGI, 3D animation, and visual effects studio in Saudi Arabia. We create cinematic visuals, product CGI, and high-end digital advertising content for global brands.",
 
-  /* ✅ UNIVERSAL KEYWORDS (consistent everywhere) */
+  /* ✅ KEYWORDS */
   keywords: [
     "REDLINE VFX",
     "REDLINE Studio",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "Digital Advertising Agency",
   ],
 
-  /* ✅ BRAND INFO */
+  /* ✅ BRAND */
   authors: [{ name: "REDLINE VFX" }],
   creator: "REDLINE VFX",
   publisher: "REDLINE VFX",
@@ -39,20 +39,44 @@ export const metadata: Metadata = {
   /* ✅ BASE URL */
   metadataBase: new URL("https://www.redlinevfx.com"),
 
-  /* ✅ ICONS */
+  /* ✅ ALL ICONS IMPLEMENTED */
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+    ],
+
+    shortcut: ["/favicon.ico"],
+
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+
+    other: [
+      {
+        rel: "android-chrome",
+        url: "/android-chrome-192x192.png",
+      },
+      {
+        rel: "android-chrome",
+        url: "/android-chrome-512x512.png",
+      },
+    ],
   },
 
-  /* ✅ OPEN GRAPH (Facebook, WhatsApp, LinkedIn previews) */
+  /* ✅ OPEN GRAPH */
   openGraph: {
     title: "REDLINE VFX | CGI & 3D Animation Studio in Saudi Arabia",
     description:
       "We create cinematic CGI, 3D animation, and visual effects for global brands.",
     url: "https://www.redlinevfx.com",
     siteName: "REDLINE VFX",
+
     images: [
       {
         url: "/whitelogo.png",
@@ -61,11 +85,12 @@ export const metadata: Metadata = {
         alt: "REDLINE VFX CGI Studio",
       },
     ],
+
     locale: "en_US",
     type: "website",
   },
 
-  /* ✅ TWITTER / X PREVIEW */
+  /* ✅ TWITTER / X */
   twitter: {
     card: "summary_large_image",
     title: "REDLINE VFX | CGI & VFX Studio",
@@ -74,15 +99,19 @@ export const metadata: Metadata = {
     images: ["/whitelogo.png"],
   },
 
-  /* ✅ INDEXING CONTROL */
+  /* ✅ ROBOTS */
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
     },
   },
+
+  /* ✅ PWA MANIFEST */
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -93,24 +122,64 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ✅ FAVICON */}
+        {/* ✅ FAVICONS */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.ico" />
+
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+
+        {/* ✅ APPLE ICON */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+
+        {/* ✅ ANDROID ICONS */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/android-chrome-192x192.png"
+        />
+
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/android-chrome-512x512.png"
+        />
+
+        {/* ✅ WEB MANIFEST */}
+        <link rel="manifest" href="/site.webmanifest" />
 
         {/* ✅ GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
 
-        {/* ✅ PERFORMANCE OPTIMIZATION */}
+        {/* ✅ PERFORMANCE */}
         <link
           rel="preload"
           href="/images/whitelogo.png"
@@ -128,13 +197,27 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
-        {/* ✅ VIEWPORT */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* ✅ MOBILE */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
 
-        {/* ✅ THEME COLOR */}
+        {/* ✅ THEME */}
         <meta name="theme-color" content="#050505" />
 
-        {/* ✅ STRUCTURED DATA (VERY IMPORTANT FOR GOOGLE) */}
+        {/* ✅ PWA SETTINGS */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+
+        <meta name="apple-mobile-web-app-title" content="REDLINE VFX" />
+        <meta name="application-name" content="REDLINE VFX" />
+
+        {/* ✅ STRUCTURED DATA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
