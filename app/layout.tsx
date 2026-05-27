@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.redlinevfx.com"),
 
   icons: {
-    icon: "/whitelogo.png",
-    shortcut: "/whitelogo.png",
-    apple: "/whitelogo.png",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 
   openGraph: {
@@ -68,9 +68,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* FAVICON */}
-        <link rel="icon" href="/whitelogo.png" type="image/png" />
-        <link rel="shortcut icon" href="/whitelogo.png" />
-        <link rel="apple-touch-icon" href="/whitelogo.png" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
 
         {/* GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -89,7 +89,7 @@ export default function RootLayout({
         {/* PRELOAD LOGO */}
         <link
           rel="preload"
-          href="/whitelogo.png"
+          href="/images/whitelogo.png"
           as="image"
           type="image/png"
         />
@@ -124,7 +124,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "RED|LINE",
               url: "https://www.redlinevfx.com",
-              logo: "https://www.redlinevfx.com/whitelogo.png",
+              logo: "https://www.redlinevfx.com/logo.png",
             }),
           }}
         />
