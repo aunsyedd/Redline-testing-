@@ -21,347 +21,214 @@ export default function ShootsPage() {
           paddingTop: "120px",
         }}
       >
-        {/* HERO */}
-        <section
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            padding: "80px 20px 40px",
-            textAlign: "center",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "clamp(42px,6vw,80px)",
-              fontWeight: 800,
-              letterSpacing: "-0.03em",
-              marginBottom: 20,
-            }}
-          >
-            {tr.shoots.title}
-            <span style={{ color: "#e53232" }}>{tr.shoots.titleHighlight}</span>
-          </h1>
-
-          <p
-            style={{
-              color: "#888",
-              fontSize: 15,
-              lineHeight: 1.8,
-              maxWidth: 700,
-              margin: "0 auto",
-            }}
-          >
-            {tr.shoots.sub}
-          </p>
-        </section>
-
-        {/* FEATURE GRID */}
-        <section
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            padding: "40px 20px 100px",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 20,
-          }}
-        >
-          {tr.shoots.services.map((item, i) => (
-            <div
-              key={i}
-              style={{
-                background: "#0b0b0b",
-                border: "1px solid #1a1a1a",
-                padding: 24,
-                borderRadius: 8,
-                transition: "0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget.style.borderColor = "#e53232");
-                (e.currentTarget.style.transform = "translateY(-4px)");
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget.style.borderColor = "#1a1a1a");
-                (e.currentTarget.style.transform = "translateY(0px)");
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  marginBottom: 10,
-                }}
-              >
-                {item.title}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "#888",
-                  lineHeight: 1.6,
-                }}
-              >
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </section>
-
-        {/* SHOWREEL SECTION */}
-        <section
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            padding: "0 20px 120px",
-          }}
-        >
-          <div
-            style={{
-              background: "#0b0b0b",
-              border: "1px solid #1a1a1a",
-              borderRadius: 10,
-              padding: 40,
-              textAlign: "center",
-              marginBottom: 40,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-                marginBottom: 10,
-              }}
-            >
-              {tr.shoots.showreel}
-            </h2>
-
-            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              {tr.shoots.showreelDesc1}
-            </p>
-
-<div
+       {/* SHOWREEL SECTION */}
+<section
   style={{
-    width: "100%",
-    height: 420,
-    borderRadius: 10,
-    overflow: "hidden",
-    border: "1px solid #1a1a1a",
-    background: "#000",
-    position: "relative",
+    maxWidth: 1100,
+    margin: "0 auto",
+    padding: "0 20px 120px",
   }}
 >
-  <video
-    src="/images/web_video_004.mp4"
-    controls
-    playsInline
+  <div
     style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      background: "#000",
+      background: "#0b0b0b",
+      border: "1px solid #1a1a1a",
+      borderRadius: 10,
+      padding: 40,
+      textAlign: "center",
+      marginBottom: 40,
     }}
-  />
-</div>
-          </div>
+  >
+    <h2
+      style={{
+        fontSize: 28,
+        fontWeight: 800,
+        marginBottom: 10,
+      }}
+    >
+      {tr.shoots.showreel}
+    </h2>
 
-          {/* SHOWREEL 2 */}
-          <div
-            style={{
-              background: "#0b0b0b",
-              border: "1px solid #1a1a1a",
-              borderRadius: 10,
-              padding: 40,
-              textAlign: "center",
-              marginBottom: 40,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-                marginBottom: 10,
-              }}
-            >
-              {tr.shoots.showreel}
-            </h2>
+    <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+      {tr.shoots.showreelDesc1}
+    </p>
 
-            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              {tr.shoots.showreelDesc2}
-            </p>
+    <div
+      style={{
+        width: "100%",
+        height: 420,
+        borderRadius: 10,
+        overflow: "hidden",
+        border: "1px solid #1a1a1a",
+        background: "#000",
+        position: "relative",
+      }}
+    >
+      <video
+        controls
+        playsInline
+        preload="metadata"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          background: "#000",
+        }}
+      >
+        <source
+          src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/v1779856646/1_ollc97.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
 
-<div
-  style={{
-    width: "100%",
-    height: 420,
-    borderRadius: 10,
-    overflow: "hidden",
-    border: "1px solid #1a1a1a",
-    background: "#000",
-    position: "relative",
-  }}
->
-  <video
-    src="/images/web_video_008.mp4"
-    controls
-    playsInline
+  {/* SHOWREEL 2 */}
+  <div
     style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      background: "#000",
+      background: "#0b0b0b",
+      border: "1px solid #1a1a1a",
+      borderRadius: 10,
+      padding: 40,
+      textAlign: "center",
+      marginBottom: 40,
     }}
-  />
-</div>
-          </div>
-          {/* SHOWREEL 3 */}
-          <div
-            style={{
-              background: "#0b0b0b",
-              border: "1px solid #1a1a1a",
-              borderRadius: 10,
-              padding: 40,
-              textAlign: "center",
-              marginBottom: 40,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-                marginBottom: 10,
-              }}
-            >
-              {tr.shoots.showreel}
-            </h2>
+  >
+    <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 10 }}>
+      {tr.shoots.showreel}
+    </h2>
 
-            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              {tr.shoots.showreelDesc2}
-            </p>
+    <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+      {tr.shoots.showreelDesc2}
+    </p>
 
-<div
-  style={{
-    width: "100%",
-    height: 420,
-    borderRadius: 10,
-    overflow: "hidden",
-    border: "1px solid #1a1a1a",
-    background: "#000",
-    position: "relative",
-  }}
->
-  <video
-    src="/images/web_video_005.mp4"
-    controls
-    playsInline
+    <div style={{
+      width: "100%",
+      height: 420,
+      borderRadius: 10,
+      overflow: "hidden",
+      border: "1px solid #1a1a1a",
+      background: "#000",
+    }}>
+      <video controls playsInline preload="metadata"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+        <source
+          src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/v1779856633/2_hvt0on.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
+
+  {/* SHOWREEL 3 */}
+  <div
     style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      background: "#000",
+      background: "#0b0b0b",
+      border: "1px solid #1a1a1a",
+      borderRadius: 10,
+      padding: 40,
+      textAlign: "center",
+      marginBottom: 40,
     }}
-  />
-</div>
-          </div>
+  >
+    <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 10 }}>
+      {tr.shoots.showreel}
+    </h2>
 
-          {/* SHOWREEL 4 */}
-          <div
-            style={{
-              background: "#0b0b0b",
-              border: "1px solid #1a1a1a",
-              borderRadius: 10,
-              padding: 40,
-              textAlign: "center",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-                marginBottom: 10,
-              }}
-            >
-              {tr.shoots.showreel}
-            </h2>
+    <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+      {tr.shoots.showreelDesc2}
+    </p>
 
-            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              {tr.shoots.showreelDesc3}
-            </p>
+    <div style={{
+      width: "100%",
+      height: 420,
+      borderRadius: 10,
+      overflow: "hidden",
+      border: "1px solid #1a1a1a",
+      background: "#000",
+    }}>
+      <video controls playsInline preload="metadata"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+        <source
+          src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/v1779856642/3_feh0yu.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
 
-<div
-  style={{
-    width: "100%",
-    height: 420,
-    borderRadius: 10,
-    overflow: "hidden",
-    border: "1px solid #1a1a1a",
-    background: "#000",
-    position: "relative",
-  }}
->
-  <video
-    src="/images/web_video_001.mp4"
-    controls
-    playsInline
+  {/* SHOWREEL 4 */}
+  <div
     style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      background: "#000",
+      background: "#0b0b0b",
+      border: "1px solid #1a1a1a",
+      borderRadius: 10,
+      padding: 40,
+      textAlign: "center",
     }}
-  />
-</div>
-          </div>
+  >
+    <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 10 }}>
+      {tr.shoots.showreel}
+    </h2>
 
-          {/* SHOWREEL 5 */}
-          <div
-            style={{
-              background: "#0b0b0b",
-              border: "1px solid #1a1a1a",
-              borderRadius: 10,
-              padding: 40,
-              textAlign: "center",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-                marginBottom: 10,
-              }}
-            >
-              {tr.shoots.showreel}
-            </h2>
+    <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+      {tr.shoots.showreelDesc3}
+    </p>
 
-            <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
-              {tr.shoots.showreelDesc3}
-            </p>
+    <div style={{
+      width: "100%",
+      height: 420,
+      borderRadius: 10,
+      overflow: "hidden",
+      border: "1px solid #1a1a1a",
+      background: "#000",
+    }}>
+      <video controls playsInline preload="metadata"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+        <source
+          src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/v1779856659/4_cuqhiq.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
 
-<div
-  style={{
-    width: "100%",
-    height: 420,
-    borderRadius: 10,
-    overflow: "hidden",
-    border: "1px solid #1a1a1a",
-    background: "#000",
-    position: "relative",
-  }}
->
-  <video
-    src="/images/Highlighted.mp4"
-    controls
-    playsInline
+  {/* SHOWREEL 5 */}
+  <div
     style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      background: "#000",
+      background: "#0b0b0b",
+      border: "1px solid #1a1a1a",
+      borderRadius: 10,
+      padding: 40,
+      textAlign: "center",
     }}
-  />
-</div>
-          </div>
-        </section>
+  >
+    <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 10 }}>
+      {tr.shoots.showreel}
+    </h2>
+
+    <p style={{ color: "#888", fontSize: 13, marginBottom: 20 }}>
+      {tr.shoots.showreelDesc3}
+    </p>
+
+    <div style={{
+      width: "100%",
+      height: 420,
+      borderRadius: 10,
+      overflow: "hidden",
+      border: "1px solid #1a1a1a",
+      background: "#000",
+    }}>
+      <video controls playsInline preload="metadata"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+        <source
+          src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/v1779856642/5_pmes0a.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
+</section>
 
         {/* CTA */}
         <section

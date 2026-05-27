@@ -65,55 +65,50 @@ export default function Hero() {
   // =========================
   // VIDEO LOGIC
   // =========================
-  useEffect(() => {
-    const video1 = video1Ref.current;
-    const video2 = video2Ref.current;
-    if (!video1 || !video2) return;
+useEffect(() => {
+  const video1 = video1Ref.current;
+  const video2 = video2Ref.current;
+  if (!video1 || !video2) return;
 
-    video1.preload = "auto";
-    video1.muted = true;
-    video1.playsInline = true;
+  // ======================
+  // BASIC SETUP (LIGHT)
+  // ======================
+  video1.preload = "metadata";
+  video2.preload = "metadata";
+
+  video1.muted = true;
+  video2.muted = true;
+
+  video1.playsInline = true;
+  video2.playsInline = true;
+
+  // Start first video only
+  video1.currentTime = 0;
+  video1.play().catch(() => {});
+
+  // ======================
+  // CLEAN SWITCH HANDLERS
+  // ======================
+  const handleVideo1End = () => {
+    setActiveVideo(1);
+    video2.currentTime = 0;
+    video2.play().catch(() => {});
+  };
+
+  const handleVideo2End = () => {
+    setActiveVideo(0);
     video1.currentTime = 0;
     video1.play().catch(() => {});
+  };
 
-    video2.preload = "none";
-    video2.muted = true;
-    video2.playsInline = true;
+  video1.addEventListener("ended", handleVideo1End);
+  video2.addEventListener("ended", handleVideo2End);
 
-    const loadVideo2 = () => {
-      video2.preload = "auto";
-      video2.load();
-    };
-
-    if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(loadVideo2, { timeout: 3000 });
-    } else {
-      setTimeout(loadVideo2, 2000);
-    }
-
-    let switchTimeout: ReturnType<typeof setTimeout>;
-
-    const switchToVideo2 = async () => {
-      video2.currentTime = 0;
-      try { await video2.play(); } catch {}
-      switchTimeout = setTimeout(() => setActiveVideo(1), 50);
-    };
-
-    const switchToVideo1 = async () => {
-      video1.currentTime = 0;
-      try { await video1.play(); } catch {}
-      switchTimeout = setTimeout(() => setActiveVideo(0), 50);
-    };
-
-    video1.addEventListener("ended", switchToVideo2);
-    video2.addEventListener("ended", switchToVideo1);
-
-    return () => {
-      clearTimeout(switchTimeout);
-      video1.removeEventListener("ended", switchToVideo2);
-      video2.removeEventListener("ended", switchToVideo1);
-    };
-  }, []);
+  return () => {
+    video1.removeEventListener("ended", handleVideo1End);
+    video2.removeEventListener("ended", handleVideo2End);
+  };
+}, []);
 
   // =========================
   // PAUSE VIDEO WHEN OFF-SCREEN
@@ -169,56 +164,78 @@ export default function Hero() {
         }}
       >
         {/* VIDEO 1 */}
-        <video
-          ref={video1Ref}
-          muted
-          playsInline
-          preload="auto"
-          poster="/images/poster1.jpg"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: activeVideo === 0 ? 1 : 0,
-            transition: "opacity 2s ease-in-out",
-            filter: "contrast(1.1) brightness(0.6)",
-            willChange: "opacity",
-            transform: "translateZ(0)",
-          }}
-        >
-          <source
-  src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,vc_auto/web_video_002_n9casa.mp4"
-  type="video/mp4"
-/>
-        </video>
+{/* VIDEO 1 */}
+<video
+  ref={video1Ref}
+  autoPlay
+  muted
+  playsInline
+  preload="metadata"
+  onEnded={() => {
+    setActiveVideo(1);
+    video2Ref.current?.play().catch(() => {});
+  }}
+  poster="/images/poster1.jpg"
+  style={{
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+
+    // Smooth cinematic transition
+    opacity: activeVideo === 0 ? 1 : 0,
+    transition: "opacity 1s ease-in-out, transform 6s ease-out",
+
+    // Premium cinematic look
+    transform: activeVideo === 0 ? "scale(1.03)" : "scale(1)",
+    filter: "contrast(1.08) brightness(0.58)",
+
+    // GPU optimization
+    willChange: "opacity, transform",
+    backfaceVisibility: "hidden",
+    transformStyle: "preserve-3d",
+    WebkitBackfaceVisibility: "hidden",
+
+    // Better rendering performance
+    contain: "layout paint style",
+    pointerEvents: "none",
+  }}
+>
+  <source
+    src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/web_video_002_n9casa.mp4"
+    type="video/mp4"
+  />
+</video>
 
         {/* VIDEO 2 */}
-        <video
-          ref={video2Ref}
-          muted
-          playsInline
-          preload="none"
-          poster="/images/poster2.jpg"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: activeVideo === 1 ? 1 : 0,
-            transition: "opacity 2s ease-in-out",
-            filter: "contrast(1.1) brightness(0.6)",
-            willChange: "opacity",
-            transform: "translateZ(0)",
-          }}
-        >
-<source
-  src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/Highlightes2_zm3wam.mp4"
-  type="video/mp4"
-/>
-        </video>
+<video
+  ref={video2Ref}
+  muted
+  playsInline
+  preload="metadata"
+  onEnded={() => {
+    setActiveVideo(0);
+    video1Ref.current?.play().catch(() => {});
+  }}
+  style={{
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    opacity: activeVideo === 1 ? 1 : 0,
+    transition: "opacity 1.2s ease-in-out",
+    filter: "contrast(1.1) brightness(0.6)",
+    willChange: "opacity",
+    transform: "translateZ(0)",
+  }}
+>
+  <source
+    src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/Highlightes2_zm3wam.mp4"
+    type="video/mp4"
+  />
+</video>
 
         <div
           style={{
