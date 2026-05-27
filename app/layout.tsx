@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     "REDLINE Studio",
   ],
 
-  authors: [{ name: "RED|LINE" }],
+  authors: [{ name: "REDLINE VFX" }],
 
-  creator: "RED|LINE",
+  creator: "REDLINE VFX",
 
   metadataBase: new URL("https://www.redlinevfx.com/"),
 
@@ -33,17 +33,17 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
+    title: "REDLINE VFX — Saudi Arabia CGI & VFX Studio",
     description:
       "Cinematic visuals that make brands impossible to scroll past.",
     url: "https://www.redlinevfx.com/",
-    siteName: "RED|LINE",
+    siteName: "REDLINE VFX",
     images: [
       {
         url: "/whitelogo.png",
         width: 1200,
         height: 630,
-        alt: "RED|LINE",
+        alt: "REDLINE VFX",
       },
     ],
     locale: "en_US",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
+    title: "REDLINE VFX — Saudi Arabia CGI & VFX Studio",
     description:
       "Cinematic visuals that make brands impossible to scroll past.",
     images: ["/whitelogo.png"],
@@ -67,6 +67,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* FAVICON */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+
         {/* GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
 
