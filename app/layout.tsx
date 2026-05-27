@@ -5,7 +5,7 @@ import ChatBot from "./components/ChatBot";
 import ClientWrapper from "./ClientWrapper";
 
 export const metadata: Metadata = {
-  title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
+  title: "REDLINE VFX — Saudi Arabia CGI & VFX Studio",
 
   description:
     "Cinematic visuals that make brands impossible to scroll past.",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "RED|LINE",
     images: [
       {
-        url: "/logo.png",
+        url: "/whitelogo.png",
         width: 1200,
         height: 630,
         alt: "RED|LINE",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
     description:
       "Cinematic visuals that make brands impossible to scroll past.",
-    images: ["/logo.png"],
+    images: ["/whitelogo.png"],
   },
 };
 
