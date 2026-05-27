@@ -188,7 +188,10 @@ export default function Hero() {
             transform: "translateZ(0)",
           }}
         >
-          <source src="/images/1.mp4" type="video/mp4" />
+          <source
+  src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,vc_auto/web_video_002_n9casa.mp4"
+  type="video/mp4"
+/>
         </video>
 
         {/* VIDEO 2 */}
@@ -211,7 +214,10 @@ export default function Hero() {
             transform: "translateZ(0)",
           }}
         >
-          <source src="/images/2.mp4" type="video/mp4" />
+<source
+  src="https://res.cloudinary.com/dvjvat0na/video/upload/f_auto,q_auto,c_scale,w_1280,vc_auto/Highlightes2_zm3wam.mp4"
+  type="video/mp4"
+/>
         </video>
 
         <div
