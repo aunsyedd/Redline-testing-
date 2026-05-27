@@ -1,13 +1,62 @@
 import type { Metadata } from "next";
-import "./globals.css";import 
-ChatBot from "./components/ChatBot";
+import "./globals.css";
 
-
+import ChatBot from "./components/ChatBot";
 import ClientWrapper from "./ClientWrapper";
 
 export const metadata: Metadata = {
   title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
-  description: "Cinematic visuals that make brands impossible to scroll past.",
+
+  description:
+    "Cinematic visuals that make brands impossible to scroll past.",
+
+  keywords: [
+    "CGI Studio",
+    "VFX Studio",
+    "Saudi Arabia CGI",
+    "3D Animation",
+    "Product CGI",
+    "Visual Effects",
+    "REDLINE Studio",
+  ],
+
+  authors: [{ name: "RED|LINE" }],
+
+  creator: "RED|LINE",
+
+  metadataBase: new URL("https://www.redlinevfx.com/"),
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
+
+  openGraph: {
+    title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
+    description:
+      "Cinematic visuals that make brands impossible to scroll past.",
+    url: "https://www.redlinevfx.com/",
+    siteName: "RED|LINE",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "RED|LINE",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "RED|LINE — Saudi Arabia CGI & VFX Studio",
+    description:
+      "Cinematic visuals that make brands impossible to scroll past.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
@@ -18,15 +67,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* FONTS */}
+        {/* GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
 
-        {/* PRELOAD LOGO (shown in loader on every first visit) */}
+        {/* PRELOAD LOGO */}
         <link
           rel="preload"
           href="/images/whitelogo.png"
@@ -34,7 +89,7 @@ export default function RootLayout({
           type="image/png"
         />
 
-        {/* PRELOAD FIRST VIDEO ONLY (second loads lazily) */}
+        {/* PRELOAD HERO VIDEO */}
         <link
           rel="preload"
           href="/images/Highlightes.mp4"
@@ -42,22 +97,40 @@ export default function RootLayout({
           type="video/mp4"
         />
 
-        {/* DNS PREFETCH FOR FASTER FONT LOAD */}
+        {/* DNS PREFETCH */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
-        {/* MOBILE VIEWPORT */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* VIEWPORT */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
 
-        {/* THEME COLOR (browser chrome matches your brand) */}
+        {/* THEME COLOR */}
         <meta name="theme-color" content="#050505" />
+
+        {/* ORGANIZATION SCHEMA */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "RED|LINE",
+              url: "https://www.redlinevfx.com/",
+              logo: "https://www.redlinevfx.com/logo.png",
+            }),
+          }}
+        />
       </head>
 
       <body style={{ background: "#000" }}>
         <ClientWrapper>
           <div className="page-fade">{children}</div>
         </ClientWrapper>
-                   {/* <ChatBot /> */}
+
+        {/* <ChatBot /> */}
       </body>
     </html>
   );
