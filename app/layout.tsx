@@ -24,19 +24,19 @@ export const metadata: Metadata = {
 
   creator: "REDLINE VFX",
 
-  metadataBase: new URL("https://www.redlinevfx.com/"),
+  metadataBase: new URL("https://www.redlinevfx.com"),
 
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 
   openGraph: {
     title: "REDLINE VFX — Saudi Arabia CGI & VFX Studio",
     description:
       "Cinematic visuals that make brands impossible to scroll past.",
-    url: "https://www.redlinevfx.com/",
+    url: "https://www.redlinevfx.com",
     siteName: "REDLINE VFX",
     images: [
       {
@@ -68,9 +68,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* FAVICON */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
 
         {/* GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -122,8 +122,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "REDLINE VFX",
-              url: "https://www.redlinevfx.com/",
+              name: "RED|LINE",
+              url: "https://www.redlinevfx.com",
               logo: "https://www.redlinevfx.com/logo.png",
             }),
           }}
