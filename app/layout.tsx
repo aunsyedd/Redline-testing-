@@ -122,7 +122,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "RED|LINE",
+              name: "REDLINE VFX",
               url: "https://www.redlinevfx.com/",
               logo: "https://www.redlinevfx.com/logo.png",
             }),
