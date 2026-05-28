@@ -41,11 +41,11 @@ export const metadata: Metadata = {
 
   /* ✅ ALL ICONS IMPLEMENTED */
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-    ],
+    // icon: [
+    //   { url: "/favicon.ico", sizes: "any" },
+    //   { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+    //   { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+    // ],
 
     shortcut: ["/favicon.ico"],
 
@@ -78,12 +78,12 @@ export const metadata: Metadata = {
     siteName: "REDLINE VFX",
 
     images: [
-      {
-        url: "/whitelogo.png",
-        width: 1200,
-        height: 630,
-        alt: "REDLINE VFX CGI Studio",
-      },
+      // {
+      //   url: "/whitelogo.png",
+      //   width: 1200,
+      //   height: 630,
+      //   alt: "REDLINE VFX CGI Studio",
+      // },
     ],
 
     locale: "en_US",
@@ -123,8 +123,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* ✅ FAVICONS */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="shortcut icon" href="/favicon.ico" /> */}
 
         <link
           rel="icon"
