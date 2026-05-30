@@ -41,11 +41,11 @@ export const metadata: Metadata = {
 
   /* ✅ ALL ICONS IMPLEMENTED */
   icons: {
-    // icon: [
-    //   { url: "/favicon.ico", sizes: "any" },
-    //   { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
-    //   { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-    // ],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+    ],
 
     shortcut: ["/favicon.ico"],
 
@@ -121,117 +121,62 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* ✅ FAVICONS */}
-        {/* <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="shortcut icon" href="/favicon.ico" /> */}
+     <head>
+  {/* ✅ FAVICON — Primary (required for Google) */}
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
 
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+  {/* ✅ PNG FAVICONS */}
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
+  {/* ✅ APPLE */}
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-        {/* ✅ APPLE ICON */}
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
+  {/* ✅ ANDROID */}
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 
-        {/* ✅ ANDROID ICONS */}
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="/android-chrome-192x192.png"
-        />
+  {/* ✅ MANIFEST */}
+  <link rel="manifest" href="/site.webmanifest" />
 
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/android-chrome-512x512.png"
-        />
+  {/* ✅ GOOGLE FONTS */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-        {/* ✅ WEB MANIFEST */}
-        <link rel="manifest" href="/site.webmanifest" />
+  {/* ✅ PERFORMANCE */}
+  <link rel="preload" href="/images/whitelogo.png" as="image" type="image/png" />
+  <link rel="preload" href="/images/Highlightes.mp4" as="video" type="video/mp4" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
-        {/* ✅ GOOGLE FONTS */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+  {/* ✅ MOBILE & THEME */}
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#050505" />
 
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+  {/* ✅ PWA */}
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="REDLINE VFX" />
+  <meta name="application-name" content="REDLINE VFX" />
 
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-
-        {/* ✅ PERFORMANCE */}
-        <link
-          rel="preload"
-          href="/images/whitelogo.png"
-          as="image"
-          type="image/png"
-        />
-
-        <link
-          rel="preload"
-          href="/images/Highlightes.mp4"
-          as="video"
-          type="video/mp4"
-        />
-
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-        {/* ✅ MOBILE */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-
-        {/* ✅ THEME */}
-        <meta name="theme-color" content="#050505" />
-
-        {/* ✅ PWA SETTINGS */}
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-
-        <meta name="apple-mobile-web-app-title" content="REDLINE VFX" />
-        <meta name="application-name" content="REDLINE VFX" />
-
-        {/* ✅ STRUCTURED DATA */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "REDLINE VFX",
-              url: "https://www.redlinevfx.com",
-              logo: "https://www.redlinevfx.com/whitelogo.png",
-              sameAs: [],
-            }),
-          }}
-        />
-      </head>
+  {/* ✅ STRUCTURED DATA */}
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "REDLINE VFX",
+        url: "https://www.redlinevfx.com",
+        logo: "https://www.redlinevfx.com/whitelogo.png",
+        sameAs: [],
+      }),
+    }}
+  />
+</head>
 
       <body style={{ background: "#000" }}>
         <ClientWrapper>
