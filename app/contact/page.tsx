@@ -627,7 +627,7 @@ function ContactForm() {
               {isLoading ? (
                 <>
                   <span className="btn-spinner" />
-                  <span>{tr.contact.sending ?? "Sending..."}</span>
+                  <span>{(tr.contact as any).sending ?? "Sending..."}</span>
                 </>
               ) : (
                 tr.contact.send
