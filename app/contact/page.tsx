@@ -21,7 +21,6 @@ const countryOptions = [
   { label: "Australia", value: "+61" },
   { label: "Austria", value: "+43" },
   { label: "Azerbaijan", value: "+994" },
-
   { label: "Bahamas", value: "+1-242" },
   { label: "Bahrain", value: "+973" },
   { label: "Bangladesh", value: "+880" },
@@ -39,7 +38,6 @@ const countryOptions = [
   { label: "Bulgaria", value: "+359" },
   { label: "Burkina Faso", value: "+226" },
   { label: "Burundi", value: "+257" },
-
   { label: "Cambodia", value: "+855" },
   { label: "Cameroon", value: "+237" },
   { label: "Canada", value: "+1" },
@@ -57,23 +55,19 @@ const countryOptions = [
   { label: "Cuba", value: "+53" },
   { label: "Cyprus", value: "+357" },
   { label: "Czech Republic", value: "+420" },
-
   { label: "Denmark", value: "+45" },
   { label: "Djibouti", value: "+253" },
   { label: "Dominica", value: "+1-767" },
   { label: "Dominican Republic", value: "+1-809" },
-
   { label: "Ecuador", value: "+593" },
   { label: "Egypt", value: "+20" },
   { label: "El Salvador", value: "+503" },
   { label: "Estonia", value: "+372" },
   { label: "Eswatini", value: "+268" },
   { label: "Ethiopia", value: "+251" },
-
   { label: "Fiji", value: "+679" },
   { label: "Finland", value: "+358" },
   { label: "France", value: "+33" },
-
   { label: "Gabon", value: "+241" },
   { label: "Gambia", value: "+220" },
   { label: "Georgia", value: "+995" },
@@ -84,11 +78,9 @@ const countryOptions = [
   { label: "Guatemala", value: "+502" },
   { label: "Guinea", value: "+224" },
   { label: "Guyana", value: "+592" },
-
   { label: "Haiti", value: "+509" },
   { label: "Honduras", value: "+504" },
   { label: "Hungary", value: "+36" },
-
   { label: "Iceland", value: "+354" },
   { label: "India", value: "+91" },
   { label: "Indonesia", value: "+62" },
@@ -98,16 +90,13 @@ const countryOptions = [
   { label: "Israel", value: "+972" },
   { label: "Italy", value: "+39" },
   { label: "Ivory Coast", value: "+225" },
-
   { label: "Jamaica", value: "+1-876" },
   { label: "Japan", value: "+81" },
   { label: "Jordan", value: "+962" },
-
   { label: "Kazakhstan", value: "+7" },
   { label: "Kenya", value: "+254" },
   { label: "Kuwait", value: "+965" },
   { label: "Kyrgyzstan", value: "+996" },
-
   { label: "Laos", value: "+856" },
   { label: "Latvia", value: "+371" },
   { label: "Lebanon", value: "+961" },
@@ -117,7 +106,6 @@ const countryOptions = [
   { label: "Liechtenstein", value: "+423" },
   { label: "Lithuania", value: "+370" },
   { label: "Luxembourg", value: "+352" },
-
   { label: "Malaysia", value: "+60" },
   { label: "Maldives", value: "+960" },
   { label: "Mali", value: "+223" },
@@ -130,7 +118,6 @@ const countryOptions = [
   { label: "Morocco", value: "+212" },
   { label: "Mozambique", value: "+258" },
   { label: "Myanmar", value: "+95" },
-
   { label: "Namibia", value: "+264" },
   { label: "Nepal", value: "+977" },
   { label: "Netherlands", value: "+31" },
@@ -141,9 +128,7 @@ const countryOptions = [
   { label: "North Korea", value: "+850" },
   { label: "North Macedonia", value: "+389" },
   { label: "Norway", value: "+47" },
-
   { label: "Oman", value: "+968" },
-
   { label: "Pakistan", value: "+92" },
   { label: "Panama", value: "+507" },
   { label: "Papua New Guinea", value: "+675" },
@@ -152,13 +137,10 @@ const countryOptions = [
   { label: "Philippines", value: "+63" },
   { label: "Poland", value: "+48" },
   { label: "Portugal", value: "+351" },
-
   { label: "Qatar", value: "+974" },
-
   { label: "Romania", value: "+40" },
   { label: "Russia", value: "+7" },
   { label: "Rwanda", value: "+250" },
-
   { label: "Saudi Arabia", value: "+966" },
   { label: "Senegal", value: "+221" },
   { label: "Serbia", value: "+381" },
@@ -173,7 +155,6 @@ const countryOptions = [
   { label: "Sweden", value: "+46" },
   { label: "Switzerland", value: "+41" },
   { label: "Syria", value: "+963" },
-
   { label: "Taiwan", value: "+886" },
   { label: "Tajikistan", value: "+992" },
   { label: "Tanzania", value: "+255" },
@@ -183,7 +164,6 @@ const countryOptions = [
   { label: "Tunisia", value: "+216" },
   { label: "Turkey", value: "+90" },
   { label: "Turkmenistan", value: "+993" },
-
   { label: "Uganda", value: "+256" },
   { label: "Ukraine", value: "+380" },
   { label: "United Arab Emirates", value: "+971" },
@@ -191,12 +171,9 @@ const countryOptions = [
   { label: "United States", value: "+1" },
   { label: "Uruguay", value: "+598" },
   { label: "Uzbekistan", value: "+998" },
-
   { label: "Venezuela", value: "+58" },
   { label: "Vietnam", value: "+84" },
-
   { label: "Yemen", value: "+967" },
-
   { label: "Zambia", value: "+260" },
   { label: "Zimbabwe", value: "+263" }
 ];
