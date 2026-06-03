@@ -59,16 +59,14 @@ export const metadata: Metadata = {
       "We create cinematic CGI, 3D animation, and visual effects for global brands.",
     url: "https://www.redlinevfx.com",
     siteName: "REDLINE VFX",
-
     images: [
-      // {
-      //   url: "/whitelogo.png",
-      //   width: 1200,
-      //   height: 630,
-      //   alt: "REDLINE VFX CGI Studio",
-      // },
+      {
+        url: "/whitelogo.png",
+        width: 1200,
+        height: 630,
+        alt: "REDLINE VFX CGI Studio",
+      },
     ],
-
     locale: "en_US",
     type: "website",
   },
@@ -86,7 +84,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-
     googleBot: {
       index: true,
       follow: true,
